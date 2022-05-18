@@ -1,0 +1,23 @@
+.ingredientImage {
+    width: 250px;
+}
+
+.container {
+    flex-basis: 40%;
+}
+
+.container > * {
+    margin: auto;
+    text-align: center;
+}
+
+.imageContainer {
+    position: relative;
+}
+
+.priceText {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: row;
+}

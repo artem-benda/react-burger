@@ -1,0 +1,22 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.tabsContainer {
+    display: flex;
+}
+
+.ingredientsContainer {
+    flex-grow: 1;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    overflow-y: scroll;
+    height: 0px;
+}
+
+.typeTitle {
+    flex-basis: 100%;
+}
