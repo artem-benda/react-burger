@@ -11,7 +11,7 @@ class BurgerConstructor extends React.Component {
 
         return (
             <section className={styles.container}>
-                <article className={styles.fixedContent + ' pr-10 pl-15'}>
+                <article className={styles.fixedContent + ' pr-3 pl-15'}>
                     <ConstructorElement
                             type="top"
                             isLocked={true}
@@ -22,17 +22,17 @@ class BurgerConstructor extends React.Component {
                 </article>
                 <article className={styles.scrollableContent + ' custom-scroll'}>
                     { this.props.selectedIngredients.map((ingredient, index) => (
-                        <span key={index}>
+                        <div key={index} className={styles.ingredientItemContainer}>
                             <DragIcon type="primary"/>
                             <ConstructorElement
                                 text={ingredient.name}
                                 price={ingredient.price}
                                 thumbnail={ingredient.image}
                             />
-                        </span>
+                        </div>
                     ))}
                 </article>
-                <article className={styles.fixedContent + ' pt-2 pr-10 pl-15'}>
+                <article className={styles.fixedContent + ' pt-2 pr-3 pl-15'}>
                     <ConstructorElement
                         type="bottom"
                         isLocked={true}

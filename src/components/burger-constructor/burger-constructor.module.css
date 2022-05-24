@@ -18,7 +18,6 @@
 
 .scrollableContent > * {
     margin-top: 8px;
-    margin-right: 16px;
 }
 
 .scrollableContent > div {
@@ -33,4 +32,10 @@
 
 .fixedContent {
     margin-left: auto;
+}
+
+.ingredientItemContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
