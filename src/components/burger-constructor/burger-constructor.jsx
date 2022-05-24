@@ -11,11 +11,11 @@ class BurgerConstructor extends React.Component {
 
         return (
             <section className={styles.container}>
-                <article className={styles.fixedContent + ' pr-10 pl-4'}>
+                <article className={styles.fixedContent + ' pr-10 pl-15'}>
                     <ConstructorElement
                             type="top"
                             isLocked={true}
-                            text={this.props.bunIngredient.name}
+                            text={`${this.props.bunIngredient.name} (верх)`}
                             price={this.props.bunIngredient.price}
                             thumbnail={this.props.bunIngredient.image}
                         />
@@ -25,18 +25,18 @@ class BurgerConstructor extends React.Component {
                         <span key={index}>
                             <DragIcon type="primary"/>
                             <ConstructorElement
-                                text="Краторная булка N-200i (верх)"
-                                price={50}
+                                text={ingredient.name}
+                                price={ingredient.price}
                                 thumbnail={ingredient.image}
                             />
                         </span>
                     ))}
                 </article>
-                <article className={styles.fixedContent + ' pt-2 pr-10 pl-4'}>
+                <article className={styles.fixedContent + ' pt-2 pr-10 pl-15'}>
                     <ConstructorElement
                         type="bottom"
                         isLocked={true}
-                        text={this.props.bunIngredient.name}
+                        text={`${this.props.bunIngredient.name} (низ)`}
                         price={this.props.bunIngredient.price}
                         thumbnail={this.props.bunIngredient.image}
                     />

@@ -28,28 +28,28 @@ class BurgerIngredients extends React.Component {
                     { this.props.ingredients.some(ingredient => ingredient.type === 'bun') &&
                         <p className={styles.typeTitle + ' text text_type_main-medium pt-10'}>Булки</p>
                     }
-                    { this.props.ingredients.filter(ingredient => ingredient.type === 'bun').map((ingredient, index) => {
+                    { this.props.ingredients.filter(ingredient => ingredient.type === 'bun').map((ingredient) => {
                         const {image_large, price, name} = ingredient;
                         return (
-                            <BurgerIngredient key={index} imageLarge={image_large} price={price} name={name} />
+                            <BurgerIngredient key={ingredient._id} imageLarge={image_large} price={price} name={name} />
                         )
                     })}
                     { this.props.ingredients.some(ingredient => ingredient.type === 'sauce') &&
                         <p className={styles.typeTitle + ' text text_type_main-medium pt-10'}>Соусы</p>
                     }
-                    { this.props.ingredients.filter(ingredient => ingredient.type === 'sauce').map((ingredient, index) => {
+                    { this.props.ingredients.filter(ingredient => ingredient.type === 'sauce').map((ingredient) => {
                         const {image_large, price, name} = ingredient;
                         return (
-                            <BurgerIngredient key={index} imageLarge={image_large} price={price} name={name} />
+                            <BurgerIngredient key={ingredient._id} imageLarge={image_large} price={price} name={name} />
                         )
                     })}
                     { this.props.ingredients.some(ingredient => ingredient.type === 'main') &&
                         <p className={styles.typeTitle + ' text text_type_main-medium pt-10'}>Начинки</p>
                     }
-                    { this.props.ingredients.filter(ingredient => ingredient.type === 'main').map((ingredient, index) => {
+                    { this.props.ingredients.filter(ingredient => ingredient.type === 'main').map((ingredient) => {
                         const {image_large, price, name} = ingredient;
                         return (
-                            <BurgerIngredient key={index} imageLarge={image_large} price={price} name={name} />
+                            <BurgerIngredient key={ingredient._id} imageLarge={image_large} price={price} name={name} />
                         )
                     })}
                 </article>
