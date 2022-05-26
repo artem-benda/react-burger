@@ -27,27 +27,24 @@ function BurgerIngredients(props) {
                     <p className={styles.typeTitle + ' text text_type_main-medium pt-10'}>Булки</p>
                 }
                 { props.ingredients.filter(ingredient => ingredient.type === 'bun').map((ingredient) => {
-                    const {image_large, price, name} = ingredient;
                     return (
-                        <BurgerIngredient key={ingredient._id} imageLarge={image_large} price={price} name={name} />
+                        <BurgerIngredient key={ingredient._id} ingredient={ingredient} />
                     )
                 })}
                 { props.ingredients.some(ingredient => ingredient.type === 'sauce') &&
                     <p className={styles.typeTitle + ' text text_type_main-medium pt-10'}>Соусы</p>
                 }
                 { props.ingredients.filter(ingredient => ingredient.type === 'sauce').map((ingredient) => {
-                    const {image_large, price, name} = ingredient;
                     return (
-                        <BurgerIngredient key={ingredient._id} imageLarge={image_large} price={price} name={name} />
+                        <BurgerIngredient key={ingredient._id} ingredient={ingredient} />
                     )
                 })}
                 { props.ingredients.some(ingredient => ingredient.type === 'main') &&
                     <p className={styles.typeTitle + ' text text_type_main-medium pt-10'}>Начинки</p>
                 }
                 { props.ingredients.filter(ingredient => ingredient.type === 'main').map((ingredient) => {
-                    const {image_large, price, name} = ingredient;
                     return (
-                        <BurgerIngredient key={ingredient._id} imageLarge={image_large} price={price} name={name} />
+                        <BurgerIngredient key={ingredient._id} ingredient={ingredient} />
                     )
                 })}
             </article>

@@ -1,0 +1,17 @@
+.modal {
+    composes: p-10 from global;
+    border-radius: 40px;
+    max-width: 90%;
+    z-index: 2;
+    overflow: auto;
+    position: absolute;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #1C1C21;
+}
+
+.closeButton {
+    float: right;
+}

@@ -4,6 +4,7 @@
 
 .container {
     flex-basis: 40%;
+    cursor: pointer;
 }
 
 .container > * {
