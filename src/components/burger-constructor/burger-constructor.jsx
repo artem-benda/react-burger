@@ -1,14 +1,14 @@
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import styles from './burger-constructor.module.css'
 import { ingredientPropType } from "../../utils/prop-types";
 import PropTypes from "prop-types";
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 
-function BurgerConstructor(props) {
-    const totalAmount = props.selectedIngredients.map(ingredient => ingredient.price).reduce((a, b) => a + b, 0) +
-        ( (props.bunIngredient && props.bunIngredient.price) || 0) * 2;
+function BurgerConstructor({ bunIngredient, selectedIngredients }) {
+    const totalAmount = useMemo(() => selectedIngredients.map(ingredient => ingredient.price).reduce((a, b) => a + b, 0) +
+        ( (bunIngredient && bunIngredient.price) || 0) * 2, [bunIngredient, selectedIngredients]);
 
     const [isShowOrderDetails, setIsShowOrderDetails] = useState(false);
 
@@ -18,19 +18,19 @@ function BurgerConstructor(props) {
 
     return (
         <section className={styles.container}>
-            { props.bunIngredient &&
+            { bunIngredient &&
                 <article className={styles.fixedContent + ' pr-3 pl-15'}>
                     <ConstructorElement
                             type="top"
                             isLocked={true}
-                            text={`${props.bunIngredient.name} (верх)`}
-                            price={props.bunIngredient.price}
-                            thumbnail={props.bunIngredient.image}
+                            text={`${bunIngredient.name} (верх)`}
+                            price={bunIngredient.price}
+                            thumbnail={bunIngredient.image}
                         />
                 </article>
             }
             <article className={styles.scrollableContent + ' custom-scroll'}>
-                { props.selectedIngredients.map((ingredient, index) => (
+                { selectedIngredients.map((ingredient, index) => (
                     <div key={index} className={styles.ingredientItemContainer}>
                         <DragIcon type="primary"/>
                         <ConstructorElement
@@ -41,14 +41,14 @@ function BurgerConstructor(props) {
                     </div>
                 ))}
             </article>
-            { props.bunIngredient &&
+            { bunIngredient &&
                 <article className={styles.fixedContent + ' pt-2 pr-3 pl-15'}>
                     <ConstructorElement
                         type="bottom"
                         isLocked={true}
-                        text={`${props.bunIngredient.name} (низ)`}
-                        price={props.bunIngredient.price}
-                        thumbnail={props.bunIngredient.image}
+                        text={`${bunIngredient.name} (низ)`}
+                        price={bunIngredient.price}
+                        thumbnail={bunIngredient.image}
                     />
                 </article>
             }

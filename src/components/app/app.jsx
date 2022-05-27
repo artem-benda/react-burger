@@ -24,6 +24,9 @@ function App() {
       })
   }, [])
 
+  const bunIngredient = ingredients.filter(ingredient => ingredient.type === 'bun').shift()
+  const fillingIngredients = ingredients.filter(ingredient => ingredient.type === 'main' || ingredient.type === 'sauce')
+
   return (
     <div className={styles.app}>
       <AppHeader />
@@ -40,8 +43,8 @@ function App() {
           <>
             <BurgerIngredients ingredients={ingredients} />
             <BurgerConstructor
-                selectedIngredients={ingredients.filter(ingredient => ingredient.type === 'main' || ingredient.type === 'sauce')} 
-                bunIngredient={ingredients.filter(ingredient => ingredient.type === 'bun').shift()}
+                selectedIngredients={fillingIngredients} 
+                bunIngredient={bunIngredient}
             />
           </>
         }

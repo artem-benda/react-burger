@@ -14,11 +14,3 @@
     justify-content: space-between;
     flex-basis: 20%;
 }
-
-.enegryValueContainer {
-    white-space: nowrap;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}

@@ -5,9 +5,14 @@ import styles from './burger-ingredients.module.css';
 import { ingredientPropType } from "../../utils/prop-types";
 import PropTypes from "prop-types";
 
-function BurgerIngredients(props) {
+function BurgerIngredients({ ingredients }) {
 
     const [currentTab, setCurrentTab] = useState("buns");
+
+    const filterIngredientsByType = (ingredients, type) => ingredients.filter(ingredient => ingredient.type === type);
+    const bunIngredients = filterIngredientsByType(ingredients, 'bun');
+    const sauceIngredients = filterIngredientsByType(ingredients, 'sauce');
+    const mainIngredients = filterIngredientsByType(ingredients, 'main');
 
     return (
         <section className={styles.container}>
@@ -23,30 +28,12 @@ function BurgerIngredients(props) {
                 </Tab>
             </div>
             <article className={styles.ingredientsContainer + ' custom-scroll'}>
-                { props.ingredients.some(ingredient => ingredient.type === 'bun') &&
-                    <p className={styles.typeTitle + ' text text_type_main-medium pt-10'}>Булки</p>
-                }
-                { props.ingredients.filter(ingredient => ingredient.type === 'bun').map((ingredient) => {
-                    return (
-                        <BurgerIngredient key={ingredient._id} ingredient={ingredient} />
-                    )
-                })}
-                { props.ingredients.some(ingredient => ingredient.type === 'sauce') &&
-                    <p className={styles.typeTitle + ' text text_type_main-medium pt-10'}>Соусы</p>
-                }
-                { props.ingredients.filter(ingredient => ingredient.type === 'sauce').map((ingredient) => {
-                    return (
-                        <BurgerIngredient key={ingredient._id} ingredient={ingredient} />
-                    )
-                })}
-                { props.ingredients.some(ingredient => ingredient.type === 'main') &&
-                    <p className={styles.typeTitle + ' text text_type_main-medium pt-10'}>Начинки</p>
-                }
-                { props.ingredients.filter(ingredient => ingredient.type === 'main').map((ingredient) => {
-                    return (
-                        <BurgerIngredient key={ingredient._id} ingredient={ingredient} />
-                    )
-                })}
+                <p className={styles.typeTitle + ' text text_type_main-medium pt-10'}>Булки</p>
+                { bunIngredients.map((ingredient) => <BurgerIngredient key={ingredient._id} ingredient={ingredient} />)}
+                <p className={styles.typeTitle + ' text text_type_main-medium pt-10'}>Соусы</p>
+                { sauceIngredients.map((ingredient) => <BurgerIngredient key={ingredient._id} ingredient={ingredient} />)}
+                <p className={styles.typeTitle + ' text text_type_main-medium pt-10'}>Начинки</p>
+                { mainIngredients.map((ingredient) => <BurgerIngredient key={ingredient._id} ingredient={ingredient} />)}
             </article>
         </section>
     );

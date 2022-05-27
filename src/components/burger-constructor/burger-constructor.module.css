@@ -9,7 +9,7 @@
 .scrollableContent {
     flex-grow: 1;
     overflow-y: scroll;
-    height: 0px;
+    height: 0;
     margin-left: auto;
     display: flex;
     flex-direction: column;

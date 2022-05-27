@@ -7,8 +7,7 @@ import ReactDOM from 'react-dom'
 
 const modalRoot = document.getElementById('modal-root');
 
-function Modal(props) {
-    const { onDismiss, title } = props
+function Modal({ onDismiss, title, children }) {
 
     useEffect(() =>{
         const escKeyboardHandler = event => {      
@@ -21,36 +20,29 @@ function Modal(props) {
           return () => {
             document.removeEventListener('keydown', escKeyboardHandler);
           };
-    }, [onDismiss])
+    }, [])
 
-    const onOverlayClick = (event) => {
-        if (event.currentTarget === event.target) {
-            event.stopPropagation();
-            event.preventDefault();
-            onDismiss();
-        }
-    }
-
-    const onCloseIconClick = (event) => {
+    const onCloseAction = (event) => {
         event.stopPropagation();
         event.preventDefault();
         onDismiss();
     }
 
     return ReactDOM.createPortal(
-            <ModalOverlay onClick={onOverlayClick}>
-                <section className={styles.modal}>
-                    <header className="pt-5 pl-10 pr-10">
-                        <span className={styles.closeButton + ' pl-5 pr-5 pt-7 pb-5'} onClick={onCloseIconClick} onMouseDown={onCloseIconClick}>
-                            <CloseIcon type="primary" />
-                        </span>
-                        <p className="text text_type_main-large p-5">{title}</p>
-                    </header>
-                    <article className="pl-20 pr-20 pb-15">
-                        {props.children}
-                    </article>
-                </section>
-            </ModalOverlay>,
+        <>
+            <ModalOverlay onClick={onCloseAction} />
+            <section className={styles.modal}>
+                <header className="pt-5 pl-10 pr-10">
+                    <span className={styles.closeButton + ' pl-5 pr-5 pt-7 pb-5'} onClick={onCloseAction} onMouseDown={onCloseAction}>
+                        <CloseIcon type="primary" />
+                    </span>
+                    <p className="text text_type_main-large p-5">{title}</p>
+                </header>
+                <article className="pl-20 pr-20 pb-15">
+                    {children}
+                </article>
+            </section>
+            </>,
             modalRoot
         );
 }
