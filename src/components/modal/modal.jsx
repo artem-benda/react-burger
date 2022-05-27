@@ -20,7 +20,7 @@ function Modal({ onDismiss, title, children }) {
           return () => {
             document.removeEventListener('keydown', escKeyboardHandler);
           };
-    }, [])
+    }, [onDismiss])
 
     const onCloseAction = (event) => {
         event.stopPropagation();
