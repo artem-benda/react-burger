@@ -1,0 +1,36 @@
+.container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.scrollableContent {
+    flex-grow: 1;
+    overflow-y: scroll;
+    height: 0px;
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.scrollableContent > * {
+    margin-top: 8px;
+    margin-right: 16px;
+}
+
+.scrollableContent > div {
+    width: 100%;
+}
+
+.scrollableContent > span {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.fixedContent {
+    margin-left: auto;
+}

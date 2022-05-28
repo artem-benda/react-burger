@@ -1,0 +1,21 @@
+.appHeader {
+    composes: contents from global;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-column-gap: 5px;
+    justify-items: center;
+    align-items: center;
+}
+
+.appHeaderMenu {
+    justify-self: start;
+}
+
+.appHeaderPersonal {
+    justify-self: end;
+}
+
+.appHeaderMenu > *, .appHeaderPersonal > * {
+    display: inline-flex;
+    align-items: center;
+}
