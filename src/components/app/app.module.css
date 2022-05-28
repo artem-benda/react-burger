@@ -24,5 +24,14 @@
     grid-column-gap: 5px;
     justify-items: center;
     align-items: center;
-    height: 0px;
+    height: 0;
+}
+
+.errorSection {
+    composes: contents from global;
+    border: solid red;
+}
+
+.infoSection {
+    composes: contents from global;
 }

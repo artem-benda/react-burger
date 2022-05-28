@@ -1,58 +1,73 @@
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import styles from './burger-constructor.module.css'
 import { ingredientPropType } from "../../utils/prop-types";
 import PropTypes from "prop-types";
+import Modal from '../modal/modal';
+import OrderDetails from '../order-details/order-details';
 
-class BurgerConstructor extends React.Component {
-    render() {
-        const totalAmount = this.props.selectedIngredients.map(ingredient => ingredient.price).reduce((a, b) => a + b, 0) +
-            this.props.bunIngredient.price * 2
+function BurgerConstructor({ bunIngredient, selectedIngredients }) {
+    const totalAmount = useMemo(() => selectedIngredients.map(ingredient => ingredient.price).reduce((a, b) => a + b, 0) +
+        ( (bunIngredient && bunIngredient.price) || 0) * 2, [bunIngredient, selectedIngredients]);
 
-        return (
-            <section className={styles.container}>
-                <article className={styles.fixedContent + ' pr-10 pl-4'}>
+    const [isShowOrderDetails, setIsShowOrderDetails] = useState(false);
+
+    const showOrderDetails = () => setIsShowOrderDetails(true)
+
+    const hideOrderDetails = () => setIsShowOrderDetails(false)
+
+    return (
+        <section className={styles.container}>
+            { bunIngredient &&
+                <article className={styles.fixedContent + ' pr-3 pl-15'}>
                     <ConstructorElement
                             type="top"
                             isLocked={true}
-                            text={this.props.bunIngredient.name}
-                            price={this.props.bunIngredient.price}
-                            thumbnail={this.props.bunIngredient.image}
+                            text={`${bunIngredient.name} (верх)`}
+                            price={bunIngredient.price}
+                            thumbnail={bunIngredient.image}
                         />
                 </article>
-                <article className={styles.scrollableContent + ' custom-scroll'}>
-                    { this.props.selectedIngredients.map((ingredient, index) => (
-                        <span key={index}>
-                            <DragIcon type="primary"/>
-                            <ConstructorElement
-                                text="Краторная булка N-200i (верх)"
-                                price={50}
-                                thumbnail={ingredient.image}
-                            />
-                        </span>
-                    ))}
-                </article>
-                <article className={styles.fixedContent + ' pt-2 pr-10 pl-4'}>
+            }
+            <article className={styles.scrollableContent + ' custom-scroll'}>
+                { selectedIngredients.map((ingredient, index) => (
+                    <div key={index} className={styles.ingredientItemContainer}>
+                        <DragIcon type="primary"/>
+                        <ConstructorElement
+                            text={ingredient.name}
+                            price={ingredient.price}
+                            thumbnail={ingredient.image}
+                        />
+                    </div>
+                ))}
+            </article>
+            { bunIngredient &&
+                <article className={styles.fixedContent + ' pt-2 pr-3 pl-15'}>
                     <ConstructorElement
                         type="bottom"
                         isLocked={true}
-                        text={this.props.bunIngredient.name}
-                        price={this.props.bunIngredient.price}
-                        thumbnail={this.props.bunIngredient.image}
+                        text={`${bunIngredient.name} (низ)`}
+                        price={bunIngredient.price}
+                        thumbnail={bunIngredient.image}
                     />
                 </article>
-                <article className={styles.fixedContent + ' pt-10 pb-10 pr-4 pl-4'}>
-                    <span className="text text_type_digits-medium pr-1">{totalAmount}</span>
-                    <CurrencyIcon type="primary" />
-                    <span className="ml-4">
-                        <Button type="primary" size="medium">
-                            Оформить заказ
-                        </Button>
-                    </span>
-                </article>
-            </section>
-        )
-    }
+            }
+            <article className={styles.fixedContent + ' pt-10 pb-10 pr-4 pl-4'}>
+                <span className="text text_type_digits-medium pr-1">{totalAmount}</span>
+                <CurrencyIcon type="primary" />
+                <span className="ml-4">
+                    <Button type="primary" size="medium" onClick={showOrderDetails}>
+                        Оформить заказ
+                    </Button>
+                </span>
+            </article>
+            { isShowOrderDetails &&
+                <Modal onDismiss={hideOrderDetails}>
+                    <OrderDetails orderNumber="12345678" />
+                </Modal>
+            }
+        </section>
+    );
 }
 
 BurgerConstructor.propTypes = {

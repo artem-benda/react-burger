@@ -1,0 +1,16 @@
+.detailsContainer > * {
+    display: flex;
+    justify-content: center;
+}
+
+.ingredientImage {
+    width: 500px;
+}
+
+.enegryValuesContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    flex-basis: 20%;
+}
