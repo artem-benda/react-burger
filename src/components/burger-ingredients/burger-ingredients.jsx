@@ -2,17 +2,27 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { useState } from 'react';
 import BurgerIngredient from '../burger-ingredient/burger-ingredient';
 import styles from './burger-ingredients.module.css';
-import { ingredientPropType } from "../../utils/prop-types";
-import PropTypes from "prop-types";
+import { useSelector, useDispatch } from 'react-redux';
+import { HIDE_INGREDIENT_DETAILS } from "../../services/actions/burger";
+import Modal from "../modal/modal";
+import IngredientDetails from "../ingredient-details/ingredient-details";
 
-function BurgerIngredients({ ingredients }) {
+function BurgerIngredients() {
 
+    const ingredients = useSelector(store => store.burger.availableIngredients);
     const [currentTab, setCurrentTab] = useState("buns");
 
     const filterIngredientsByType = (ingredients, type) => ingredients.filter(ingredient => ingredient.type === type);
     const bunIngredients = filterIngredientsByType(ingredients, 'bun');
     const sauceIngredients = filterIngredientsByType(ingredients, 'sauce');
     const mainIngredients = filterIngredientsByType(ingredients, 'main');
+
+    const ingredientDetails = useSelector(store => store.burger.ingredientDetails);
+    const dispatch = useDispatch();
+
+    const hideDetails = () => {
+        dispatch({type: HIDE_INGREDIENT_DETAILS});
+    }
 
     return (
         <section className={styles.container}>
@@ -35,12 +45,13 @@ function BurgerIngredients({ ingredients }) {
                 <p className={styles.typeTitle + ' text text_type_main-medium pt-10'}>Начинки</p>
                 { mainIngredients.map((ingredient) => <BurgerIngredient key={ingredient._id} ingredient={ingredient} />)}
             </article>
+            { ingredientDetails &&
+                <Modal title="Детали ингредиента" onDismiss={hideDetails}>
+                    <IngredientDetails ingredient={ingredientDetails} />
+                </Modal>
+            }
         </section>
     );
-}
-
-BurgerIngredients.propTypes = {
-    ingredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired
 }
 
 export default BurgerIngredients;

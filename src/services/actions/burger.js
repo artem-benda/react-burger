@@ -1,0 +1,52 @@
+import { getIngredients, placeOrder as createOrder } from "../../utils/data";
+
+export const GET_BURGER_INGREDIENTS_REQUEST = "GET_BURGER_INGREDIENTS_REQUEST";
+export const GET_BURGER_INGREDIENTS_SUCCESS = "GET_BURGER_INGREDIENTS_SUCCESS";
+export const GET_BURGER_INGREDIENTS_FAILED = "GET_BURGER_INGREDIENTS_FAILED";
+
+export const SHOW_INGREDIENT_DETAILS = "SHOW_INGREDIENT_DETAILS";
+export const HIDE_INGREDIENT_DETAILS = "HIDE_INGREDIENT_DETAILS";
+
+export const PLACE_ORDER_REQUEST = "PLACE_ORDER_REQUEST";
+export const PLACE_ORDER_SUCCESS = "PLACE_ORDER_SUCCESS";
+export const PLACE_ORDER_FAILED = "PLACE_ORDER_FAILED";
+
+export const SHOW_ORDER_DETAILS = "SHOW_ORDER_DETAILS";
+export const HIDE_ORDER_DETAILS = "HIDE_ORDER_DETAILS";
+
+export function fetchIngredients() {
+    return function(dispatch) {
+        dispatch({ type: GET_BURGER_INGREDIENTS_REQUEST })
+        getIngredients()
+            .then(data => {
+                dispatch({ type: GET_BURGER_INGREDIENTS_SUCCESS, payload: data});
+            })
+            .catch(e => {
+                dispatch({ type: GET_BURGER_INGREDIENTS_FAILED});
+            })
+    }
+}
+
+export function placeOrder() {
+    return function(dispatch, getState) {
+        const bunIngredient = getState().burger.constructorBunIngredient;
+        const fillingIngredients = getState().burger.constructorFillingIngredients;
+
+        if (bunIngredient === null || fillingIngredients.size === 0) {
+            return;
+        }
+
+        dispatch({ type: PLACE_ORDER_REQUEST })
+
+        const ingredientsIds = [bunIngredient, bunIngredient, fillingIngredients]
+            .map(ingredient => ingredient._id);
+
+        createOrder(ingredientsIds)
+            .then(data => {
+                dispatch({ type: PLACE_ORDER_SUCCESS, payload: data});
+            })
+            .catch(e => {
+                dispatch({ type: PLACE_ORDER_FAILED});
+            })
+    }
+}

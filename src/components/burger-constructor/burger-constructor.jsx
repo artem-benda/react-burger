@@ -1,20 +1,29 @@
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useState, useMemo } from 'react';
-import styles from './burger-constructor.module.css'
-import { ingredientPropType } from "../../utils/prop-types";
-import PropTypes from "prop-types";
+import React, { useMemo } from 'react';
+import styles from './burger-constructor.module.css';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
+import { useDispatch, useSelector } from 'react-redux';
+import { HIDE_ORDER_DETAILS, placeOrder } from '../../services/actions/burger';
 
-function BurgerConstructor({ bunIngredient, selectedIngredients }) {
-    const totalAmount = useMemo(() => selectedIngredients.map(ingredient => ingredient.price).reduce((a, b) => a + b, 0) +
-        ( (bunIngredient && bunIngredient.price) || 0) * 2, [bunIngredient, selectedIngredients]);
+function BurgerConstructor() {
 
-    const [isShowOrderDetails, setIsShowOrderDetails] = useState(false);
+    const bunIngredient = useSelector(store => store.burger.constructorBunIngredient);
+    const fillingIngredients = useSelector(store => store.burger.constructorFillingIngredients);
 
-    const showOrderDetails = () => setIsShowOrderDetails(true)
+    const totalAmount = useMemo(() => fillingIngredients.map(ingredient => ingredient.price).reduce((a, b) => a + b, 0) +
+        ( (bunIngredient && bunIngredient.price) || 0) * 2, [bunIngredient, fillingIngredients]);
 
-    const hideOrderDetails = () => setIsShowOrderDetails(false)
+    const dispatch = useDispatch();
+
+    const createOrder = () => {
+        dispatch(placeOrder());
+    }
+
+    const orderDetails = useSelector(store => store.burger.orderDetails);
+    const hideOrderDetails = () => {
+        dispatch({ type: HIDE_ORDER_DETAILS });
+    }
 
     return (
         <section className={styles.container}>
@@ -30,7 +39,7 @@ function BurgerConstructor({ bunIngredient, selectedIngredients }) {
                 </article>
             }
             <article className={styles.scrollableContent + ' custom-scroll'}>
-                { selectedIngredients.map((ingredient, index) => (
+                { fillingIngredients.map((ingredient, index) => (
                     <div key={index} className={styles.ingredientItemContainer}>
                         <DragIcon type="primary"/>
                         <ConstructorElement
@@ -56,23 +65,18 @@ function BurgerConstructor({ bunIngredient, selectedIngredients }) {
                 <span className="text text_type_digits-medium pr-1">{totalAmount}</span>
                 <CurrencyIcon type="primary" />
                 <span className="ml-4">
-                    <Button type="primary" size="medium" onClick={showOrderDetails}>
+                    <Button type="primary" size="medium" onClick={createOrder}>
                         Оформить заказ
                     </Button>
                 </span>
             </article>
-            { isShowOrderDetails &&
+            { orderDetails &&
                 <Modal onDismiss={hideOrderDetails}>
-                    <OrderDetails orderNumber="12345678" />
+                    <OrderDetails orderDetails={orderDetails} />
                 </Modal>
             }
         </section>
     );
-}
-
-BurgerConstructor.propTypes = {
-    bunIngredient: ingredientPropType.isRequired,
-    selectedIngredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired
 }
 
 export default BurgerConstructor
