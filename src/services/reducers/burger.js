@@ -8,7 +8,10 @@ import {
     PLACE_ORDER_REQUEST,
     PLACE_ORDER_SUCCESS,
     PLACE_ORDER_FAILED,
-    SWITCH_TAB
+    SWITCH_TAB,
+    ADD_INGREDIENT_TO_CONSTRUCTOR,
+    REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
+    MOVE_INGREDIENT_IN_CONSTRUCTOR
 } from "../actions/burger"
 
 const initialState = {
@@ -92,6 +95,29 @@ export const burgerReducer = (state = initialState, action) => {
             return {
                 ...state,
                 currentTab: action.payload
+            }
+        }
+        case ADD_INGREDIENT_TO_CONSTRUCTOR: {
+            const ingredientWithGeneratedId = {
+                ...action.payload,
+                generatedId: new Date().valueOf()
+            }
+            return {
+                ...state,
+                constructorBunIngredient: action.payload.type === 'bun' ? ingredientWithGeneratedId : state.constructorBunIngredient,
+                constructorFillingIngredients: action.payload.type === 'bun' ? state.constructorFillingIngredients : [...state.constructorFillingIngredients, ingredientWithGeneratedId]
+            }
+        }
+        case REMOVE_INGREDIENT_FROM_CONSTRUCTOR: {
+            return {
+                ...state,
+                constructorFillingIngredients: state.constructorFillingIngredients.filter(ingredient => ingredient.generatedId !== action.payload)
+            }
+        }
+        case MOVE_INGREDIENT_IN_CONSTRUCTOR: {
+            // TODO
+            return {
+                ...state
             }
         }
         default: {

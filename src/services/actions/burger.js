@@ -16,6 +16,10 @@ export const HIDE_ORDER_DETAILS = "HIDE_ORDER_DETAILS";
 
 export const SWITCH_TAB = "SWITCH_TAB";
 
+export const ADD_INGREDIENT_TO_CONSTRUCTOR = "ADD_INGREDIENT_TO_CONSTRUCTOR";
+export const REMOVE_INGREDIENT_FROM_CONSTRUCTOR = "REMOVE_INGREDIENT_FROM_CONSTRUCTOR";
+export const MOVE_INGREDIENT_IN_CONSTRUCTOR = "MOVE_INGREDIENT_IN_CONSTRUCTOR";
+
 export function fetchIngredients() {
     return function(dispatch) {
         dispatch({ type: GET_BURGER_INGREDIENTS_REQUEST })
@@ -34,13 +38,13 @@ export function placeOrder() {
         const bunIngredient = getState().burger.constructorBunIngredient;
         const fillingIngredients = getState().burger.constructorFillingIngredients;
 
-        if (bunIngredient === null || fillingIngredients.size === 0) {
+        if (bunIngredient === null || fillingIngredients.length === 0) {
             return;
         }
 
         dispatch({ type: PLACE_ORDER_REQUEST })
 
-        const ingredientsIds = [bunIngredient, bunIngredient, fillingIngredients]
+        const ingredientsIds = [bunIngredient, ...fillingIngredients, bunIngredient]
             .map(ingredient => ingredient._id);
 
         createOrder(ingredientsIds)
@@ -48,6 +52,7 @@ export function placeOrder() {
                 dispatch({ type: PLACE_ORDER_SUCCESS, payload: data});
             })
             .catch(e => {
+                console.log(e);
                 dispatch({ type: PLACE_ORDER_FAILED});
             })
     }

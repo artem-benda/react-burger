@@ -8,6 +8,9 @@ import { rootReducer } from './services/reducers';
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
+
 /* 
  * В соответствии с документацией configureStore подключает по умолчанию thunk и Redux Devtools
  * https://redux-toolkit.js.org/api/configureStore#basic-example
@@ -21,7 +24,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <DndProvider backend={HTML5Backend}>
+        <App />
+      </DndProvider>
     </Provider>
   </React.StrictMode>
 );

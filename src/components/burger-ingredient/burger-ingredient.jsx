@@ -4,6 +4,7 @@ import styles from './burger-ingredient.module.css'
 import { ingredientPropType } from "../../utils/prop-types"
 import { useDispatch, useSelector } from 'react-redux';
 import { SHOW_INGREDIENT_DETAILS } from "../../services/actions/burger";
+import { useDrag } from "react-dnd";
 
 function BurgerIngredient({ ingredient }) {
     const dispatch = useDispatch();
@@ -14,15 +15,23 @@ function BurgerIngredient({ ingredient }) {
         constructorBunIngredient?._id === ingredient._id ? 2 : 0
     ) : (
         constructorFillingIngredients.filter(filteringIngredient => filteringIngredient._id === ingredient._id)
-            .size
+            .length
     );
 
     const showDetails = () => {
         dispatch({type: SHOW_INGREDIENT_DETAILS, payload: ingredient});
     }
 
+    const [{opacity}, ref] = useDrag({
+        type: 'availableIngredient',
+        item: { id: ingredient._id },
+        collect: monitor => ({
+            opacity: monitor.isDragging() ? 0.5 : 1
+        })
+    });
+
     return (
-        <article className={styles.container + ' pt-6 pb-10 pl-4 pr-4'} onClick={showDetails}>
+        <article className={styles.container + ' pt-6 pb-10 pl-4 pr-4'} onClick={showDetails} style={{opacity}} ref={ref}>
             <div className={styles.imageContainer}>
                 <img src={ingredient.image_large} alt={ingredient.name} className={styles.ingredientImage} />
                 { ingredientsCount &&

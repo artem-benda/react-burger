@@ -4,7 +4,7 @@ const checkReponse = (res) => {
    return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
  };
 
- /* Эта функция взята из примера с сайта developer.mozilla.org */
+ /* Эта функция взята из примера с сайта developer.mozilla.org с небольшими изменениями */
  async function postData(url = '', data = {}) {
    // Default options are marked with *
    const response = await fetch(url, {
@@ -20,7 +20,7 @@ const checkReponse = (res) => {
      referrerPolicy: 'no-referrer', // no-referrer, *client
      body: JSON.stringify(data) // body data type must match "Content-Type" header
    });
-   return await response.json(); // parses JSON response into native JavaScript objects
+   return await response;
  }
 
 export function getIngredients() {
@@ -37,11 +37,12 @@ export function getIngredients() {
 }
 
 export function placeOrder(ingredientsIds) {
-   return postData(`${API_BASE_URL}/orders`)
+   const data = { ingredients: ingredientsIds }
+   return postData(`${API_BASE_URL}/orders`, data)
       .then(checkReponse)
       .then(responseEntity => {
          if (responseEntity.success) {
-            return responseEntity.data
+            return responseEntity;
          } else {
             throw Error();
          }

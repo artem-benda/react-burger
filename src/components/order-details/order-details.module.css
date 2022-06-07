@@ -4,6 +4,10 @@
     align-items: center;
 }
 
+.orderDetailsContainer > p {
+    text-align: center;
+}
+
 .doneImage {
     width: 150px;
 }
