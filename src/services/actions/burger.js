@@ -14,6 +14,8 @@ export const PLACE_ORDER_FAILED = "PLACE_ORDER_FAILED";
 export const SHOW_ORDER_DETAILS = "SHOW_ORDER_DETAILS";
 export const HIDE_ORDER_DETAILS = "HIDE_ORDER_DETAILS";
 
+export const SWITCH_TAB = "SWITCH_TAB";
+
 export function fetchIngredients() {
     return function(dispatch) {
         dispatch({ type: GET_BURGER_INGREDIENTS_REQUEST })

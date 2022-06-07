@@ -7,11 +7,13 @@ import {
     HIDE_ORDER_DETAILS,
     PLACE_ORDER_REQUEST,
     PLACE_ORDER_SUCCESS,
-    PLACE_ORDER_FAILED
+    PLACE_ORDER_FAILED,
+    SWITCH_TAB
 } from "../actions/burger"
 
 const initialState = {
     availableIngredients: [],
+    currentTab: 'bun',
     constructorBunIngredient: null,
     constructorFillingIngredients: [],
     ingredientDetails: null,
@@ -84,6 +86,12 @@ export const burgerReducer = (state = initialState, action) => {
                 ...state,
                 placeOrderRequest: false,
                 placeOrderFailed: true
+            }
+        }
+        case SWITCH_TAB: {
+            return {
+                ...state,
+                currentTab: action.payload
             }
         }
         default: {
