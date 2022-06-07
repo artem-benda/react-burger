@@ -66,8 +66,8 @@ function BurgerConstructor() {
             </article>
             { fillingIngredients.length > 0 ? 
                 <article className={styles.scrollableContent + ' custom-scroll pr-2'}>
-                    { fillingIngredients.map((ingredient, index) => (
-                        <div key={index} className={styles.ingredientItemContainer}>
+                    { fillingIngredients.map((ingredient) => (
+                        <div key={ingredient.generatedId} className={styles.ingredientItemContainer}>
                             <DragIcon type="primary"/>
                             <ConstructorElement
                                 text={ingredient.name}
