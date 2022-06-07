@@ -1,11 +1,12 @@
-import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { useMemo } from 'react';
 import styles from './burger-constructor.module.css';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import { useDispatch, useSelector } from 'react-redux';
-import { ADD_INGREDIENT_TO_CONSTRUCTOR, HIDE_ORDER_DETAILS, placeOrder, REMOVE_INGREDIENT_FROM_CONSTRUCTOR } from '../../services/actions/burger';
+import { ADD_INGREDIENT_TO_CONSTRUCTOR, HIDE_ORDER_DETAILS, placeOrder } from '../../services/actions/burger';
 import { useDrop } from 'react-dnd';
+import DraggableConstructorIngredient from '../draggable-constructor-ingredient/draggable-constructor-ingredient';
 
 function BurgerConstructor() {
 
@@ -43,13 +44,6 @@ function BurgerConstructor() {
         }
     });
 
-    const onRemoveIngredient = (generatedId) => {
-        dispatch({
-            type: REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
-            payload: generatedId
-        })
-    }
-
     return (
         <section className={styles.container} ref={dropTarget}>
             <article className={styles.fixedContent + ' pr-3 pl-15'}>
@@ -67,18 +61,10 @@ function BurgerConstructor() {
             { fillingIngredients.length > 0 ? 
                 <article className={styles.scrollableContent + ' custom-scroll pr-2'}>
                     { fillingIngredients.map((ingredient) => (
-                        <div key={ingredient.generatedId} className={styles.ingredientItemContainer}>
-                            <DragIcon type="primary"/>
-                            <ConstructorElement
-                                text={ingredient.name}
-                                price={ingredient.price}
-                                thumbnail={ingredient.image}
-                                handleClose={() => onRemoveIngredient(ingredient.generatedId)}
-                            />
-                        </div>
+                        <DraggableConstructorIngredient ingredient={ingredient} />
                     ))}
                 </article> :
-                <div className={styles.fillingIngredientsDropZone + ' ml-15 mt-2'}></div>
+                <div className={styles.fillingIngredientsDropZone + ' ml-20 mt-2 mr-5'}></div>
             }
                 <article className={styles.fixedContent + ' pt-2 pr-3 pl-15'}>
                     { bunIngredient ?
