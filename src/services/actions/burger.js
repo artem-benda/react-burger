@@ -52,7 +52,6 @@ export function placeOrder() {
                 dispatch({ type: PLACE_ORDER_SUCCESS, payload: data});
             })
             .catch(e => {
-                console.log(e);
                 dispatch({ type: PLACE_ORDER_FAILED});
             })
     }
