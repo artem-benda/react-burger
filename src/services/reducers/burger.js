@@ -81,7 +81,9 @@ export const burgerReducer = (state = initialState, action) => {
                 ...state,
                 placeOrderRequest: false,
                 placeOrderFailed: false,
-                orderDetails: action.payload
+                orderDetails: action.payload,
+                constructorBunIngredient: null,
+                constructorFillingIngredients: [],
             }
         }
         case PLACE_ORDER_FAILED: {
