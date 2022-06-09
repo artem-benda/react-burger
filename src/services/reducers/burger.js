@@ -117,9 +117,16 @@ export const burgerReducer = (state = initialState, action) => {
             }
         }
         case MOVE_INGREDIENT_IN_CONSTRUCTOR: {
-            // TODO
+            const fillingIngredientsWithoutDragged = state.constructorFillingIngredients.filter(ingredient => ingredient.generatedId !== action.payload.droppedIngredient.generatedId);
+            const insertPosition = fillingIngredientsWithoutDragged.findIndex(ingredient => ingredient.generatedId === action.payload.shiftedGeneratedId);
+
             return {
-                ...state
+                ...state,
+                constructorFillingIngredients: [
+                    ...fillingIngredientsWithoutDragged.slice(0, insertPosition),
+                    action.payload.droppedIngredient,
+                    ...fillingIngredientsWithoutDragged.slice(insertPosition, fillingIngredientsWithoutDragged.length)
+                ]
             }
         }
         default: {
