@@ -35,16 +35,18 @@ export function fetchIngredients() {
 
 export function placeOrder() {
     return function(dispatch, getState) {
-        const bunIngredient = getState().burger.constructorBunIngredient;
-        const fillingIngredients = getState().burger.constructorFillingIngredients;
+        const {
+            constructorBunIngredient,
+            constructorFillingIngredients
+        } = getState().burger.constructorBunIngredient;
 
-        if (bunIngredient === null || fillingIngredients.length === 0) {
+        if (constructorBunIngredient === null || constructorFillingIngredients.length === 0) {
             return;
         }
 
         dispatch({ type: PLACE_ORDER_REQUEST })
 
-        const ingredientsIds = [bunIngredient, ...fillingIngredients, bunIngredient]
+        const ingredientsIds = [constructorBunIngredient, ...constructorFillingIngredients, constructorBunIngredient]
             .map(ingredient => ingredient._id);
 
         createOrder(ingredientsIds)

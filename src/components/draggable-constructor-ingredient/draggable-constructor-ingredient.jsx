@@ -1,7 +1,7 @@
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './draggable-constructor-ingredient.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { ingredientWithGeneratedIdPropType } from "../../utils/prop-types";
+import { ingredientPropType } from "../../utils/prop-types";
 import { MOVE_INGREDIENT_IN_CONSTRUCTOR, REMOVE_INGREDIENT_FROM_CONSTRUCTOR } from '../../services/actions/burger';
 import { useDrag, useDrop } from 'react-dnd';
 
@@ -65,7 +65,7 @@ function DraggableConstructorIngredient({ ingredient }) {
 }
 
 DraggableConstructorIngredient.propTypes = {
-    ingredient: ingredientWithGeneratedIdPropType.isRequired
+    ingredient: ingredientPropType.isRequired
 }
 
 export default DraggableConstructorIngredient;

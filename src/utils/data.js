@@ -4,6 +4,14 @@ const checkReponse = (res) => {
    return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
  };
 
+ const checkSuccess = responseEntity => {
+   if (responseEntity.success) {
+      return responseEntity.data
+   } else {
+      throw Error();
+   }
+};
+
  /* Эта функция взята из примера с сайта developer.mozilla.org с небольшими изменениями */
  async function postData(url = '', data = {}) {
    // Default options are marked with *
@@ -26,13 +34,7 @@ const checkReponse = (res) => {
 export function getIngredients() {
    return fetch(`${API_BASE_URL}/ingredients`)
       .then(checkReponse)
-      .then(responseEntity => {
-         if (responseEntity.success) {
-            return responseEntity.data
-         } else {
-            throw Error();
-         }
-      })
+      .then(checkSuccess)
 
 }
 
@@ -40,11 +42,5 @@ export function placeOrder(ingredientsIds) {
    const data = { ingredients: ingredientsIds }
    return postData(`${API_BASE_URL}/orders`, data)
       .then(checkReponse)
-      .then(responseEntity => {
-         if (responseEntity.success) {
-            return responseEntity;
-         } else {
-            throw Error();
-         }
-      })
+      .then(checkSuccess)
 }
