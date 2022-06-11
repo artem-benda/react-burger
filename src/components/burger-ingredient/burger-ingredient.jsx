@@ -3,7 +3,7 @@ import React from "react";
 import styles from './burger-ingredient.module.css'
 import { ingredientPropType } from "../../utils/prop-types"
 import { useDispatch, useSelector } from 'react-redux';
-import { SHOW_INGREDIENT_DETAILS } from "../../services/actions/burger";
+import { showIngredientDetails } from "../../services/actions/burger";
 import { useDrag } from "react-dnd";
 
 function BurgerIngredient({ ingredient }) {
@@ -19,7 +19,7 @@ function BurgerIngredient({ ingredient }) {
     );
 
     const showDetails = () => {
-        dispatch({type: SHOW_INGREDIENT_DETAILS, payload: ingredient});
+        dispatch(showIngredientDetails(ingredient));
     }
 
     const [{opacity}, ref] = useDrag({

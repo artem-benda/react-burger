@@ -2,7 +2,7 @@ import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burg
 import styles from './draggable-constructor-ingredient.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { ingredientPropType } from "../../utils/prop-types";
-import { MOVE_INGREDIENT_IN_CONSTRUCTOR, REMOVE_INGREDIENT_FROM_CONSTRUCTOR } from '../../services/actions/burger';
+import { moveIngredientInConstructor, removeIngredientFromConstructor } from '../../services/actions/burger';
 import { useDrag, useDrop } from 'react-dnd';
 
 function DraggableConstructorIngredient({ ingredient }) {
@@ -11,10 +11,7 @@ function DraggableConstructorIngredient({ ingredient }) {
     const fillingIngredients = useSelector(store => store.burger.constructorFillingIngredients);
 
     const onRemoveIngredient = (generatedId) => {
-        dispatch({
-            type: REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
-            payload: generatedId
-        })
+        dispatch(removeIngredientFromConstructor(generatedId));
     }
 
     const [{ display }, dragRef] = useDrag({
@@ -27,13 +24,7 @@ function DraggableConstructorIngredient({ ingredient }) {
 
     const onDropIngredient = (generatedId) => {
         const droppedIngredient = fillingIngredients.filter(searchedIngredient => searchedIngredient.generatedId === generatedId).shift();
-        dispatch({
-            type: MOVE_INGREDIENT_IN_CONSTRUCTOR,
-            payload: { 
-                shiftedGeneratedId: ingredient.generatedId,
-                droppedIngredient: droppedIngredient
-            }
-        })
+        dispatch(moveIngredientInConstructor(ingredient.generatedId, droppedIngredient));
     }
 
     const [ { isOver }, dropTarget] = useDrop({

@@ -4,7 +4,7 @@ import styles from './burger-constructor.module.css';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import { useDispatch, useSelector } from 'react-redux';
-import { ADD_INGREDIENT_TO_CONSTRUCTOR, HIDE_ORDER_DETAILS, placeOrder } from '../../services/actions/burger';
+import { addIngredientToConstructor, hideOrderDetails as hideOrderDetailsAction, placeOrder } from '../../services/actions/burger';
 import { useDrop } from 'react-dnd';
 import DraggableConstructorIngredient from '../draggable-constructor-ingredient/draggable-constructor-ingredient';
 
@@ -26,15 +26,12 @@ function BurgerConstructor() {
 
     const orderDetails = useSelector(store => store.burger.orderDetails);
     const hideOrderDetails = () => {
-        dispatch({ type: HIDE_ORDER_DETAILS });
+        dispatch(hideOrderDetailsAction());
     }
 
     const onDropIngredient = (itemId) => {
         const item = availableIngredients.filter(ingredient => ingredient._id === itemId).shift();
-        dispatch({
-            type: ADD_INGREDIENT_TO_CONSTRUCTOR,
-            payload: item
-        })
+        dispatch(addIngredientToConstructor(item));
     }
 
     const [, dropTarget] = useDrop({

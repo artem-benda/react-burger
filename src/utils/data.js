@@ -6,7 +6,7 @@ const checkReponse = (res) => {
 
  const checkSuccess = responseEntity => {
    if (responseEntity.success) {
-      return responseEntity.data
+      return responseEntity;
    } else {
       throw Error();
    }
@@ -35,7 +35,7 @@ export function getIngredients() {
    return fetch(`${API_BASE_URL}/ingredients`)
       .then(checkReponse)
       .then(checkSuccess)
-
+      .then(responseEntity => responseEntity.data);
 }
 
 export function placeOrder(ingredientsIds) {

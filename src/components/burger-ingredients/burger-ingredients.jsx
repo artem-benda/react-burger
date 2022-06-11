@@ -3,7 +3,7 @@ import React, { useRef } from 'react';
 import BurgerIngredient from '../burger-ingredient/burger-ingredient';
 import styles from './burger-ingredients.module.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { HIDE_INGREDIENT_DETAILS, SWITCH_TAB } from "../../services/actions/burger";
+import { hideIngredientDetails, switchTab } from "../../services/actions/burger";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 
@@ -42,12 +42,12 @@ function BurgerIngredients() {
         }
 
         if (currentTab !== tab) {
-            dispatch({ type: SWITCH_TAB, payload: tab });
+            dispatch(switchTab(tab));
         }
     }
 
     const hideDetails = () => {
-        dispatch({type: HIDE_INGREDIENT_DETAILS});
+        dispatch(hideIngredientDetails());
     }
 
     const onScroll = (e) => {
@@ -59,7 +59,7 @@ function BurgerIngredients() {
             ((sauceTitleDistance <= bunTitleDistance && sauceTitleDistance <= mainTitleDistance) ? 'sauce' : 'main');
         
         if (currentTab !== calculatedTab) {
-            dispatch({ type: SWITCH_TAB, payload: calculatedTab });
+            dispatch(switchTab(calculatedTab));
         }
 
     }
