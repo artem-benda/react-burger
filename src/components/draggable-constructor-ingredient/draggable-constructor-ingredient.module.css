@@ -1,0 +1,9 @@
+.ingredientItemContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.ingredientItemDisplaced {
+    transform: translateY(20px);
+}

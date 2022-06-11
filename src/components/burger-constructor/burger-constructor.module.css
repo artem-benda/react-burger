@@ -4,6 +4,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100%;
 }
 
 .scrollableContent {
@@ -28,14 +29,36 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    min-height: 100px;
 }
 
 .fixedContent {
     margin-left: auto;
+    width: 100%;
 }
 
-.ingredientItemContainer {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+.totals {
+    text-align: right;
+}
+
+.topBunDropZone {
+    border-radius: 70% 70% 30% 30%;
+    border: dashed cyan;
+    width: 90%;
+    height: 70px;
+}
+
+.fillingIngredientsDropZone {
+    border-radius: 30% 30% 30% 30%;
+    border: dashed cyan;
+    width: 90%;
+    height: 70px;
+    flex-grow: 1;
+}
+
+.bottomBunDropZone {
+    border-radius: 30% 30% 70% 70%;
+    border: dashed cyan;
+    width: 90%;
+    height: 70px;
 }
