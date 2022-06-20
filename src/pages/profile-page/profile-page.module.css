@@ -1,0 +1,18 @@
+.profileContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.profileSideColumn {
+    width: 250px;
+}
+
+.profileContentsColumn {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
