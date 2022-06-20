@@ -1,6 +1,13 @@
+import AppHeader from "../../components/app-header/app-header";
+
 function NotFoundPage(props) {
     return(
-        <p>NotFoundPage STUB</p>
+      <div className="app">
+        <AppHeader />
+        <main className="app-page contents">
+            <p>NotFoundPage STUB</p>
+        </main>
+      </div>
     )
 }
 

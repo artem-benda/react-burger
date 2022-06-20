@@ -1,6 +1,14 @@
+import AppHeader from "../../components/app-header/app-header";
+
+
 function BurgerIngredientPage(props) {
     return(
-        <p>BurgerIngredientPage STUB</p>
+      <div className="app">
+        <AppHeader />
+        <main className="app-page contents">
+            <p>BurgerIngredientPage STUB</p>
+        </main>
+      </div>
     )
 }
 

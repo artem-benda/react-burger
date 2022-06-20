@@ -1,6 +1,13 @@
+import AppHeader from "../../components/app-header/app-header";
+
 function ProfilePage(props) {
     return(
-        <p>ProfilePage STUB</p>
+      <div className="app">
+        <AppHeader />
+        <main className="app-page contents">
+            <p>ProfilePage STUB</p>
+        </main>
+      </div>
     )
 }
 

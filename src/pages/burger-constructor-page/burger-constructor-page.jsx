@@ -18,9 +18,9 @@ function BurgerConstructorPage() {
   }, [dispatch])
 
   return (
-    <div className={styles.app}>
+    <div className="app">
       <AppHeader />
-      <main className={styles.appPage}>
+      <main className="app-page">
         <section className={styles.appPageTitle}><p className="text text_type_main-large pt-10">Соберите бургер</p></section>
         { getIngredientsFailed &&
           <section className={styles.errorSection + ' mt-10 pl-4 pr-4'}><p>Не удалось загрузить список ингредиентов, повторите попытку позже.</p></section>
