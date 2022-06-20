@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
-import AppHeader from '../app-header/app-header';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
-import styles from './app.module.css';
+import { useEffect } from 'react';
+import AppHeader from '../../components/app-header/app-header';
+import BurgerIngredients from '../../components/burger-ingredients/burger-ingredients';
+import BurgerConstructor from '../../components/burger-constructor/burger-constructor';
+import styles from './burger-constructor-page.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchIngredients } from '../../services/actions/burger';
 
-function App() {
+function BurgerConstructorPage() {
   const getIngredientsRequest = useSelector(store => store.burger.getIngredientsRequest);
   const getIngredientsFailed = useSelector(store => store.burger.getIngredientsFailed);
   const ingredients = useSelector(store => store.burger.availableIngredients);
@@ -41,4 +41,4 @@ function App() {
   );
 }
 
-export default App;
+export default BurgerConstructorPage;
