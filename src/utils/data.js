@@ -46,6 +46,7 @@ const api = axios.create({
      if (originalConfig.url !== "auth/register" &&
          originalConfig.url !== "password-reset" &&
          originalConfig.url !== "password-reset/reset" &&
+         originalConfig.url !== "auth/logout" &&
          err.response) {
        // Access Token was expired
        if (err.response.status === 401 && !originalConfig._retry) {
@@ -79,9 +80,8 @@ export function getIngredients() {
       .then(responseEntity => responseEntity.data);
 }
 
-export function placeOrder(ingredientsIds) {
-   const data = { ingredients: ingredientsIds }
-   return api.post("orders", data)
+export function placeOrder(ingredients) {
+   return api.post("orders", {ingredients})
       .then(checkReponse)
       .then(checkSuccess);
 }
@@ -110,14 +110,10 @@ export function login(email, password) {
       .then(checkSuccess);
 }
 
-export function logout(token) {
-   return api.post("auth/logout", {token})
-      .then(checkReponse)
-      .then(checkSuccess);
-}
+export function logout() {
+   const token = TokenService.getLocalRefreshToken();
 
-export function refreshToken(token) {
-   return api.post("auth/token", {token})
+   return api.post("auth/logout", {token})
       .then(checkReponse)
       .then(checkSuccess);
 }

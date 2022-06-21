@@ -27,7 +27,7 @@ const initialState = {
 
     placeOrderRequest: false,
     placeOrderFailed: false
-}
+};
 
 export const burgerReducer = (state = initialState, action) => {
     switch (action.type) {
