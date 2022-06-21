@@ -33,7 +33,7 @@ function BurgerIngredient({ ingredient }) {
         <article className={styles.container + ' pt-6 pb-10 pl-4 pr-4'} onClick={showDetails} style={{opacity}} ref={ref}>
             <div className={styles.imageContainer}>
                 <img src={ingredient.image_large} alt={ingredient.name} className={styles.ingredientImage} />
-                { ingredientsCount &&
+                { ingredientsCount > 0 &&
                     <Counter count={ingredientsCount} />
                 }
             </div>
