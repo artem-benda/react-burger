@@ -1,11 +1,5 @@
 import axios from 'axios';
-
-const api = axios.create({
-   baseURL: "https://norma.nomoreparties.space/api",
-   headers: {
-     "Content-Type": "application/json",
-   },
- });
+import TokenService from './token';
 
 const checkReponse = (res) => {
    if (res.status < 200 || res.status >= 300) {
@@ -22,24 +16,61 @@ const checkReponse = (res) => {
    }
 };
 
- /* Эта функция взята из примера с сайта developer.mozilla.org с небольшими изменениями */
- async function postData(url = '', data = {}) {
-   // Default options are marked with *
-   const response = await fetch(url, {
-     method: 'POST', // *GET, POST, PUT, DELETE, etc.
-     mode: 'cors', // no-cors, *cors, same-origin
-     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-     credentials: 'same-origin', // include, *same-origin, omit
-     headers: {
-       'Content-Type': 'application/json'
-       // 'Content-Type': 'application/x-www-form-urlencoded',
-     },
-     redirect: 'follow', // manual, *follow, error
-     referrerPolicy: 'no-referrer', // no-referrer, *client
-     body: JSON.stringify(data) // body data type must match "Content-Type" header
-   });
-   return await response;
- }
+const api = axios.create({
+   baseURL: "https://norma.nomoreparties.space/api",
+   headers: {
+     "Content-Type": "application/json",
+   },
+ });
+
+ api.interceptors.request.use(
+   (config) => {
+     const token = TokenService.getLocalAccessToken();
+     if (token) {
+       config.headers["Authorization"] = 'Bearer ' + token;
+     }
+     return config;
+   },
+   (error) => {
+     return Promise.reject(error);
+   }
+ );
+ 
+ api.interceptors.response.use(
+   (res) => {
+     return res;
+   },
+   async (err) => {
+     const originalConfig = err.config;
+ 
+     if (originalConfig.url !== "auth/register" &&
+         originalConfig.url !== "password-reset" &&
+         originalConfig.url !== "password-reset/reset" &&
+         err.response) {
+       // Access Token was expired
+       if (err.response.status === 401 && !originalConfig._retry) {
+         originalConfig._retry = true;
+ 
+         try {
+           const rs = await api.post("auth/token", {
+             token: TokenService.getLocalRefreshToken(),
+           })
+           .then(checkReponse)
+           .then(checkSuccess);
+ 
+           const { accessToken } = rs.data;
+           TokenService.updateLocalAccessToken(accessToken);
+ 
+           return api(originalConfig);
+         } catch (_error) {
+           return Promise.reject(_error);
+         }
+       }
+     }
+ 
+     return Promise.reject(err);
+   }
+ );
 
 export function getIngredients() {
    return api.get("ingredients")
@@ -52,5 +83,53 @@ export function placeOrder(ingredientsIds) {
    const data = { ingredients: ingredientsIds }
    return api.post("orders", data)
       .then(checkReponse)
-      .then(checkSuccess)
+      .then(checkSuccess);
+}
+
+export function sendPasswordResetCode(email) {
+   return api.post("password-reset", {email})
+      .then(checkReponse)
+      .then(checkSuccess);
+}
+
+export function resetPassword(password, token) {
+   return api.post("password-reset/reset", {password, token})
+      .then(checkReponse)
+      .then(checkSuccess);
+}
+
+export function register(email, password, name) {
+   return api.post("auth/register", {email, password, name})
+      .then(checkReponse)
+      .then(checkSuccess);
+}
+
+export function login(email, password) {
+   return api.post("auth/login", {email, password})
+      .then(checkReponse)
+      .then(checkSuccess);
+}
+
+export function logout(token) {
+   return api.post("auth/logout", {token})
+      .then(checkReponse)
+      .then(checkSuccess);
+}
+
+export function refreshToken(token) {
+   return api.post("auth/token", {token})
+      .then(checkReponse)
+      .then(checkSuccess);
+}
+
+export function getUser() {
+   return api.get("auth/user")
+      .then(checkReponse)
+      .then(checkSuccess);
+}
+
+export function editUser(data) {
+   return api.patch("auth/user", data)
+      .then(checkReponse)
+      .then(checkSuccess);
 }
