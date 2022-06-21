@@ -1,7 +1,17 @@
-const API_BASE_URL = "https://norma.nomoreparties.space/api";
+import axios from 'axios';
+
+const api = axios.create({
+   baseURL: "https://norma.nomoreparties.space/api",
+   headers: {
+     "Content-Type": "application/json",
+   },
+ });
 
 const checkReponse = (res) => {
-   return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
+   if (res.status < 200 || res.status >= 300) {
+      throw Error();
+   }
+   return res.data;
  };
 
  const checkSuccess = responseEntity => {
@@ -32,7 +42,7 @@ const checkReponse = (res) => {
  }
 
 export function getIngredients() {
-   return fetch(`${API_BASE_URL}/ingredients`)
+   return api.get("ingredients")
       .then(checkReponse)
       .then(checkSuccess)
       .then(responseEntity => responseEntity.data);
@@ -40,7 +50,7 @@ export function getIngredients() {
 
 export function placeOrder(ingredientsIds) {
    const data = { ingredients: ingredientsIds }
-   return postData(`${API_BASE_URL}/orders`, data)
+   return api.post("orders", data)
       .then(checkReponse)
       .then(checkSuccess)
 }
