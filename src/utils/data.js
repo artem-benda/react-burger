@@ -46,7 +46,7 @@ const api = axios.create({
      if (originalConfig.url !== "auth/register" &&
          originalConfig.url !== "password-reset" &&
          originalConfig.url !== "password-reset/reset" &&
-         originalConfig.url !== "auth/logout" &&
+         originalConfig.url !== "auth/token" &&
          err.response) {
        // Access Token was expired
        if (err.response.status === 401 && !originalConfig._retry) {

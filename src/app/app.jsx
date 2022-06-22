@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { ProtectedRoute } from '../components/protected-route/protected-route';
 import BurgerConstructorPage from '../pages/burger-constructor-page/burger-constructor-page';
 import BurgerIngredientPage from '../pages/burger-ingredient-page/burger-ingredient-page';
 import ForgotPasswordPage from '../pages/forgot-password-page/forgot-password-page';
@@ -27,9 +28,9 @@ function App() {
         <Route path="/reset-password" exact={true}>
           <ResetPasswordPage />
         </Route>
-        <Route path="/profile" exact={true}>
+        <ProtectedRoute path="/profile" exact={true}>
           <ProfilePage />
-        </Route>
+        </ProtectedRoute>
         <Route path="/ingredients/:id" exact={true}>
           <BurgerIngredientPage />
         </Route>

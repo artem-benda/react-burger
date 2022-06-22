@@ -1,21 +1,23 @@
-import { useAuth } from '../services/auth';
+import { getUser } from '../../services/actions/auth';
 import { Redirect, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 export function ProtectedRoute({ children, ...rest }) {
-  let { user, ...auth } = useSelector(store => store.auth.user);
-  const [isUserLoaded, setUserLoaded] = useState(false);
+  const user = useSelector(store => store.auth.user);
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
 
   const init = async () => {
-    await getUser();
-    setUserLoaded(true);
+    await dispatch(getUser());
+    setLoading(false);
   };
 
   useEffect(() => {
     init();
   }, []);
 
-  if (!isUserLoaded) {
+  if (loading) {
     return null;
   }
 
@@ -23,7 +25,7 @@ export function ProtectedRoute({ children, ...rest }) {
     <Route
       {...rest}
       render={({ location }) =>
-        auth.user ? (
+        user ? (
           children
         ) : (
           <Redirect
