@@ -1,8 +1,21 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import AppHeader from "../../components/app-header/app-header";
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import { useSelector } from "react-redux";
 
 function LoginPage(props) {
+    const user = useSelector(store => store.auth.user);
+
+    if (user) {
+        return (
+            <Redirect
+                to={{
+                    pathname: '/'
+                }}
+            />
+        );
+    }
+
     return(
       <div className="app">
         <AppHeader />

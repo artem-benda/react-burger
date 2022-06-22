@@ -15,6 +15,7 @@ export function ProtectedRoute({ children, ...rest }) {
 
   useEffect(() => {
     init();
+    // eslint-disable-next-line
   }, []);
 
   if (loading) {
