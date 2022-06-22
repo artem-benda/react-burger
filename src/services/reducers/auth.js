@@ -52,7 +52,8 @@ export const authReducer = (state = initialState, action) => {
         case LOGIN_REQUEST: {
             return {
                 ...state,
-                loginRequest: true
+                loginRequest: true,
+                loginFailed: false
             }
         }
         case LOGIN_SUCCESS: {
@@ -73,7 +74,8 @@ export const authReducer = (state = initialState, action) => {
         case REGISTER_REQUEST: {
             return {
                 ...state,
-                registerRequest: true
+                registerRequest: true,
+                registerFailed: false
             }
         }
         case REGISTER_SUCCESS: {
@@ -94,7 +96,8 @@ export const authReducer = (state = initialState, action) => {
         case LOGOUT_REQUEST: {
             return {
                 ...state,
-                logoutRequest: true
+                logoutRequest: true,
+                logoutFailed: false
             }
         }
         case LOGOUT_SUCCESS: {
@@ -115,7 +118,8 @@ export const authReducer = (state = initialState, action) => {
         case SEND_RESET_PASSWORD_CODE_REQUEST: {
             return {
                 ...state,
-                sendResetPasswordCodeRequest: true
+                sendResetPasswordCodeRequest: true,
+                sendResetPasswordCodeFailed: false
             }
         }
         case SEND_RESET_PASSWORD_CODE_SUCCESS: {
@@ -135,7 +139,8 @@ export const authReducer = (state = initialState, action) => {
         case RESET_PASSWORD_REQUEST: {
             return {
                 ...state,
-                resetPasswordRequest: true
+                resetPasswordRequest: true,
+                resetPasswordFailed: false
             }
         }
         case RESET_PASSWORD_SUCCESS: {
@@ -155,7 +160,8 @@ export const authReducer = (state = initialState, action) => {
         case GET_USER_REQUEST: {
             return {
                 ...state,
-                getUserRequest: true
+                getUserRequest: true,
+                getUserFailed: false
             }
         }
         case GET_USER_SUCCESS: {
@@ -176,7 +182,8 @@ export const authReducer = (state = initialState, action) => {
         case EDIT_USER_REQUEST: {
             return {
                 ...state,
-                editUserRequest: true
+                editUserRequest: true,
+                editUserFailed: false
             }
         }
         case EDIT_USER_SUCCESS: {

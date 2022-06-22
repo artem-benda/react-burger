@@ -1,10 +1,28 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import AppHeader from "../../components/app-header/app-header";
 import { Link, Redirect } from 'react-router-dom';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useCallback } from "react";
+import { login } from "../../services/actions/auth";
 
 function LoginPage(props) {
     const user = useSelector(store => store.auth.user);
+    const [form, setValue] = useState({ email: '', password: '' });
+    const dispatch = useDispatch();
+    const { loginRequest, loginFailed } = useSelector(store => store.auth);
+
+    const onChange = e => {
+      setValue({ ...form, [e.target.name]: e.target.value });
+    };
+
+    const onLoginClick = useCallback(
+        e => {
+          e.preventDefault();
+          dispatch(login(form.email, form.password));
+        },
+        [dispatch, form]
+      );
 
     if (user) {
         return (
@@ -22,9 +40,19 @@ function LoginPage(props) {
         <main className="app-page contents">
             <section className="block-center slim-container">
                 <header className="text text_type_main-medium pt-10">Вход</header>
-                <div className="mt-6"><Input placeholder="E-mail" /></div>
-                <div className="mt-6"><Input placeholder="Пароль" icon={"ShowIcon"} /></div>
-                <div className="mt-6"><Button>Войти</Button></div>
+                <div className="mt-6"><Input placeholder="E-mail" value={form.email} name={'email'} onChange={onChange} /></div>
+                <div className="mt-6"><Input placeholder="Пароль" value={form.password} name={'password'} icon={"ShowIcon"} onChange={onChange} type={'password'} /></div>
+                <div className="mt-6"><Button onClick={onLoginClick}>Войти</Button></div>
+                { loginFailed &&
+                    <p className="text text_type_main-default pt-6 text-centered text-danger">
+                        Не удалось выполнить вход. Проверьте правильность ввода Email и пароля.
+                    </p>
+                }
+                { loginRequest &&
+                    <p className="text text_type_main-default pt-6 text-centered">
+                        Выполняется вход...
+                    </p>
+                }
                 <p className="text text_type_main-default text_color_inactive pt-20">
                     Вы - новый пользователь? <Link to="/register" replace={true}>Зарегистрироваться</Link>
                 </p>

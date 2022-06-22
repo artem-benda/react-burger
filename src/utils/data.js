@@ -42,11 +42,14 @@ const api = axios.create({
    },
    async (err) => {
      const originalConfig = err.config;
+
+     const localRefreshToken = TokenService.getLocalRefreshToken();
  
      if (originalConfig.url !== "auth/register" &&
          originalConfig.url !== "password-reset" &&
          originalConfig.url !== "password-reset/reset" &&
          originalConfig.url !== "auth/token" &&
+         !!localRefreshToken &&
          err.response) {
        // Access Token was expired
        if (err.response.status === 401 && !originalConfig._retry) {
@@ -54,7 +57,7 @@ const api = axios.create({
  
          try {
            const rs = await api.post("auth/token", {
-             token: TokenService.getLocalRefreshToken(),
+             token: localRefreshToken,
            })
            .then(checkReponse)
            .then(checkSuccess);
