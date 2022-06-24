@@ -1,16 +1,18 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import AppHeader from "../../components/app-header/app-header";
-import { Link } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { sendPasswordResetCode } from "../../services/actions/auth";
 import { useForm } from "../../hooks/use-form";
 
 function ForgotPasswordPage(props) {
     const { form, onChange } = useForm({ email: '' });
+    const history = useHistory();
+    const location = useLocation();
 
     const dispatch = useDispatch();
-    const { sendResetPasswordCodeRequest, sendResetPasswordCodeFailed } = useSelector(store => store.auth);
+    const { sendResetPasswordCodeRequest, sendResetPasswordCodeSuccess, sendResetPasswordCodeFailed } = useSelector(store => store.auth);
 
     const onSendResetCodeClick = useCallback(
         e => {
@@ -19,6 +21,12 @@ function ForgotPasswordPage(props) {
         },
         [dispatch, form]
       );
+
+    useEffect(() => {
+        if (sendResetPasswordCodeSuccess) {
+            history.replace({ pathname: '/reset-password', state: { from: location.pathname }});
+        }
+    }, [sendResetPasswordCodeSuccess, history, location]);
     
     return(
       <div className="app">

@@ -34,7 +34,8 @@ export const burgerReducer = (state = initialState, action) => {
         case GET_BURGER_INGREDIENTS_REQUEST: {
             return {
                 ...state,
-                getIngredientsRequest: true
+                getIngredientsRequest: true,
+                getIngredientsFailed: false
             }
         }
         case GET_BURGER_INGREDIENTS_SUCCESS: {
@@ -73,7 +74,8 @@ export const burgerReducer = (state = initialState, action) => {
         case PLACE_ORDER_REQUEST: {
             return {
                 ...state,
-                placeOrderRequest: true
+                placeOrderRequest: true,
+                placeOrderFailed: false
             }
         }
         case PLACE_ORDER_SUCCESS: {

@@ -140,7 +140,8 @@ export function logout() {
 export function getUser() {
    return api.get("auth/user")
       .then(checkReponse)
-      .then(checkSuccess);
+      .then(checkSuccess)
+      .then(data => data.user);
 }
 
 export function editUser(data) {

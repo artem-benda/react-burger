@@ -1,5 +1,5 @@
 import { getUserFailed, getUserSuccess } from '../../services/actions/auth';
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getUser } from '../../utils/data';
@@ -7,6 +7,7 @@ import { getUser } from '../../utils/data';
 export function NonAuthRoute({ children, ...rest }) {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
+  const location = useLocation();
 
   const init = async () => {
     await getUser()
@@ -38,8 +39,9 @@ export function NonAuthRoute({ children, ...rest }) {
         user ? (
           <Redirect
             to={{
-              pathname: '/'
+              pathname: location.state?.from || '/'
             }}
+            push={false}
           />
         ) : (
           children

@@ -1,16 +1,23 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import AppHeader from "../../components/app-header/app-header";
-import { Link } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { resetPassword } from "../../services/actions/auth";
 import { useForm } from "../../hooks/use-form";
 
 function ResetPasswordPage(props) {
     const { form, onChange } = useForm({ password: '', token: '' });
+    const history = useHistory();
+    const location = useLocation();
 
     const dispatch = useDispatch();
-    const { resetPasswordCodeRequest, resetPasswordCodeFailed } = useSelector(store => store.auth);
+    const { resetPasswordCodeRequest, resetPasswordSuccess, resetPasswordCodeFailed, sendResetPasswordCodeSuccess } = useSelector(store => store.auth);
+
+    useEffect(() => {
+    if (location.state?.from !== '/forgot-password' || !sendResetPasswordCodeSuccess ) {
+        history.replace({ pathname: '/forgot-password'});
+    }}, [sendResetPasswordCodeSuccess, history, location]);
 
     const onResetCodeClick = useCallback(
         e => {
@@ -19,6 +26,12 @@ function ResetPasswordPage(props) {
         },
         [dispatch, form]
       );
+    
+    useEffect(() => {
+        if (resetPasswordSuccess) {
+            history.replace({ pathname: '/login'});
+        }
+    }, [resetPasswordSuccess, history]);
 
     return(
       <div className="app">
@@ -26,7 +39,7 @@ function ResetPasswordPage(props) {
         <main className="app-page contents">
             <section className="block-center slim-container">
                 <header className="text text_type_main-medium pt-10">Восстановление пароля</header>
-                <div className="mt-6"><Input placeholder="Введите новый пароль" value={form.password} name={'password'} onChange={onChange} /></div>
+                <div className="mt-6"><Input placeholder="Введите новый пароль" value={form.password} name={'password'} onChange={onChange} type='password' /></div>
                 <div className="mt-6"><Input placeholder="Введите код из письма" value={form.token} name={'token'} onChange={onChange} /></div>
                 <div className="mt-6"><Button onClick={onResetCodeClick}>Сохранить</Button></div>
                 { resetPasswordCodeFailed &&

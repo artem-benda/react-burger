@@ -26,13 +26,14 @@ function BurgerIngredient({ ingredient }) {
     });
 
     return (
-        <Link to={{
-            pathname: `/ingredients/${ingredient._id}`,
-            // This is the trick! This link sets
-            // the `background` in location state.
-            state: { background: location }
-        }}>
-            <article className={styles.container + ' pt-6 pb-10 pl-4 pr-4'} style={{opacity}} ref={ref}>
+        
+        <article className={styles.container + ' pt-6 pb-10 pl-4 pr-4'} style={{opacity}} ref={ref}>
+            <Link to={{
+                pathname: `/ingredients/${ingredient._id}`,
+                // This is the trick! This link sets
+                // the `background` in location state.
+                state: { background: location }
+            }}>
                 <div className={styles.imageContainer}>
                     <img src={ingredient.image_large} alt={ingredient.name} className={styles.ingredientImage} />
                     { ingredientsCount > 0 &&
@@ -41,8 +42,9 @@ function BurgerIngredient({ ingredient }) {
                 </div>
                 <p className={styles.priceText + ' pt-1'}><span className="text text_type_digits-default pr-1">{ingredient.price}</span> <CurrencyIcon type="primary" /></p>
                 <p className={styles.nameText + ' pt-1'}><span className='text text_type_main-default'>{ingredient.name}</span></p>
-            </article>
-        </Link>
+            </Link>
+        </article>
+        
     );
 }
 

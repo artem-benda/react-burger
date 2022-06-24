@@ -22,3 +22,7 @@
     align-content: center;
     flex-direction: row;
 }
+
+.container > a {
+    all: unset;
+}

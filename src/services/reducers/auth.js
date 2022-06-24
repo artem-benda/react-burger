@@ -35,9 +35,11 @@ const initialState = {
     registerFailed: false,
 
     sendResetPasswordCodeRequest: false,
+    sendResetPasswordCodeSuccess: false,
     sendResetPasswordCodeFailed: false,
 
     resetPasswordRequest: false,
+    resetPasswordSuccess: false,
     resetPasswordFailed: false,
 
     getUserRequest: false,
@@ -119,6 +121,7 @@ export const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 sendResetPasswordCodeRequest: true,
+                sendResetPasswordCodeSuccess: false,
                 sendResetPasswordCodeFailed: false
             }
         }
@@ -126,6 +129,7 @@ export const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 sendResetPasswordCodeRequest: false,
+                sendResetPasswordCodeSuccess: true,
                 sendResetPasswordCodeFailed: false
             }
         }
@@ -133,6 +137,7 @@ export const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 sendResetPasswordCodeRequest: false,
+                sendResetPasswordCodeSuccess: false,
                 sendResetPasswordCodeFailed: true
             }
         }
@@ -140,6 +145,7 @@ export const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 resetPasswordRequest: true,
+                resetPasswordSuccess: false,
                 resetPasswordFailed: false
             }
         }
@@ -147,6 +153,7 @@ export const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 resetPasswordRequest: false,
+                resetPasswordSuccess: true,
                 resetPasswordFailed: false
             }
         }
@@ -154,6 +161,7 @@ export const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 resetPasswordRequest: false,
+                resetPasswordSuccess: false,
                 resetPasswordFailed: true
             }
         }
