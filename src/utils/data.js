@@ -104,13 +104,25 @@ export function resetPassword(password, token) {
 export function register(email, password, name) {
    return api.post("auth/register", {email, password, name})
       .then(checkReponse)
-      .then(checkSuccess);
+      .then(checkSuccess)
+      .then(data => {
+        const { refreshToken, accessToken } = data;
+        TokenService.updateLocalRefreshToken(refreshToken);
+        TokenService.updateLocalAccessToken(accessToken.split('Bearer ')[1]);
+        return data;
+      });
 }
 
 export function login(email, password) {
    return api.post("auth/login", {email, password})
       .then(checkReponse)
-      .then(checkSuccess);
+      .then(checkSuccess)
+      .then(data => {
+        const { refreshToken, accessToken } = data;
+        TokenService.updateLocalRefreshToken(refreshToken);
+        TokenService.updateLocalAccessToken(accessToken.split('Bearer ')[1]);
+        return data;
+      });
 }
 
 export function logout() {

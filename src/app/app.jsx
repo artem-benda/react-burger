@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { NonAuthRoute } from '../components/non-auth-route/non-auth-route';
 import { ProtectedRoute } from '../components/protected-route/protected-route';
 import BurgerConstructorPage from '../pages/burger-constructor-page/burger-constructor-page';
 import BurgerIngredientPage from '../pages/burger-ingredient-page/burger-ingredient-page';
@@ -16,18 +17,18 @@ function App() {
         <Route path="/" exact={true}>
           <BurgerConstructorPage />
         </Route>
-        <Route path="/login" exact={true}>
+        <NonAuthRoute path="/login" exact={true}>
           <LoginPage />
-        </Route>
-        <Route path="/register" exact={true}>
+        </NonAuthRoute>
+        <NonAuthRoute path="/register" exact={true}>
           <RegisterPage />
-        </Route>
-        <Route path="/forgot-password" exact={true}>
+        </NonAuthRoute>
+        <NonAuthRoute path="/forgot-password" exact={true}>
           <ForgotPasswordPage />
-        </Route>
-        <Route path="/reset-password" exact={true}>
+        </NonAuthRoute>
+        <NonAuthRoute path="/reset-password" exact={true}>
           <ResetPasswordPage />
-        </Route>
+        </NonAuthRoute>
         <ProtectedRoute path="/profile" exact={true}>
           <ProfilePage />
         </ProtectedRoute>

@@ -1,19 +1,16 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import AppHeader from "../../components/app-header/app-header";
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { resetPassword } from "../../services/actions/auth";
+import { useForm } from "../../hooks/use-form";
 
 function ResetPasswordPage(props) {
-    const user = useSelector(store => store.auth.user);
-    const [form, setValue] = useState({ password: '', token: '' });
+    const { form, onChange } = useForm({ password: '', token: '' });
+
     const dispatch = useDispatch();
     const { resetPasswordCodeRequest, resetPasswordCodeFailed } = useSelector(store => store.auth);
-
-    const onChange = e => {
-      setValue({ ...form, [e.target.name]: e.target.value });
-    };
 
     const onResetCodeClick = useCallback(
         e => {
@@ -22,16 +19,6 @@ function ResetPasswordPage(props) {
         },
         [dispatch, form]
       );
-
-    if (user) {
-        return (
-            <Redirect
-                to={{
-                    pathname: '/'
-                }}
-            />
-        );
-    }
 
     return(
       <div className="app">

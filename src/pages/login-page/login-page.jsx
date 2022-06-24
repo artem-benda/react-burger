@@ -1,20 +1,16 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import AppHeader from "../../components/app-header/app-header";
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
 import { useCallback } from "react";
 import { login } from "../../services/actions/auth";
+import { useForm } from "../../hooks/use-form";
 
-function LoginPage(props) {
-    const user = useSelector(store => store.auth.user);
-    const [form, setValue] = useState({ email: '', password: '' });
+function LoginPage() {
+    const { form, onChange } = useForm({ email: '', password: ''});
+
     const dispatch = useDispatch();
     const { loginRequest, loginFailed } = useSelector(store => store.auth);
-
-    const onChange = e => {
-      setValue({ ...form, [e.target.name]: e.target.value });
-    };
 
     const onLoginClick = useCallback(
         e => {
@@ -23,16 +19,6 @@ function LoginPage(props) {
         },
         [dispatch, form]
       );
-
-    if (user) {
-        return (
-            <Redirect
-                to={{
-                    pathname: '/'
-                }}
-            />
-        );
-    }
 
     return(
       <div className="app">
