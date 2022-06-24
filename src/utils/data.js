@@ -52,7 +52,7 @@ const api = axios.create({
          !!localRefreshToken &&
          err.response) {
        // Access Token was expired
-       if (err.response.status === 401 && !originalConfig._retry) {
+       if (err.response.status === 403 && !originalConfig._retry) {
          originalConfig._retry = true;
  
          try {
@@ -130,7 +130,11 @@ export function logout() {
 
    return api.post("auth/logout", {token})
       .then(checkReponse)
-      .then(checkSuccess);
+      .then(checkSuccess)
+      .then(data => {
+        TokenService.removeTokens();
+        return data;
+      });
 }
 
 export function getUser() {

@@ -58,7 +58,7 @@ export function logout() {
     return function(dispatch) {
         dispatch({ type: LOGOUT_REQUEST })
         api.logout()
-            .then(data => {
+            .then(() => {
                 dispatch({ type: LOGOUT_SUCCESS});
             })
             .catch(e => {
@@ -110,11 +110,24 @@ export function resetPassword(password, token) {
     return function(dispatch) {
         dispatch({ type: RESET_PASSWORD_REQUEST })
         api.resetPassword(password, token)
-            .then(data => {
+            .then(() => {
                 dispatch({ type: RESET_PASSWORD_SUCCESS});
             })
             .catch(e => {
                 dispatch({ type: RESET_PASSWORD_FAILED});
             })
+    }
+}
+
+export function getUserSuccess(payload) {
+    return {
+        type: GET_USER_SUCCESS,
+        payload
+    }
+}
+
+export function getUserFailed() {
+    return {
+        type: GET_USER_FAILED
     }
 }
