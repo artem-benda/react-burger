@@ -10,6 +10,7 @@ import { Provider } from 'react-redux';
 
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 /* 
  * В соответствии с документацией configureStore подключает по умолчанию thunk и Redux Devtools
@@ -25,7 +26,9 @@ root.render(
   //<React.StrictMode>
     <Provider store={store}>
       <DndProvider backend={HTML5Backend}>
-        <App />
+        <Router>
+          <App />
+        </Router>
       </DndProvider>
     </Provider>
   //</React.StrictMode>

@@ -1,4 +1,6 @@
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
+import IngredientDetails from '../components/ingredient-details/ingredient-details';
+import Modal from '../components/modal/modal';
 import { NonAuthRoute } from '../components/non-auth-route/non-auth-route';
 import { ProtectedRoute } from '../components/protected-route/protected-route';
 import BurgerConstructorPage from '../pages/burger-constructor-page/burger-constructor-page';
@@ -11,9 +13,15 @@ import RegisterPage from '../pages/register-page/register-page';
 import ResetPasswordPage from '../pages/reset-password-page/reset-password-page';
 
 function App() {
+  const location = useLocation();
+  const background = location.state && location.state.background;
+  const history = useHistory();
+  const goBack = e => {
+    history.goBack();
+  };
   return (
-    <Router>
-      <Switch>
+    <>
+      <Switch location={background || location}>
         <Route path="/" exact={true}>
           <BurgerConstructorPage />
         </Route>
@@ -39,7 +47,15 @@ function App() {
           <NotFoundPage />
         </Route>
       </Switch>
-    </Router>
+
+      { background && 
+        <Route path="/ingredients/:id">
+          <Modal title="Детали ингредиента" onDismiss={goBack}>
+            <IngredientDetails />
+          </Modal>
+        </Route>
+      }
+    </>
   );
 }
 
