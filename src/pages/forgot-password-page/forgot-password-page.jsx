@@ -30,7 +30,7 @@ function ForgotPasswordPage(props) {
     return(
         <main className="app-page contents">
             <section className="block-center slim-container">
-                <header className="text text_type_main-medium pt-10">Восстановление пароля</header>
+                <p className="text text_type_main-medium pt-10">Восстановление пароля</p>
                 <div className="mt-6"><Input placeholder="Укажите E-mail" value={form.email} name={'email'} onChange={onChange} /></div>
                 <div className="mt-6"><Button onClick={onSendResetCodeClick}>Восстановить</Button></div>
                 { sendResetPasswordCodeFailed &&

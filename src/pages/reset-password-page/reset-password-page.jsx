@@ -35,7 +35,7 @@ function ResetPasswordPage(props) {
     return(
         <main className="app-page contents">
             <section className="block-center slim-container">
-                <header className="text text_type_main-medium pt-10">Восстановление пароля</header>
+                <p className="text text_type_main-medium pt-10">Восстановление пароля</p>
                 <div className="mt-6"><Input placeholder="Введите новый пароль" value={form.password} name={'password'} onChange={onChange} type='password' /></div>
                 <div className="mt-6"><Input placeholder="Введите код из письма" value={form.token} name={'token'} onChange={onChange} /></div>
                 <div className="mt-6"><Button onClick={onResetCodeClick}>Сохранить</Button></div>

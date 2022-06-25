@@ -22,7 +22,7 @@ function LoginPage() {
     return(
         <main className="app-page contents">
             <section className="block-center slim-container">
-                <header className="text text_type_main-medium pt-10">Вход</header>
+                <p className="text text_type_main-medium pt-10">Вход</p>
                 <div className="mt-6"><Input placeholder="E-mail" value={form.email} name={'email'} onChange={onChange} /></div>
                 <div className="mt-6"><Input placeholder="Пароль" value={form.password} name={'password'} icon={"ShowIcon"} onChange={onChange} type={'password'} /></div>
                 <div className="mt-6"><Button onClick={onLoginClick}>Войти</Button></div>
