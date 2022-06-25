@@ -1,13 +1,8 @@
-import AppHeader from "../../components/app-header/app-header";
-
-function NotFoundPage(props) {
+function NotFoundPage() {
     return(
-      <div className="app">
-        <AppHeader />
-        <main className="app-page contents">
-            <p>NotFoundPage STUB</p>
-        </main>
-      </div>
+      <main className="app-page contents">
+          <p>NotFoundPage STUB</p>
+      </main>
     )
 }
 

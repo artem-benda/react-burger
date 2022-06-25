@@ -2,7 +2,6 @@ import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-component
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import AppHeader from "../../components/app-header/app-header";
 import { useForm } from "../../hooks/use-form";
 import { editUser, logout } from "../../services/actions/auth";
 import styles from "./profile-page.module.css";
@@ -34,8 +33,6 @@ function ProfilePage() {
     const isDataModified = form.name !== user.name || form.email !== user.email;
 
     return(
-      <div className="app">
-        <AppHeader />
         <main className="app-page contents mt-10">
             <section className={styles.profileContainer}>
                 <article className={styles.profileSideColumn}>
@@ -72,7 +69,6 @@ function ProfilePage() {
                 <article className={styles.profileSideColumn}></article>
             </section>
         </main>
-      </div>
     )
 }
 

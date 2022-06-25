@@ -1,5 +1,4 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
-import AppHeader from "../../components/app-header/app-header";
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback, useEffect } from "react";
@@ -34,8 +33,6 @@ function ResetPasswordPage(props) {
     }, [resetPasswordSuccess, history]);
 
     return(
-      <div className="app">
-        <AppHeader />
         <main className="app-page contents">
             <section className="block-center slim-container">
                 <header className="text text_type_main-medium pt-10">Восстановление пароля</header>
@@ -57,7 +54,6 @@ function ResetPasswordPage(props) {
                 </p>
             </section>
         </main>
-      </div>
     )
 }
 

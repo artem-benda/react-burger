@@ -1,4 +1,5 @@
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
+import AppHeader from '../components/app-header/app-header';
 import IngredientDetails from '../components/ingredient-details/ingredient-details';
 import Modal from '../components/modal/modal';
 import { NonAuthRoute } from '../components/non-auth-route/non-auth-route';
@@ -20,7 +21,8 @@ function App() {
     history.goBack();
   };
   return (
-    <>
+    <div className="app">
+      <AppHeader />
       <Switch location={background || location}>
         <Route path="/" exact={true}>
           <BurgerConstructorPage />
@@ -55,7 +57,7 @@ function App() {
           </Modal>
         </Route>
       }
-    </>
+    </div>
   );
 }
 

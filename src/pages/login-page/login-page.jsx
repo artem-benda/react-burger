@@ -1,5 +1,4 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
-import AppHeader from "../../components/app-header/app-header";
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback } from "react";
@@ -21,8 +20,6 @@ function LoginPage() {
       );
 
     return(
-      <div className="app">
-        <AppHeader />
         <main className="app-page contents">
             <section className="block-center slim-container">
                 <header className="text text_type_main-medium pt-10">Вход</header>
@@ -47,7 +44,6 @@ function LoginPage() {
                 </p>
             </section>
         </main>
-      </div>
     )
 }
 
