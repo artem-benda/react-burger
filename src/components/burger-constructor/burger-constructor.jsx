@@ -47,7 +47,7 @@ function BurgerConstructor() {
         if (user) {
             dispatch(placeOrder());
         } else {
-            history.replace({ pathname: '/login', state: { from: location }});
+            history.replace({ pathname: '/login', state: { from: location.pathname }});
         }
     }
 
