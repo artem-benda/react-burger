@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './components/app/app';
+import App from './app/app';
 import reportWebVitals from './reportWebVitals';
 
 import { rootReducer } from './services/reducers';
@@ -10,6 +10,7 @@ import { Provider } from 'react-redux';
 
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 /* 
  * В соответствии с документацией configureStore подключает по умолчанию thunk и Redux Devtools
@@ -22,13 +23,15 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <React.StrictMode>
+  //<React.StrictMode>
     <Provider store={store}>
       <DndProvider backend={HTML5Backend}>
-        <App />
+        <Router>
+          <App />
+        </Router>
       </DndProvider>
     </Provider>
-  </React.StrictMode>
+  //</React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

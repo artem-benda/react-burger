@@ -3,9 +3,7 @@ import React, { useRef } from 'react';
 import BurgerIngredient from '../burger-ingredient/burger-ingredient';
 import styles from './burger-ingredients.module.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { hideIngredientDetails, switchTab } from "../../services/actions/burger";
-import Modal from "../modal/modal";
-import IngredientDetails from "../ingredient-details/ingredient-details";
+import { switchTab } from "../../services/actions/burger";
 
 function BurgerIngredients() {
 
@@ -16,7 +14,6 @@ function BurgerIngredients() {
     const sauceIngredients = filterIngredientsByType(ingredients, 'sauce');
     const mainIngredients = filterIngredientsByType(ingredients, 'main');
 
-    const ingredientDetails = useSelector(store => store.burger.ingredientDetails);
     const dispatch = useDispatch();
 
     const bunTitleRef = useRef(null);
@@ -44,10 +41,6 @@ function BurgerIngredients() {
         if (currentTab !== tab) {
             dispatch(switchTab(tab));
         }
-    }
-
-    const hideDetails = () => {
-        dispatch(hideIngredientDetails());
     }
 
     const onScroll = (e) => {
@@ -85,11 +78,6 @@ function BurgerIngredients() {
                 <p className={styles.typeTitle + ' text text_type_main-medium pt-10'} ref={mainTitleRef}>Начинки</p>
                 { mainIngredients.map((ingredient) => <BurgerIngredient key={ingredient._id} ingredient={ingredient} />)}
             </article>
-            { ingredientDetails &&
-                <Modal title="Детали ингредиента" onDismiss={hideDetails}>
-                    <IngredientDetails ingredient={ingredientDetails} />
-                </Modal>
-            }
         </section>
     );
 }

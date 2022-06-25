@@ -1,26 +1,30 @@
 import { BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import React from 'react';
+import { Link, NavLink, useRouteMatch } from 'react-router-dom';
 import styles from './app-header.module.css';
 
 export default function AppHeader() {
+    const iconConstructorType = !!useRouteMatch({ path: '/', exact: true}) ? 'primary' : 'secondary';
+    const iconFeedType = !!useRouteMatch('/feed') ? 'primary' : 'secondary';
+    const iconProfileType = !!useRouteMatch('/profile') ? 'primary' : 'secondary';
+
     return (
         <header className={styles.appHeader}>
             <nav className={styles.appHeaderMenu}>
-                <a href="/" className="pr-5 pt-4 pb-4">
-                    <BurgerIcon type="secondary" />
+                <NavLink exact={true} to="/" className="pr-5 pt-4 pb-4 text_color_inactive" activeClassName={styles.activeMenuItem}>
+                    <BurgerIcon type={iconConstructorType} />
                     <span className="text text_type_main-small pl-2">Конструктор</span>
-                </a>
-                <a href="/feed" className="pl-5 pr-5 pt-4 pb-4">
-                    <ListIcon type="secondary" />
+                </NavLink>
+                <NavLink exact={true} to="/feed" className="pl-5 pr-5 pt-4 pb-4 text_color_inactive" activeClassName={styles.activeMenuItem}>
+                    <ListIcon type={iconFeedType} />
                     <span className="text text_type_main-small pl-2">Лента заказов</span>
-                </a>
+                </NavLink>
             </nav>
-            <Logo />
+            <Link to="/"><Logo /></Link>
             <nav className={styles.appHeaderPersonal}>
-                <a href="/profile" className="pl-5 pt-4 pb-4">
-                    <ProfileIcon type="secondary" />
+                <NavLink exact={true} to="/profile" className="pl-5 pt-4 pb-4 text_color_inactive" activeClassName={styles.activeMenuItem}>
+                    <ProfileIcon type={iconProfileType} />
                     <span className="text text_type_main-small pl-2">Личный кабинет</span>
-                </a>
+                </NavLink>
             </nav>
         </header>
     );

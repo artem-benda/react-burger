@@ -1,9 +1,25 @@
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import styles from "./ingredient-details.module.css";
-import { ingredientPropType } from "../../utils/prop-types";
 import IngredientFoodValue from "../ingredient-food-value/ingredient-food-value";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchIngredients } from "../../services/actions/burger";
 
-function IngredientDetails({ ingredient }) {
+function IngredientDetails() {
+    const { id } = useParams();
+    const dispatch = useDispatch();
+    const availableIngredients = useSelector(store => store.burger.availableIngredients);
+    const ingredient = useMemo(() => availableIngredients.filter(ingredient => ingredient._id === id).shift(), [id, availableIngredients]);
+    useEffect(() => {
+        if (!ingredient) {
+            dispatch(fetchIngredients());
+        }
+    }, [dispatch, ingredient]);
+
+    if (!ingredient) {
+        return null;
+    }
+
     return (
         <article className={styles.detailsContainer}>
             <div className="pl-4 pr-4 pb-4">
@@ -20,10 +36,6 @@ function IngredientDetails({ ingredient }) {
             </div>
         </article>
     );
-}
-
-IngredientDetails.propTypes = {
-    ingredient: ingredientPropType.isRequired
 }
 
 export default IngredientDetails
