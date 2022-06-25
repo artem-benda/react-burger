@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useCallback } from "react";
 import { register } from "../../services/actions/auth";
 import { useForm } from "../../hooks/use-form";
+import styles from './register-page.module.css';
 
 function RegisterPage(props) {
     const { form, onChange } = useForm({ email: '', password: '', name: '' });
@@ -11,7 +12,7 @@ function RegisterPage(props) {
     const dispatch = useDispatch();
     const { registerRequest, registerFailed } = useSelector(store => store.auth);
 
-    const onRegisterClick = useCallback(
+    const onSubmit = useCallback(
         e => {
           e.preventDefault();
           dispatch(register(form.email, form.password, form.name));
@@ -23,10 +24,12 @@ function RegisterPage(props) {
         <main className="app-page contents">
             <section className="block-center slim-container">
                 <p className="text text_type_main-medium pt-10">Регистрация</p>
-                <div className="mt-6"><Input placeholder="Имя" value={form.name} name={'name'} onChange={onChange} /></div>
-                <div className="mt-6"><Input placeholder="E-mail" value={form.email} name={'email'} onChange={onChange} /></div>
-                <div className="mt-6"><Input placeholder="Пароль" icon={"ShowIcon"} value={form.password} name={'password'} onChange={onChange} /></div>
-                <div className="mt-6"><Button onClick={onRegisterClick}>Зарегистрироваться</Button></div>
+                <form onSubmit={onSubmit} className={styles.form}>
+                    <div className="mt-6"><Input placeholder="Имя" value={form.name} name={'name'} onChange={onChange} /></div>
+                    <div className="mt-6"><Input placeholder="E-mail" value={form.email} name={'email'} onChange={onChange} /></div>
+                    <div className="mt-6"><Input placeholder="Пароль" icon={"ShowIcon"} value={form.password} name={'password'} onChange={onChange} /></div>
+                    <div className="mt-6"><Button htmlType="submit">Зарегистрироваться</Button></div>
+                </form>
                 { registerFailed &&
                     <p className="text text_type_main-default pt-6 text-centered text-danger">
                         Не удалось зарегистрироваться. Проверьте правильность ввода.

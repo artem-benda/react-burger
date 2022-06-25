@@ -52,7 +52,7 @@ const api = axios.create({
          !!localRefreshToken &&
          err.response) {
        // Access Token was expired
-       if (err.response.status === 403 && !originalConfig._retry) {
+       if ((err.response.status === 403) && !originalConfig._retry) {
          originalConfig._retry = true;
  
          try {

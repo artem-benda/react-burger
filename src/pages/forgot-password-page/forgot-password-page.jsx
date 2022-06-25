@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useCallback, useEffect } from "react";
 import { sendPasswordResetCode } from "../../services/actions/auth";
 import { useForm } from "../../hooks/use-form";
+import styles from './forgot-password-page.module.css'
 
 function ForgotPasswordPage(props) {
     const { form, onChange } = useForm({ email: '' });
@@ -13,7 +14,7 @@ function ForgotPasswordPage(props) {
     const dispatch = useDispatch();
     const { sendResetPasswordCodeRequest, sendResetPasswordCodeSuccess, sendResetPasswordCodeFailed } = useSelector(store => store.auth);
 
-    const onSendResetCodeClick = useCallback(
+    const onSubmit = useCallback(
         e => {
           e.preventDefault();
           dispatch(sendPasswordResetCode(form.email));
@@ -31,8 +32,10 @@ function ForgotPasswordPage(props) {
         <main className="app-page contents">
             <section className="block-center slim-container">
                 <p className="text text_type_main-medium pt-10">Восстановление пароля</p>
-                <div className="mt-6"><Input placeholder="Укажите E-mail" value={form.email} name={'email'} onChange={onChange} /></div>
-                <div className="mt-6"><Button onClick={onSendResetCodeClick}>Восстановить</Button></div>
+                <form onSubmit={onSubmit} className={styles.form}>
+                    <div className="mt-6"><Input placeholder="Укажите E-mail" value={form.email} name={'email'} onChange={onChange} /></div>
+                    <div className="mt-6"><Button htmlType="submit">Восстановить</Button></div>
+                </form>
                 { sendResetPasswordCodeFailed &&
                     <p className="text text_type_main-default pt-6 text-centered text-danger">
                         Не удалось отправить код. Проверьте правильность ввода Email.

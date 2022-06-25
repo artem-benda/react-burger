@@ -13,7 +13,7 @@ function ProfilePage() {
     const dispatch = useDispatch();
     const { editUserRequest, editUserFailed } = useSelector(store => store.auth);
 
-    const onEditUserClick = useCallback(
+    const onSubmit = useCallback(
         e => {
             e.preventDefault();
             dispatch(editUser(form));
@@ -42,19 +42,21 @@ function ProfilePage() {
                     <p className="text text_type_main-small pt-20 pb-2 text_color_inactive">В этом разделе вы можете изменить свои персональные данные</p>
                 </article>
                 <article className={styles.profileContentsColumn}>
-                    <div className="mt-6"><Input placeholder="Имя" icon={"EditIcon"} value={form.name} name={'name'} onChange={onChange} /></div>
-                    <div className="mt-6"><Input placeholder="E-mail" icon={"EditIcon"} value={form.email} name={'email'} onChange={onChange} type='email' /></div>
-                    <div className="mt-6"><Input placeholder="Пароль" icon={"EditIcon"} value={form.password} name={'password'} onChange={onChange} type='password' /></div>
-                    { isDataModified &&
-                        <div className={styles.buttonsContainer + " mt-6"}>
-                            <Button type="primary" size="medium" onClick={onCancelClick} className="mr-4">
-                                Отмена
-                            </Button>
-                            <Button type="primary" size="medium" onClick={onEditUserClick}>
-                                Сохранить
-                            </Button>
-                        </div>
-                    }
+                    <form onSubmit={onSubmit} className={styles.profileForm}>
+                        <div className="mt-6"><Input placeholder="Имя" icon={"EditIcon"} value={form.name} name={'name'} onChange={onChange} /></div>
+                        <div className="mt-6"><Input placeholder="E-mail" icon={"EditIcon"} value={form.email} name={'email'} onChange={onChange} type='email' /></div>
+                        <div className="mt-6"><Input placeholder="Пароль" icon={"EditIcon"} value={form.password} name={'password'} onChange={onChange} type='password' /></div>
+                        { isDataModified &&
+                            <div className={styles.buttonsContainer + " mt-6"}>
+                                <Button type="primary" size="medium" onClick={onCancelClick} className="mr-4">
+                                    Отмена
+                                </Button>
+                                <Button type="primary" size="medium" htmlType="submit">
+                                    Сохранить
+                                </Button>
+                            </div>
+                        }
+                    </form>
                     { editUserFailed &&
                         <p className="text text_type_main-default pt-6 text-centered text-danger">
                             Не удалось изменить данные пользователя. Проверьте корректность введенных значений.
