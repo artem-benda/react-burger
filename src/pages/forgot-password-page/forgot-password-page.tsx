@@ -1,23 +1,35 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, SyntheticEvent } from "react";
 import { sendPasswordResetCode } from "../../services/actions/auth";
 import { useForm } from "../../hooks/use-form";
-import styles from './forgot-password-page.module.css'
+import styles from './forgot-password-page.module.css';
 
-function ForgotPasswordPage(props) {
-    const { form, onChange } = useForm({ email: '' });
+interface ISendResetCodeRequestState {
+    sendResetPasswordCodeRequest: boolean;
+    sendResetPasswordCodeSuccess: boolean;
+    sendResetPasswordCodeFailed: boolean;
+}
+
+interface IForgotPasswordForm {
+    email: string;
+}
+
+function ForgotPasswordPage() {
+    const { form, onChange } = useForm<IForgotPasswordForm>({ email: '' });
     const history = useHistory();
     const location = useLocation();
 
     const dispatch = useDispatch();
-    const { sendResetPasswordCodeRequest, sendResetPasswordCodeSuccess, sendResetPasswordCodeFailed } = useSelector(store => store.auth);
+    // TODO типизировать REDUX в 5 спринте. Временно используем any.
+    const { sendResetPasswordCodeRequest, sendResetPasswordCodeSuccess, sendResetPasswordCodeFailed }: ISendResetCodeRequestState = useSelector(store => (store as any).auth);
 
     const onSubmit = useCallback(
-        e => {
+        (e: SyntheticEvent) => {
           e.preventDefault();
-          dispatch(sendPasswordResetCode(form.email));
+          // TODO типизировать REDUX THUNK в 5 спринте. Временно используем any.
+          dispatch(sendPasswordResetCode(form.email) as any);
         },
         [dispatch, form]
       );

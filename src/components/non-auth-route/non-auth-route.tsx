@@ -1,13 +1,14 @@
 import { getUserFailed, getUserSuccess } from '../../services/actions/auth';
-import { Redirect, Route, useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { Redirect, Route, useLocation, RouteProps } from 'react-router-dom';
+import { FC, ReactNode, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getUser } from '../../utils/data';
+import { ILocationState } from '../../utils/types';
 
-export function NonAuthRoute({ children, ...rest }) {
+export const NonAuthRoute: FC<RouteProps> = ({ children, ...rest }: RouteProps) => {
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(true);
-  const location = useLocation();
+  const [loading, setLoading] = useState<boolean>(true);
+  const location = useLocation<ILocationState>();
 
   const init = async () => {
     await getUser()
@@ -26,7 +27,8 @@ export function NonAuthRoute({ children, ...rest }) {
     // eslint-disable-next-line
   }, []);
 
-  const user = useSelector(store => store.auth.user);
+  // TODO типизировать REDUX в 5 спринте. Временно используем any.
+  const user = useSelector(store => (store as any).auth.user);
 
   if (loading) {
     return null;
@@ -35,7 +37,7 @@ export function NonAuthRoute({ children, ...rest }) {
   return (
     <Route
       {...rest}
-      render={() =>
+      render={(): ReactNode =>
         user ? (
           <Redirect
             to={{
@@ -44,7 +46,7 @@ export function NonAuthRoute({ children, ...rest }) {
             push={false}
           />
         ) : (
-          children
+          children as ReactNode
         )
       }
     />

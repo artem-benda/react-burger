@@ -12,12 +12,17 @@ import NotFoundPage from '../pages/not-found-page/not-found-page';
 import ProfilePage from '../pages/profile-page/profile-page';
 import RegisterPage from '../pages/register-page/register-page';
 import ResetPasswordPage from '../pages/reset-password-page/reset-password-page';
+import { Location } from "history";
+
+interface BackgroundLocationState {
+  background: Location
+}
 
 function App() {
-  const location = useLocation();
+  const location = useLocation<BackgroundLocationState>();
   const background = location.state && location.state.background;
   const history = useHistory();
-  const goBack = e => {
+  const goBack = (): void => {
     history.goBack();
   };
   return (

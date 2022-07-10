@@ -1,17 +1,17 @@
 class TokenService {
-  getLocalRefreshToken() {
+  getLocalRefreshToken(): string | null {
     return localStorage.getItem("refreshToken");
   }
 
-  getLocalAccessToken() {
+  getLocalAccessToken(): string | null {
     return localStorage.getItem("accessToken");
   }
 
-  updateLocalAccessToken(token) {
+  updateLocalAccessToken(token: string) {
     localStorage.setItem("accessToken", token);
   }
 
-  updateLocalRefreshToken(token) {
+  updateLocalRefreshToken(token: string) {
     localStorage.setItem("refreshToken", token);
   }
 

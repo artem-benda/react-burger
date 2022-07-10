@@ -1,22 +1,43 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useCallback } from "react";
+import { useCallback, SyntheticEvent } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { useForm } from "../../hooks/use-form";
 import { editUser, logout } from "../../services/actions/auth";
 import styles from "./profile-page.module.css";
 
-function ProfilePage() {
-    const user = useSelector(store => store.auth.user);
-    const { form, onChange, setValues } = useForm({ name: '', email: '', password: '', ...user });
+// Fix ошибки ts для компонентов yandex
+declare module 'react' {
+    interface FunctionComponent<P = {}> {
+        (props: PropsWithChildren<P>, context?: any): ReactElement<any, any> | null;
+    }
+}
 
+interface IEditUserRequestState {
+    editUserRequest: boolean;
+    editUserFailed: boolean;
+}
+
+interface IProfileForm {
+    name: string;
+    email: string;
+    password: string;
+}
+
+function ProfilePage() {
     const dispatch = useDispatch();
-    const { editUserRequest, editUserFailed } = useSelector(store => store.auth);
+
+    // TODO типизировать REDUX в 5 спринте. Временно используем any.
+    const user = useSelector(store => (store as any).auth.user);
+    const { editUserRequest, editUserFailed }: IEditUserRequestState = useSelector(store => (store as any).auth);
+
+    const { form, onChange, setValues } = useForm<IProfileForm>({ name: '', email: '', password: '', ...user });
 
     const onSubmit = useCallback(
-        e => {
+        (e: SyntheticEvent) => {
             e.preventDefault();
-            dispatch(editUser(form));
+            // TODO типизировать REDUX THUNK в 5 спринте. Временно используем any.
+            dispatch(editUser(form) as any);
         },
         [dispatch, form]
     );
@@ -25,9 +46,10 @@ function ProfilePage() {
         setValues({ name: '', email: '', password: '', ...user })
     }
 
-    const onLogoutClick = (e) => {
+    const onLogoutClick = (e: SyntheticEvent) => {
         e.preventDefault();
-        dispatch(logout())
+        // TODO типизировать REDUX THUNK в 5 спринте. Временно используем any.
+        dispatch(logout() as any)
     }
 
     const isDataModified = form.name !== user.name || form.email !== user.email;
@@ -48,7 +70,7 @@ function ProfilePage() {
                         <div className="mt-6"><Input placeholder="Пароль" icon={"EditIcon"} value={form.password} name={'password'} onChange={onChange} type='password' /></div>
                         { isDataModified &&
                             <div className={styles.buttonsContainer + " mt-6"}>
-                                <Button type="primary" size="medium" onClick={onCancelClick} className="mr-4">
+                                <Button type="primary" size="medium" onClick={onCancelClick}>
                                     Отмена
                                 </Button>
                                 <Button type="primary" size="medium" htmlType="submit">

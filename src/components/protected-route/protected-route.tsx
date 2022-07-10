@@ -1,13 +1,14 @@
-import { Redirect, Route } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { Redirect, Route, RouteProps } from 'react-router-dom';
+import { FC, ReactNode, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getUser } from '../../utils/data';
 import { getUserFailed, getUserSuccess } from '../../services/actions/auth';
 
-export function ProtectedRoute({ children, ...rest }) {
-  const user = useSelector(store => store.auth.user);
+export const ProtectedRoute: FC<RouteProps> = ({ children, ...rest }: RouteProps) => {
+  // TODO типизировать REDUX в 5 спринте. Временно используем any.
+  const user = useSelector(store => (store as any).auth.user);
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const init = async () => {
     await getUser()
@@ -33,9 +34,9 @@ export function ProtectedRoute({ children, ...rest }) {
   return (
     <Route
       {...rest}
-      render={({ location }) =>
+      render={({ location }): ReactNode =>
         user ? (
-          children
+          children as ReactNode
         ) : (
           <Redirect
             to={{

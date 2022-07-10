@@ -1,21 +1,33 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { useCallback } from "react";
+import { useCallback, SyntheticEvent } from "react";
 import { login } from "../../services/actions/auth";
 import { useForm } from "../../hooks/use-form";
 import styles from './login-page.module.css';
 
+interface ILoginRequestState {
+    loginRequest: boolean;
+    loginFailed: boolean;
+}
+
+interface ILoginForm {
+    email: string;
+    password: string;
+}
+
 function LoginPage() {
-    const { form, onChange } = useForm({ email: '', password: ''});
+    const { form, onChange } = useForm<ILoginForm>({ email: '', password: ''});
 
     const dispatch = useDispatch();
-    const { loginRequest, loginFailed } = useSelector(store => store.auth);
+    // TODO типизировать REDUX в 5 спринте. Временно используем any.
+    const { loginRequest, loginFailed }: ILoginRequestState = useSelector(store => (store as any).auth);
 
     const onSubmit = useCallback(
-        e => {
+        (e: SyntheticEvent) => {
           e.preventDefault();
-          dispatch(login(form.email, form.password));
+          // TODO типизировать REDUX THUNK в 5 спринте. Временно используем any.
+          dispatch(login(form.email, form.password) as any);
         },
         [dispatch, form]
       );

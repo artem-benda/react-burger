@@ -1,5 +1,5 @@
 import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useEffect, useMemo } from 'react';
+import { SyntheticEvent, useEffect, useMemo } from 'react';
 import styles from './burger-constructor.module.css';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
@@ -10,18 +10,28 @@ import DraggableConstructorIngredient from '../draggable-constructor-ingredient/
 import { useHistory, useLocation } from 'react-router-dom';
 import { getUser } from '../../utils/data';
 import { getUserFailed, getUserSuccess } from '../../services/actions/auth';
+import { IIngredient, IOrderableIngredient, TDraggedObject } from '../../utils/types';
+
+// Fix ошибки ts для компонентов yandex
+declare module 'react' {
+    interface FunctionComponent<P = {}> {
+        (props: PropsWithChildren<P>, context?: any): ReactElement<any, any> | null;
+    }
+}
 
 function BurgerConstructor() {
     const history = useHistory();
     const location = useLocation();
-    const availableIngredients = useSelector(store => store.burger.availableIngredients);
 
-    const bunIngredient = useSelector(store => store.burger.constructorBunIngredient);
-    const fillingIngredients = useSelector(store => store.burger.constructorFillingIngredients);
-    const { placeOrderRequest, placeOrderFailed } = useSelector(store => store.burger);
-    const user = useSelector(store => store.auth.user);
+    // TODO типизировать REDUX в 5 спринте. Временно используем any.
+    const availableIngredients: Array<IIngredient> = useSelector(store => (store as any).burger.availableIngredients);
+    const bunIngredient: IIngredient = useSelector(store => (store as any).burger.constructorBunIngredient);
+    const fillingIngredients: Array<IOrderableIngredient> = useSelector(store => (store as any).burger.constructorFillingIngredients);
+    const { placeOrderRequest, placeOrderFailed } = useSelector(store => (store as any).burger);
+    const user = useSelector(store => (store as any).auth.user);
+    const orderDetails = useSelector(store => (store as any).burger.orderDetails);
 
-    const totalAmount = useMemo(() => fillingIngredients.map(ingredient => ingredient.price).reduce((a, b) => a + b, 0) +
+    const totalAmount = useMemo<number>(() => fillingIngredients.map(ingredient => ingredient.price).reduce((a, b) => a + b, 0) +
         ( (bunIngredient && bunIngredient.price) || 0) * 2, [bunIngredient, fillingIngredients]);
 
     const dispatch = useDispatch();
@@ -41,29 +51,29 @@ function BurgerConstructor() {
         // eslint-disable-next-line
       }, []);
 
-    const createOrder = (e) => {
+    const createOrder = (e: SyntheticEvent) => {
         e.preventDefault();
         e.stopPropagation();
         if (user) {
-            dispatch(placeOrder());
+            // TODO типизировать REDUX THUNK в 5 спринте. Временно используем any.
+            dispatch(placeOrder() as any);
         } else {
             history.replace({ pathname: '/login', state: { from: location.pathname }});
         }
     }
-
-    const orderDetails = useSelector(store => store.burger.orderDetails);
+    
     const hideOrderDetails = () => {
         dispatch(hideOrderDetailsAction());
     }
 
-    const onDropIngredient = (itemId) => {
+    const onDropIngredient = (itemId: string) => {
         const item = availableIngredients.filter(ingredient => ingredient._id === itemId).shift();
         dispatch(addIngredientToConstructor(item));
     }
 
     const [, dropTarget] = useDrop({
         accept: 'availableIngredient',
-        drop(item) {
+        drop(item: TDraggedObject) {
             onDropIngredient(item.id);
         }
     });
@@ -84,7 +94,7 @@ function BurgerConstructor() {
             </article>
             { fillingIngredients.length > 0 ? 
                 <article className={styles.scrollableContent + ' custom-scroll pr-2'}>
-                    { fillingIngredients.map((ingredient) => (
+                    { fillingIngredients.map((ingredient: IOrderableIngredient) => (
                         <DraggableConstructorIngredient ingredient={ingredient} key={ingredient.generatedId} />
                     ))}
                 </article> :
@@ -127,4 +137,4 @@ function BurgerConstructor() {
     );
 }
 
-export default BurgerConstructor
+export default BurgerConstructor;

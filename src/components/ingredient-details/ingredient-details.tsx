@@ -4,15 +4,22 @@ import IngredientFoodValue from "../ingredient-food-value/ingredient-food-value"
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchIngredients } from "../../services/actions/burger";
+import { IIngredient } from "../../utils/types";
+
+interface IIngredientParams {
+    id: string
+}
 
 function IngredientDetails() {
-    const { id } = useParams();
+    const { id } = useParams<IIngredientParams>();
     const dispatch = useDispatch();
-    const availableIngredients = useSelector(store => store.burger.availableIngredients);
+    // TODO типизировать REDUX в 5 спринте. Временно используем any.
+    const availableIngredients: Array<IIngredient> = useSelector(store => (store as any).burger.availableIngredients);
     const ingredient = useMemo(() => availableIngredients.filter(ingredient => ingredient._id === id).shift(), [id, availableIngredients]);
     useEffect(() => {
         if (!ingredient) {
-            dispatch(fetchIngredients());
+            // TODO типизировать REDUX THUNK в 5 спринте. Временно используем any.
+            dispatch(fetchIngredients() as any);
         }
     }, [dispatch, ingredient]);
 
@@ -38,4 +45,4 @@ function IngredientDetails() {
     );
 }
 
-export default IngredientDetails
+export default IngredientDetails;

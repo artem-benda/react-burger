@@ -1,13 +1,19 @@
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './burger-ingredient.module.css'
-import { ingredientPropType } from "../../utils/prop-types"
 import { useSelector } from 'react-redux';
 import { useDrag } from "react-dnd";
 import { Link, useLocation } from "react-router-dom";
+import { IIngredient } from "../../utils/types";
+import { FC } from "react";
 
-function BurgerIngredient({ ingredient }) {
-    const constructorBunIngredient = useSelector(store => store.burger.constructorBunIngredient);
-    const constructorFillingIngredients = useSelector(store => store.burger.constructorFillingIngredients);
+interface IBurgerIngredientProps {
+    ingredient: IIngredient
+}
+
+const BurgerIngredient: FC<IBurgerIngredientProps> = ({ ingredient }) => {
+    // TODO типизировать REDUX в 5 спринте. Временно используем any.
+    const constructorBunIngredient: IIngredient = useSelector(store => (store as any).burger.constructorBunIngredient);
+    const constructorFillingIngredients: Array<IIngredient> = useSelector(store => (store as any).burger.constructorFillingIngredients);
     const location = useLocation();
 
     const ingredientsCount = ingredient.type === 'bun' ? (
@@ -46,10 +52,6 @@ function BurgerIngredient({ ingredient }) {
         </article>
         
     );
-}
-
-BurgerIngredient.propTypes = {
-    ingredient: ingredientPropType
 }
 
 export default BurgerIngredient;
