@@ -76,7 +76,7 @@ api.interceptors.response.use(
            .then(responseEntity => checkSuccess<IAuthenticateResponse>(responseEntity));
  
            const { accessToken } = rs;
-           TokenService.updateLocalAccessToken(accessToken);
+           TokenService.updateLocalAccessToken(accessToken.split('Bearer ')[1]);
  
            return api(originalConfig);
          } catch (_error) {
