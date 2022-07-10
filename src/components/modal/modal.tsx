@@ -1,16 +1,21 @@
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useEffect } from "react";
+import { FC, ReactNode, SyntheticEvent, useEffect } from "react";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import styles from './modal.module.css';
-import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 
-const modalRoot = document.getElementById('modal-root');
+const modalRoot = document.getElementById('modal-root')!;
 
-function Modal({ onDismiss, title, children }) {
+interface IModalProps {
+    title?: string;
+    onDismiss: () => void;
+    children: ReactNode
+}
+
+const Modal: FC<IModalProps> = ({ onDismiss, title, children }) => {
 
     useEffect(() =>{
-        const escKeyboardHandler = event => {      
+        const escKeyboardHandler = (event: KeyboardEvent) => {      
             if (event.key === 'Escape') {
               event.preventDefault();
               onDismiss();
@@ -22,7 +27,7 @@ function Modal({ onDismiss, title, children }) {
           };
     }, [onDismiss])
 
-    const onCloseAction = (event) => {
+    const onCloseAction = (event: SyntheticEvent) => {
         event.stopPropagation();
         event.preventDefault();
         onDismiss();
@@ -45,12 +50,6 @@ function Modal({ onDismiss, title, children }) {
             </>,
             modalRoot
         );
-}
-
-Modal.propTypes = {
-    onDismiss: PropTypes.func.isRequired,
-    title: PropTypes.string,
-    children: PropTypes.element.isRequired
 }
 
 export default Modal;

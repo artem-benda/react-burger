@@ -1,11 +1,12 @@
 import { BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, NavLink, useRouteMatch } from 'react-router-dom';
+import { TIconType } from '../../utils/types';
 import styles from './app-header.module.css';
 
 export default function AppHeader() {
-    const iconConstructorType = !!useRouteMatch({ path: '/', exact: true}) ? 'primary' : 'secondary';
-    const iconFeedType = !!useRouteMatch('/feed') ? 'primary' : 'secondary';
-    const iconProfileType = !!useRouteMatch('/profile') ? 'primary' : 'secondary';
+    const iconConstructorType: TIconType = !!useRouteMatch({ path: '/', exact: true}) ? 'primary' : 'secondary';
+    const iconFeedType: TIconType = !!useRouteMatch('/feed') ? 'primary' : 'secondary';
+    const iconProfileType: TIconType = !!useRouteMatch('/profile') ? 'primary' : 'secondary';
 
     return (
         <header className={styles.appHeader}>

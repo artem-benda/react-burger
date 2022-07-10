@@ -1,18 +1,32 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, SyntheticEvent } from "react";
 import { resetPassword } from "../../services/actions/auth";
 import { useForm } from "../../hooks/use-form";
 import styles from './reset-password-page.module.css';
+import { ILocationState } from "../../utils/types";
 
-function ResetPasswordPage(props) {
-    const { form, onChange } = useForm({ password: '', token: '' });
+interface IResetPasswordForm {
+    password: string;
+    token: string;
+}
+
+interface IResetPasswordRequestState {
+    resetPasswordCodeRequest: boolean;
+    resetPasswordSuccess: boolean;
+    resetPasswordCodeFailed: boolean;
+    sendResetPasswordCodeSuccess: boolean;
+}
+
+function ResetPasswordPage() {
+    const { form, onChange } = useForm<IResetPasswordForm>({ password: '', token: '' });
     const history = useHistory();
-    const location = useLocation();
-
+    const location = useLocation<ILocationState>();
     const dispatch = useDispatch();
-    const { resetPasswordCodeRequest, resetPasswordSuccess, resetPasswordCodeFailed, sendResetPasswordCodeSuccess } = useSelector(store => store.auth);
+
+    // TODO типизировать REDUX в 5 спринте. Временно используем any.
+    const { resetPasswordCodeRequest, resetPasswordSuccess, resetPasswordCodeFailed, sendResetPasswordCodeSuccess }: IResetPasswordRequestState = useSelector(store => (store as any).auth);
 
     useEffect(() => {
     if (location.state?.from !== '/forgot-password' || !sendResetPasswordCodeSuccess ) {
@@ -20,9 +34,10 @@ function ResetPasswordPage(props) {
     }}, [sendResetPasswordCodeSuccess, history, location]);
 
     const onSubmit = useCallback(
-        e => {
+        (e: SyntheticEvent) => {
           e.preventDefault();
-          dispatch(resetPassword(form.password, form.token));
+          // TODO типизировать REDUX THUNK в 5 спринте. Временно используем any.
+          dispatch(resetPassword(form.password, form.token) as any);
         },
         [dispatch, form]
       );

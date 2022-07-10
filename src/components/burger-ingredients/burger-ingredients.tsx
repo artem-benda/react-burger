@@ -4,35 +4,42 @@ import BurgerIngredient from '../burger-ingredient/burger-ingredient';
 import styles from './burger-ingredients.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { switchTab } from "../../services/actions/burger";
+import { IIngredient, TIngredientType } from '../../utils/types';
 
 function BurgerIngredients() {
+    // TODO типизировать REDUX в 5 спринте. Временно используем any.
+    const ingredients: Array<IIngredient> = useSelector(store => (store as any).burger.availableIngredients);
+    const currentTab = useSelector(store => (store as any).burger.currentTab);
 
-    const ingredients = useSelector(store => store.burger.availableIngredients);
-
-    const filterIngredientsByType = (ingredients, type) => ingredients.filter(ingredient => ingredient.type === type);
+    const filterIngredientsByType = (ingredients: Array<IIngredient>, type: TIngredientType): Array<IIngredient> => ingredients.filter(ingredient => ingredient.type === type);
     const bunIngredients = filterIngredientsByType(ingredients, 'bun');
     const sauceIngredients = filterIngredientsByType(ingredients, 'sauce');
     const mainIngredients = filterIngredientsByType(ingredients, 'main');
 
     const dispatch = useDispatch();
 
-    const bunTitleRef = useRef(null);
-    const sauceTitleRef = useRef(null);
-    const mainTitleRef = useRef(null);
-
-    const currentTab = useSelector(store => store.burger.currentTab);
-    const setCurrentTab = (tab) => {
+    const bunTitleRef = useRef<HTMLParagraphElement>(null);
+    const sauceTitleRef = useRef<HTMLParagraphElement>(null);
+    const mainTitleRef = useRef<HTMLParagraphElement>(null);
+    
+    const setCurrentTab = (tab: string) => {
         switch(tab) {
             case 'bun': {
-                bunTitleRef.current.scrollIntoView({ behavior: 'smooth' });
+                if (bunTitleRef.current !== null) {
+                    bunTitleRef.current.scrollIntoView({ behavior: 'smooth' });
+                }
                 break;
             }
             case 'sauce': {
-                sauceTitleRef.current.scrollIntoView({ behavior: 'smooth' });
+                if (sauceTitleRef.current !== null) {
+                    sauceTitleRef.current.scrollIntoView({ behavior: 'smooth' });
+                }
                 break;
             }
             case 'main': {
-                mainTitleRef.current.scrollIntoView({ behavior: 'smooth' });
+                if (mainTitleRef.current !== null) {
+                    mainTitleRef.current.scrollIntoView({ behavior: 'smooth' });
+                }
                 break;
             }
             default: {}
@@ -43,7 +50,10 @@ function BurgerIngredients() {
         }
     }
 
-    const onScroll = (e) => {
+    const onScroll = () => {
+        if (bunTitleRef.current === null || sauceTitleRef.current === null || mainTitleRef.current === null) {
+            return;
+        }
         const bunTitleDistance = Math.abs(bunTitleRef.current.getBoundingClientRect().top);
         const sauceTitleDistance = Math.abs(sauceTitleRef.current.getBoundingClientRect().top);
         const mainTitleDistance = Math.abs(mainTitleRef.current.getBoundingClientRect().top);
@@ -54,7 +64,6 @@ function BurgerIngredients() {
         if (currentTab !== calculatedTab) {
             dispatch(switchTab(calculatedTab));
         }
-
     }
 
     return (

@@ -1,16 +1,22 @@
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './draggable-constructor-ingredient.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { ingredientPropType } from "../../utils/prop-types";
 import { moveIngredientInConstructor, removeIngredientFromConstructor } from '../../services/actions/burger';
 import { useDrag, useDrop } from 'react-dnd';
+import { IOrderableIngredient, TReorderingObject } from '../../utils/types';
+import { FC } from 'react';
 
-function DraggableConstructorIngredient({ ingredient }) {
+interface IDraggableConstructorIngredientProps {
+    ingredient: IOrderableIngredient
+}
+
+const DraggableConstructorIngredient: FC<IDraggableConstructorIngredientProps> = ({ ingredient }) => {
 
     const dispatch = useDispatch();
-    const fillingIngredients = useSelector(store => store.burger.constructorFillingIngredients);
+    // TODO типизировать REDUX в 5 спринте. Временно используем any.
+    const fillingIngredients: Array<IOrderableIngredient> = useSelector(store => (store as any).burger.constructorFillingIngredients);
 
-    const onRemoveIngredient = (generatedId) => {
+    const onRemoveIngredient = (generatedId: string) => {
         dispatch(removeIngredientFromConstructor(generatedId));
     }
 
@@ -22,14 +28,18 @@ function DraggableConstructorIngredient({ ingredient }) {
         })
     });
 
-    const onDropIngredient = (generatedId) => {
-        const droppedIngredient = fillingIngredients.filter(searchedIngredient => searchedIngredient.generatedId === generatedId).shift();
+    const onDropIngredient = (generatedId: string) => {
+        const droppedIngredient: IOrderableIngredient | undefined = fillingIngredients.filter(searchedIngredient => searchedIngredient.generatedId === generatedId).shift();
+        if (!droppedIngredient) {
+            return;
+        }
+
         dispatch(moveIngredientInConstructor(ingredient.generatedId, droppedIngredient));
     }
 
     const [ { isOver }, dropTarget] = useDrop({
         accept: 'reorderableIngredient',
-        drop(item) {
+        drop(item: TReorderingObject) {
             onDropIngredient(item.generatedId);
         },
         collect: monitor => ({
@@ -37,7 +47,7 @@ function DraggableConstructorIngredient({ ingredient }) {
         })
     });
 
-    function attachRef(el) {
+    function attachRef(el: HTMLDivElement) {
         dropTarget(el);
         dragRef(el);
     }
@@ -53,10 +63,6 @@ function DraggableConstructorIngredient({ ingredient }) {
             />
         </div>
     );
-}
-
-DraggableConstructorIngredient.propTypes = {
-    ingredient: ingredientPropType.isRequired
 }
 
 export default DraggableConstructorIngredient;
