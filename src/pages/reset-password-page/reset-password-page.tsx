@@ -2,7 +2,7 @@ import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-component
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback, useEffect, SyntheticEvent } from "react";
-import { resetPassword } from "../../services/actions/auth";
+import { resetPasswordThunk } from "../../services/actions/auth";
 import { useForm } from "../../hooks/use-form";
 import styles from './reset-password-page.module.css';
 import { ILocationState } from "../../utils/types";
@@ -37,7 +37,7 @@ function ResetPasswordPage() {
         (e: SyntheticEvent) => {
           e.preventDefault();
           // TODO типизировать REDUX THUNK в 5 спринте. Временно используем any.
-          dispatch(resetPassword(form.password, form.token) as any);
+          dispatch(resetPasswordThunk(form.password, form.token) as any);
         },
         [dispatch, form]
       );

@@ -2,7 +2,7 @@ import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-component
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback, useEffect, SyntheticEvent } from "react";
-import { sendPasswordResetCode } from "../../services/actions/auth";
+import { sendPasswordResetCodeThunk } from "../../services/actions/auth";
 import { useForm } from "../../hooks/use-form";
 import styles from './forgot-password-page.module.css';
 
@@ -29,7 +29,7 @@ function ForgotPasswordPage() {
         (e: SyntheticEvent) => {
           e.preventDefault();
           // TODO типизировать REDUX THUNK в 5 спринте. Временно используем any.
-          dispatch(sendPasswordResetCode(form.email) as any);
+          dispatch(sendPasswordResetCodeThunk(form.email) as any);
         },
         [dispatch, form]
       );

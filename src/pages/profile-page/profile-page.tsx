@@ -3,7 +3,7 @@ import { useCallback, SyntheticEvent } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { useForm } from "../../hooks/use-form";
-import { editUser, logout } from "../../services/actions/auth";
+import { editUserThunk, logoutThunk } from "../../services/actions/auth";
 import styles from "./profile-page.module.css";
 
 // Fix ошибки ts для компонентов yandex
@@ -37,7 +37,7 @@ function ProfilePage() {
         (e: SyntheticEvent) => {
             e.preventDefault();
             // TODO типизировать REDUX THUNK в 5 спринте. Временно используем any.
-            dispatch(editUser(form) as any);
+            dispatch(editUserThunk(form) as any);
         },
         [dispatch, form]
     );
@@ -49,7 +49,7 @@ function ProfilePage() {
     const onLogoutClick = (e: SyntheticEvent) => {
         e.preventDefault();
         // TODO типизировать REDUX THUNK в 5 спринте. Временно используем any.
-        dispatch(logout() as any)
+        dispatch(logoutThunk() as any)
     }
 
     const isDataModified = form.name !== user.name || form.email !== user.email;

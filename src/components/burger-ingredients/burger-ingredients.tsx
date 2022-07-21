@@ -1,5 +1,5 @@
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import BurgerIngredient from '../burger-ingredient/burger-ingredient';
 import styles from './burger-ingredients.module.css';
 import { useSelector, useDispatch } from 'react-redux';
@@ -23,6 +23,9 @@ function BurgerIngredients() {
     const mainTitleRef = useRef<HTMLParagraphElement>(null);
     
     const setCurrentTab = (tab: string) => {
+        if (!['bun', 'sauce', 'main'].includes(tab))
+            return;
+
         switch(tab) {
             case 'bun': {
                 if (bunTitleRef.current !== null) {
@@ -46,7 +49,7 @@ function BurgerIngredients() {
         }
 
         if (currentTab !== tab) {
-            dispatch(switchTab(tab));
+            dispatch(switchTab(tab as TIngredientType));
         }
     }
 

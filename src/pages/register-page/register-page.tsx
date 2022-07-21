@@ -2,7 +2,7 @@ import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-component
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback, SyntheticEvent } from "react";
-import { register } from "../../services/actions/auth";
+import { registerThunk } from "../../services/actions/auth";
 import { useForm } from "../../hooks/use-form";
 import styles from './register-page.module.css';
 
@@ -28,7 +28,7 @@ function RegisterPage() {
         (e: SyntheticEvent) => {
           e.preventDefault();
           // TODO типизировать REDUX THUNK в 5 спринте. Временно используем any.
-          dispatch(register(form.email, form.password, form.name) as any);
+          dispatch(registerThunk(form.email, form.password, form.name) as any);
         },
         [dispatch, form]
       );

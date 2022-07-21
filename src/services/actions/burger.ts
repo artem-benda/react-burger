@@ -1,13 +1,26 @@
 import { getIngredients, placeOrder as createOrder } from "../../utils/data";
+import { IIngredient, IOrderableIngredient, TIngredientType } from '../../utils/types';
 
-export const GET_BURGER_INGREDIENTS_REQUEST = "GET_BURGER_INGREDIENTS_REQUEST";
-export const GET_BURGER_INGREDIENTS_SUCCESS = "GET_BURGER_INGREDIENTS_SUCCESS";
-export const GET_BURGER_INGREDIENTS_FAILED = "GET_BURGER_INGREDIENTS_FAILED";
+import {
+    SHOW_INGREDIENT_DETAILS,
+    HIDE_INGREDIENT_DETAILS,
+    HIDE_ORDER_DETAILS,
+    SWITCH_TAB,
+    ADD_INGREDIENT_TO_CONSTRUCTOR,
+    REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
+    MOVE_INGREDIENT_IN_CONSTRUCTOR,
+    GET_BURGER_INGREDIENTS_REQUEST,
+    GET_BURGER_INGREDIENTS_SUCCESS,
+    GET_BURGER_INGREDIENTS_FAILED,
+    PLACE_ORDER_REQUEST,
+    PLACE_ORDER_SUCCESS,
+    PLACE_ORDER_FAILED
+} from '../constants/burger';
+import { AppDispatch } from "../types";
+import { IShowIngredientDetailsAction } from "../types/burger";
+import { RootState } from '../types/index';
 
-export const SHOW_INGREDIENT_DETAILS = "SHOW_INGREDIENT_DETAILS";
-export const HIDE_INGREDIENT_DETAILS = "HIDE_INGREDIENT_DETAILS";
-
-export function showIngredientDetails(ingredient) {
+export function showIngredientDetails(ingredient: IIngredient): IShowIngredientDetailsAction {
     return {type: SHOW_INGREDIENT_DETAILS, payload: ingredient};
 }
 
@@ -15,42 +28,29 @@ export function hideIngredientDetails() {
     return {type: HIDE_INGREDIENT_DETAILS}
 }
 
-export const PLACE_ORDER_REQUEST = "PLACE_ORDER_REQUEST";
-export const PLACE_ORDER_SUCCESS = "PLACE_ORDER_SUCCESS";
-export const PLACE_ORDER_FAILED = "PLACE_ORDER_FAILED";
-
-export const SHOW_ORDER_DETAILS = "SHOW_ORDER_DETAILS";
-export const HIDE_ORDER_DETAILS = "HIDE_ORDER_DETAILS";
-
 export function hideOrderDetails() {
     return { type: HIDE_ORDER_DETAILS }
 }
 
-export const SWITCH_TAB = "SWITCH_TAB";
-
-export function switchTab(tab) {
+export function switchTab(tab: TIngredientType) {
     return { type: SWITCH_TAB, payload: tab }
 }
 
-export const ADD_INGREDIENT_TO_CONSTRUCTOR = "ADD_INGREDIENT_TO_CONSTRUCTOR";
-export const REMOVE_INGREDIENT_FROM_CONSTRUCTOR = "REMOVE_INGREDIENT_FROM_CONSTRUCTOR";
-export const MOVE_INGREDIENT_IN_CONSTRUCTOR = "MOVE_INGREDIENT_IN_CONSTRUCTOR";
-
-export function addIngredientToConstructor(ingredient) {
+export function addIngredientToConstructor(ingredient: IIngredient) {
     return {
         type: ADD_INGREDIENT_TO_CONSTRUCTOR,
         payload: ingredient
     }
 }
 
-export function removeIngredientFromConstructor(generatedId) {
+export function removeIngredientFromConstructor(generatedId: string) {
     return {
         type: REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
         payload: generatedId
     }
 }
 
-export function moveIngredientInConstructor(shiftedGeneratedId, droppedIngredient) {
+export function moveIngredientInConstructor(shiftedGeneratedId: string, droppedIngredient: IOrderableIngredient) {
     return {
         type: MOVE_INGREDIENT_IN_CONSTRUCTOR,
         payload: { 
@@ -60,8 +60,8 @@ export function moveIngredientInConstructor(shiftedGeneratedId, droppedIngredien
     }
 }
 
-export function fetchIngredients() {
-    return function(dispatch) {
+export function fetchIngredientsThunk() {
+    return function(dispatch: AppDispatch) {
         dispatch({ type: GET_BURGER_INGREDIENTS_REQUEST })
         getIngredients()
             .then(data => {
@@ -73,8 +73,8 @@ export function fetchIngredients() {
     }
 }
 
-export function placeOrder() {
-    return function(dispatch, getState) {
+export function placeOrderThunk() {
+    return function(dispatch: AppDispatch, getState: () => RootState) {
         const {
             constructorBunIngredient,
             constructorFillingIngredients

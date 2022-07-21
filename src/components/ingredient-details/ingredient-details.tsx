@@ -3,7 +3,7 @@ import styles from "./ingredient-details.module.css";
 import IngredientFoodValue from "../ingredient-food-value/ingredient-food-value";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchIngredients } from "../../services/actions/burger";
+import { fetchIngredientsThunk } from "../../services/actions/burger";
 import { IIngredient } from "../../utils/types";
 
 interface IIngredientParams {
@@ -19,7 +19,7 @@ function IngredientDetails() {
     useEffect(() => {
         if (!ingredient) {
             // TODO типизировать REDUX THUNK в 5 спринте. Временно используем any.
-            dispatch(fetchIngredients() as any);
+            dispatch(fetchIngredientsThunk() as any);
         }
     }, [dispatch, ingredient]);
 

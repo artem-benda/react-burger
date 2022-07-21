@@ -1,3 +1,4 @@
+import { IIngredient, IOrderableIngredient, TIngredientType } from "../../utils/types";
 import {
     GET_BURGER_INGREDIENTS_REQUEST,
     GET_BURGER_INGREDIENTS_SUCCESS,
@@ -12,9 +13,25 @@ import {
     ADD_INGREDIENT_TO_CONSTRUCTOR,
     REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
     MOVE_INGREDIENT_IN_CONSTRUCTOR
-} from "../actions/burger"
+} from "../constants/burger";
+import { TBurgerActionTypes, IOrder } from '../types/burger';
 
-const initialState = {
+interface IBurgerState {
+    availableIngredients: ReadonlyArray<IIngredient>;
+    currentTab: TIngredientType;
+    constructorBunIngredient: IIngredient | null;
+    constructorFillingIngredients: ReadonlyArray<IOrderableIngredient>;
+    ingredientDetails: IIngredient | null;
+    orderDetails: IOrder | null;
+
+    getIngredientsRequest: boolean;
+    getIngredientsFailed: boolean;
+
+    placeOrderRequest: boolean;
+    placeOrderFailed: boolean;
+}
+
+const initialState: IBurgerState = {
     availableIngredients: [],
     currentTab: 'bun',
     constructorBunIngredient: null,
@@ -29,7 +46,7 @@ const initialState = {
     placeOrderFailed: false
 };
 
-export const burgerReducer = (state = initialState, action) => {
+export const burgerReducer = (state: IBurgerState = initialState, action: TBurgerActionTypes): IBurgerState => {
     switch (action.type) {
         case GET_BURGER_INGREDIENTS_REQUEST: {
             return {
@@ -104,7 +121,7 @@ export const burgerReducer = (state = initialState, action) => {
         case ADD_INGREDIENT_TO_CONSTRUCTOR: {
             const ingredientWithGeneratedId = {
                 ...action.payload,
-                generatedId: new Date().valueOf()
+                generatedId: `${new Date().valueOf()}`
             }
             return {
                 ...state,

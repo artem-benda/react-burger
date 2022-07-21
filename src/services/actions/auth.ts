@@ -1,35 +1,34 @@
 import * as api from '../../utils/data';
+import { TUser } from '../../utils/types';
+import { IGetUserFailedAction, IGetUserSuccessAction } from '../types/auth';
+import { AppDispatch } from '../types/index';
 
-export const LOGIN_REQUEST = "LOGIN_REQUEST";
-export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
-export const LOGIN_FAILED = "LOGIN_FAILED";
+import {
+    LOGIN_REQUEST,
+    LOGIN_SUCCESS,
+    LOGIN_FAILED,
+    REGISTER_REQUEST,
+    REGISTER_SUCCESS,
+    REGISTER_FAILED,
+    LOGOUT_REQUEST,
+    LOGOUT_SUCCESS,
+    LOGOUT_FAILED,
+    GET_USER_REQUEST,
+    GET_USER_SUCCESS,
+    GET_USER_FAILED,
+    EDIT_USER_REQUEST,
+    EDIT_USER_SUCCESS,
+    EDIT_USER_FAILED,
+    SEND_RESET_PASSWORD_CODE_REQUEST,
+    SEND_RESET_PASSWORD_CODE_SUCCESS,
+    SEND_RESET_PASSWORD_CODE_FAILED,
+    RESET_PASSWORD_REQUEST,
+    RESET_PASSWORD_SUCCESS,
+    RESET_PASSWORD_FAILED
+} from '../constants/auth';
 
-export const REGISTER_REQUEST = "REGISTER_REQUEST";
-export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
-export const REGISTER_FAILED = "REGISTER_FAILED";
-
-export const LOGOUT_REQUEST = "LOGOUT_REQUEST";
-export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
-export const LOGOUT_FAILED = "LOGOUT_FAILED";
-
-export const SEND_RESET_PASSWORD_CODE_REQUEST = "SEND_RESET_PASSWORD_CODE_REQUEST";
-export const SEND_RESET_PASSWORD_CODE_SUCCESS = "SEND_RESET_PASSWORD_CODE_SUCCESS";
-export const SEND_RESET_PASSWORD_CODE_FAILED = "SEND_RESET_PASSWORD_CODE_FAILED";
-
-export const RESET_PASSWORD_REQUEST = "RESET_PASSWORD_REQUEST";
-export const RESET_PASSWORD_SUCCESS = "RESET_PASSWORD_SUCCESS";
-export const RESET_PASSWORD_FAILED = "RESET_PASSWORD_FAILED";
-
-export const GET_USER_REQUEST = "GET_USER_REQUEST";
-export const GET_USER_SUCCESS = "GET_USER_SUCCESS";
-export const GET_USER_FAILED = "GET_USER_FAILED";
-
-export const EDIT_USER_REQUEST = "EDIT_USER_REQUEST";
-export const EDIT_USER_SUCCESS = "EDIT_USER_SUCCESS";
-export const EDIT_USER_FAILED = "EDIT_USER_FAILED";
-
-export function login(email, password) {
-    return function(dispatch) {
+export function loginThunk(email: string, password: string) {
+    return function(dispatch: AppDispatch) {
         dispatch({ type: LOGIN_REQUEST })
         api.login(email, password)
             .then(data => {
@@ -41,8 +40,8 @@ export function login(email, password) {
     }
 }
 
-export function register(email, password, name) {
-    return function(dispatch) {
+export function registerThunk(email: string, password: string, name: string) {
+    return function(dispatch: AppDispatch) {
         dispatch({ type: REGISTER_REQUEST })
         api.register(email, password, name)
             .then(data => {
@@ -54,8 +53,8 @@ export function register(email, password, name) {
     }
 }
 
-export function logout() {
-    return function(dispatch) {
+export function logoutThunk() {
+    return function(dispatch: AppDispatch) {
         dispatch({ type: LOGOUT_REQUEST })
         api.logout()
             .then(() => {
@@ -67,12 +66,12 @@ export function logout() {
     }
 }
 
-export function getUser() {
-    return function(dispatch) {
+export function getUserThunk() {
+    return function(dispatch: AppDispatch) {
         dispatch({ type: GET_USER_REQUEST })
         api.getUser()
-            .then(data => {
-                dispatch({ type: GET_USER_SUCCESS, payload: data.user});
+            .then(user => {
+                dispatch({ type: GET_USER_SUCCESS, payload: user});
             })
             .catch(e => {
                 dispatch({ type: GET_USER_FAILED});
@@ -80,8 +79,8 @@ export function getUser() {
     }
 }
 
-export function editUser(editData) {
-    return function(dispatch) {
+export function editUserThunk(editData: api.TEditUserParams) {
+    return function(dispatch: AppDispatch) {
         dispatch({ type: EDIT_USER_REQUEST })
         api.editUser(editData)
             .then(data => {
@@ -93,8 +92,8 @@ export function editUser(editData) {
     }
 }
 
-export function sendPasswordResetCode(email) {
-    return function(dispatch) {
+export function sendPasswordResetCodeThunk(email: string) {
+    return function(dispatch: AppDispatch) {
         dispatch({ type: SEND_RESET_PASSWORD_CODE_REQUEST })
         api.sendPasswordResetCode(email)
             .then(data => {
@@ -106,8 +105,8 @@ export function sendPasswordResetCode(email) {
     }
 }
 
-export function resetPassword(password, token) {
-    return function(dispatch) {
+export function resetPasswordThunk(password: string, token: string) {
+    return function(dispatch: AppDispatch) {
         dispatch({ type: RESET_PASSWORD_REQUEST })
         api.resetPassword(password, token)
             .then(() => {
@@ -119,14 +118,14 @@ export function resetPassword(password, token) {
     }
 }
 
-export function getUserSuccess(payload) {
+export function getUserSuccess(payload: TUser): IGetUserSuccessAction {
     return {
         type: GET_USER_SUCCESS,
         payload
     }
 }
 
-export function getUserFailed() {
+export function getUserFailed(): IGetUserFailedAction {
     return {
         type: GET_USER_FAILED
     }

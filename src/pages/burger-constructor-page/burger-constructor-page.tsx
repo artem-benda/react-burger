@@ -3,7 +3,7 @@ import BurgerIngredients from '../../components/burger-ingredients/burger-ingred
 import BurgerConstructor from '../../components/burger-constructor/burger-constructor';
 import styles from './burger-constructor-page.module.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchIngredients } from '../../services/actions/burger';
+import { fetchIngredientsThunk } from '../../services/actions/burger';
 import { IIngredient } from '../../utils/types';
 
 function BurgerConstructorPage() {
@@ -16,7 +16,7 @@ function BurgerConstructorPage() {
 
   useEffect(() => {
     // TODO типизировать REDUX THUNK в 5 спринте. Временно используем any.
-    dispatch(fetchIngredients() as any);
+    dispatch(fetchIngredientsThunk() as any);
   }, [dispatch])
 
   return (

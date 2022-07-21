@@ -4,7 +4,7 @@ import styles from './burger-constructor.module.css';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import { useDispatch, useSelector } from 'react-redux';
-import { addIngredientToConstructor, hideOrderDetails as hideOrderDetailsAction, placeOrder } from '../../services/actions/burger';
+import { addIngredientToConstructor, hideOrderDetails as hideOrderDetailsAction, placeOrderThunk } from '../../services/actions/burger';
 import { useDrop } from 'react-dnd';
 import DraggableConstructorIngredient from '../draggable-constructor-ingredient/draggable-constructor-ingredient';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -56,7 +56,7 @@ function BurgerConstructor() {
         e.stopPropagation();
         if (user) {
             // TODO типизировать REDUX THUNK в 5 спринте. Временно используем any.
-            dispatch(placeOrder() as any);
+            dispatch(placeOrderThunk() as any);
         } else {
             history.replace({ pathname: '/login', state: { from: location.pathname }});
         }
@@ -68,7 +68,9 @@ function BurgerConstructor() {
 
     const onDropIngredient = (itemId: string) => {
         const item = availableIngredients.filter(ingredient => ingredient._id === itemId).shift();
-        dispatch(addIngredientToConstructor(item));
+        if (!!item) {
+            dispatch(addIngredientToConstructor(item));
+        }
     }
 
     const [, dropTarget] = useDrop({
@@ -130,7 +132,7 @@ function BurgerConstructor() {
             </article>
             { orderDetails &&
                 <Modal onDismiss={hideOrderDetails}>
-                    <OrderDetails orderDetails={orderDetails} />
+                    <OrderDetails order={orderDetails} />
                 </Modal>
             }
         </section>

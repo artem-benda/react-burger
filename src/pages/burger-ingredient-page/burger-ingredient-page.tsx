@@ -2,7 +2,7 @@ import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import IngredientDetails from "../../components/ingredient-details/ingredient-details";
-import { fetchIngredients } from "../../services/actions/burger";
+import { fetchIngredientsThunk } from "../../services/actions/burger";
 import { IIngredient } from "../../utils/types";
 import styles from "./burger-ingredient-page.module.css";
 
@@ -19,7 +19,7 @@ function BurgerIngredientPage() {
   useEffect(() => {
       if (!ingredient) {
           // TODO типизировать REDUX THUNK в 5 спринте. Временно используем any.
-          dispatch(fetchIngredients() as any);
+          dispatch(fetchIngredientsThunk() as any);
       }
   }, [dispatch, ingredient]);
 
