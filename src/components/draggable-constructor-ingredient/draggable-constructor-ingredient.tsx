@@ -1,10 +1,11 @@
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './draggable-constructor-ingredient.module.css';
-import { useDispatch, useSelector } from 'react-redux';
 import { moveIngredientInConstructor, removeIngredientFromConstructor } from '../../services/actions/burger';
 import { useDrag, useDrop } from 'react-dnd';
 import { IOrderableIngredient, TReorderingObject } from '../../utils/types';
 import { FC } from 'react';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { useAppSelector } from '../../hooks/use-app-selector';
 
 interface IDraggableConstructorIngredientProps {
     ingredient: IOrderableIngredient
@@ -12,9 +13,8 @@ interface IDraggableConstructorIngredientProps {
 
 const DraggableConstructorIngredient: FC<IDraggableConstructorIngredientProps> = ({ ingredient }) => {
 
-    const dispatch = useDispatch();
-    // TODO типизировать REDUX в 5 спринте. Временно используем any.
-    const fillingIngredients: Array<IOrderableIngredient> = useSelector(store => (store as any).burger.constructorFillingIngredients);
+    const dispatch = useAppDispatch();
+    const fillingIngredients: ReadonlyArray<IOrderableIngredient> = useAppSelector(store => store.burger.constructorFillingIngredients);
 
     const onRemoveIngredient = (generatedId: string) => {
         dispatch(removeIngredientFromConstructor(generatedId));

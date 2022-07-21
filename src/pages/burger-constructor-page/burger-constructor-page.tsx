@@ -2,21 +2,20 @@ import { useEffect } from 'react';
 import BurgerIngredients from '../../components/burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../../components/burger-constructor/burger-constructor';
 import styles from './burger-constructor-page.module.css';
-import { useSelector, useDispatch } from 'react-redux';
 import { fetchIngredientsThunk } from '../../services/actions/burger';
 import { IIngredient } from '../../utils/types';
+import { useAppSelector } from '../../hooks/use-app-selector';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
 
 function BurgerConstructorPage() {
-  // TODO типизировать REDUX в 5 спринте. Временно используем any.
-  const getIngredientsRequest: boolean = useSelector(store => (store as any).burger.getIngredientsRequest);
-  const getIngredientsFailed: boolean = useSelector(store => (store as any).burger.getIngredientsFailed);
-  const ingredients: Array<IIngredient> = useSelector(store => (store as any).burger.availableIngredients);
+  const getIngredientsRequest: boolean = useAppSelector(store => store.burger.getIngredientsRequest);
+  const getIngredientsFailed: boolean = useAppSelector(store => store.burger.getIngredientsFailed);
+  const ingredients: ReadonlyArray<IIngredient> = useAppSelector(store => store.burger.availableIngredients);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    // TODO типизировать REDUX THUNK в 5 спринте. Временно используем any.
-    dispatch(fetchIngredientsThunk() as any);
+    dispatch(fetchIngredientsThunk());
   }, [dispatch])
 
   return (

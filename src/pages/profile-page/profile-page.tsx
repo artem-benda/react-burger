@@ -1,7 +1,8 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useCallback, SyntheticEvent } from 'react';
-import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { useAppDispatch } from "../../hooks/use-app-dispatch";
+import { useAppSelector } from "../../hooks/use-app-selector";
 import { useForm } from "../../hooks/use-form";
 import { editUserThunk, logoutThunk } from "../../services/actions/auth";
 import styles from "./profile-page.module.css";
@@ -25,19 +26,17 @@ interface IProfileForm {
 }
 
 function ProfilePage() {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
-    // TODO типизировать REDUX в 5 спринте. Временно используем any.
-    const user = useSelector(store => (store as any).auth.user);
-    const { editUserRequest, editUserFailed }: IEditUserRequestState = useSelector(store => (store as any).auth);
+    const user = useAppSelector(store => store.auth.user);
+    const { editUserRequest, editUserFailed }: IEditUserRequestState = useAppSelector(store => store.auth);
 
     const { form, onChange, setValues } = useForm<IProfileForm>({ name: '', email: '', password: '', ...user });
 
     const onSubmit = useCallback(
         (e: SyntheticEvent) => {
             e.preventDefault();
-            // TODO типизировать REDUX THUNK в 5 спринте. Временно используем any.
-            dispatch(editUserThunk(form) as any);
+            dispatch(editUserThunk(form));
         },
         [dispatch, form]
     );
@@ -48,11 +47,10 @@ function ProfilePage() {
 
     const onLogoutClick = (e: SyntheticEvent) => {
         e.preventDefault();
-        // TODO типизировать REDUX THUNK в 5 спринте. Временно используем any.
-        dispatch(logoutThunk() as any)
+        dispatch(logoutThunk());
     }
 
-    const isDataModified = form.name !== user.name || form.email !== user.email;
+    const isDataModified = user !== null && (form.name !== user.name || form.email !== user.email);
 
     return(
         <main className="app-page contents mt-10">

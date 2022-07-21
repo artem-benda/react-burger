@@ -1,12 +1,13 @@
 import { getUserFailed, getUserSuccess } from '../../services/actions/auth';
 import { Redirect, Route, useLocation, RouteProps } from 'react-router-dom';
 import { FC, ReactNode, useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { getUser } from '../../utils/data';
 import { ILocationState } from '../../utils/types';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { useAppSelector } from '../../hooks/use-app-selector';
 
 export const NonAuthRoute: FC<RouteProps> = ({ children, ...rest }: RouteProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState<boolean>(true);
   const location = useLocation<ILocationState>();
 
@@ -27,8 +28,7 @@ export const NonAuthRoute: FC<RouteProps> = ({ children, ...rest }: RouteProps) 
     // eslint-disable-next-line
   }, []);
 
-  // TODO типизировать REDUX в 5 спринте. Временно используем any.
-  const user = useSelector(store => (store as any).auth.user);
+  const user = useAppSelector(store => store.auth.user);
 
   if (loading) {
     return null;
