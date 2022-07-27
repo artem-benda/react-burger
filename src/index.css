@@ -70,3 +70,7 @@ a:active {
 .text-danger {
   color: brown;
 }
+
+.pull-right {
+  float: right;
+}

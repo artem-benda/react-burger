@@ -1,0 +1,55 @@
+.burgerOrderCard {
+    composes: p-6 from global;
+    border-radius: 24px;
+}
+
+.ingredientsRow {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.ingredientIcons {
+    flex-grow: 1;
+    position: relative;
+}
+
+.ingredientIcon {
+    border-radius: 50%;
+    border-color: blueviolet;
+    border: solid 3px;
+    position: absolute;
+    left: -24px;
+}
+
+.ingredientIcon1 {
+    z-index: 6;
+}
+
+.ingredientIcon2 {
+    z-index: 5;
+}
+
+.ingredientIcon3 {
+    z-index: 4;
+}
+
+.ingredientIcon4 {
+    z-index: 3;
+}
+
+.ingredientIcon5 {
+    z-index: 2;
+}
+
+.ingredientIcon6 {
+    z-index: 1;
+}
+
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }

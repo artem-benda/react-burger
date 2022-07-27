@@ -95,18 +95,18 @@ export type TBurgerActionTypes =
     IPlaceOrderFailedAction;
 
 export interface IOwner extends TUser {
-    readonly createdAt: string;
-    readonly updatedAt: string;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export interface IOrder {
-    readonly ingredients: ReadonlyArray<IIngredient>;
-    readonly _id: string;
-    readonly owner: IOwner;
-    readonly status: string;
-    readonly name: string;
-    readonly createdAt: string;
-    readonly updatedAt: string;
-    readonly number: number;
-    readonly price: number; 
+    ingredients: Array<string>;
+    _id: string;
+    owner: IOwner;
+    status: "created" | "pending" | "done";
+    name: string;
+    createdAt: string;
+    updatedAt: string;
+    number: number;
+    price: number; 
 }

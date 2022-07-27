@@ -13,6 +13,7 @@ import ProfilePage from '../pages/profile-page/profile-page';
 import RegisterPage from '../pages/register-page/register-page';
 import ResetPasswordPage from '../pages/reset-password-page/reset-password-page';
 import { Location } from "history";
+import BurgerOrderDetails from '../components/burger-order-details/burger-order-details';
 
 interface BackgroundLocationState {
   background: Location
@@ -50,6 +51,18 @@ function App() {
         <Route path="/ingredients/:id" exact={true}>
           <BurgerIngredientPage />
         </Route>
+        <Route path="/feed" exact={true}>
+          <BurgerOrdersPage />
+        </Route>
+        <Route path="/feed/:id" exact={true}>
+          <BurgerOrderPage />
+        </Route>
+        <ProtectedRoute path="/profile/orders" exact={true}>
+          <PersonalOrdersPage />
+        </ProtectedRoute>
+        <ProtectedRoute path="/profile/orders/:id" exact={true}>
+          <PersonalOrderPage />
+        </ProtectedRoute>
         <Route>
           <NotFoundPage />
         </Route>
@@ -59,6 +72,22 @@ function App() {
         <Route path="/ingredients/:id">
           <Modal title="Детали ингредиента" onDismiss={goBack}>
             <IngredientDetails />
+          </Modal>
+        </Route>
+      }
+
+      { background && 
+        <Route path="/feed/:id">
+          <Modal title="Детали заказа" onDismiss={goBack}>
+            <BurgerOrderDetails />
+          </Modal>
+        </Route>
+      }
+
+      { background && 
+        <Route path="/profile/orders/:id">
+          <Modal title="Детали заказа" onDismiss={goBack}>
+            <BurgerOrderDetails />
           </Modal>
         </Route>
       }
