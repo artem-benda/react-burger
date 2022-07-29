@@ -13,6 +13,13 @@ import ProfilePage from '../pages/profile-page/profile-page';
 import RegisterPage from '../pages/register-page/register-page';
 import ResetPasswordPage from '../pages/reset-password-page/reset-password-page';
 import { Location } from "history";
+import BurgerOrderDetails from '../components/burger-order-details/burger-order-details';
+import BurgerOrderPage from '../pages/burger-order-page/burger-order-page';
+import PersonalOrderPage from '../pages/personal-order-page/personal-order-page';
+import BurgerOrdersPage from '../pages/burger-orders-page/burger-orders-page';
+import PersonalOrdersPage from '../pages/personal-orders-page/personal-orders-page';
+import PersonalOrderDetails from '../components/personal-order-details/personal-order-details';
+import ProfileFormPage from '../pages/profile-form-page/profile-form-page';
 
 interface BackgroundLocationState {
   background: Location
@@ -44,12 +51,28 @@ function App() {
         <NonAuthRoute path="/reset-password" exact={true}>
           <ResetPasswordPage />
         </NonAuthRoute>
+        <ProtectedRoute path="/profile/orders" exact={true}>
+          <ProfilePage>
+            <PersonalOrdersPage />
+          </ProfilePage>
+        </ProtectedRoute>
         <ProtectedRoute path="/profile" exact={true}>
-          <ProfilePage />
+          <ProfilePage>
+            <ProfileFormPage />
+          </ProfilePage>
         </ProtectedRoute>
         <Route path="/ingredients/:id" exact={true}>
           <BurgerIngredientPage />
         </Route>
+        <Route path="/feed" exact={true}>
+          <BurgerOrdersPage />
+        </Route>
+        <Route path="/feed/:id" exact={true}>
+          <BurgerOrderPage />
+        </Route>
+        <ProtectedRoute path="/profile/orders/:id" exact={true}>
+          <PersonalOrderPage />
+        </ProtectedRoute>
         <Route>
           <NotFoundPage />
         </Route>
@@ -59,6 +82,22 @@ function App() {
         <Route path="/ingredients/:id">
           <Modal title="Детали ингредиента" onDismiss={goBack}>
             <IngredientDetails />
+          </Modal>
+        </Route>
+      }
+
+      { background && 
+        <Route path="/feed/:id">
+          <Modal onDismiss={goBack}>
+            <BurgerOrderDetails />
+          </Modal>
+        </Route>
+      }
+
+      { background && 
+        <Route path="/profile/orders/:id">
+          <Modal onDismiss={goBack}>
+            <PersonalOrderDetails />
           </Modal>
         </Route>
       }

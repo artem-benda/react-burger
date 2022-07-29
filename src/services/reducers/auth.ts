@@ -1,3 +1,4 @@
+import { TUser } from "../../utils/types";
 import { 
     EDIT_USER_FAILED,
     EDIT_USER_REQUEST,
@@ -20,9 +21,37 @@ import {
     SEND_RESET_PASSWORD_CODE_FAILED,
     SEND_RESET_PASSWORD_CODE_REQUEST,
     SEND_RESET_PASSWORD_CODE_SUCCESS
-} from "../actions/auth";
+} from "../constants/auth";
+import { TAuthActionTypes } from "../types/auth";
 
-const initialState = {
+interface IAuthState {
+    user: TUser | null;
+
+    loginRequest: boolean;
+    loginFailed: boolean;
+
+    logoutRequest: boolean;
+    logoutFailed: boolean;
+
+    registerRequest: boolean;
+    registerFailed: boolean;
+
+    sendResetPasswordCodeRequest: boolean;
+    sendResetPasswordCodeSuccess: boolean;
+    sendResetPasswordCodeFailed: boolean;
+
+    resetPasswordRequest: boolean;
+    resetPasswordSuccess: boolean;
+    resetPasswordFailed: boolean;
+
+    getUserRequest: boolean;
+    getUserFailed: boolean;
+
+    editUserRequest: boolean;
+    editUserFailed: boolean;
+}
+
+const initialState: IAuthState = {
     user: null,
 
     loginRequest: false,
@@ -49,7 +78,7 @@ const initialState = {
     editUserFailed: false
 };
 
-export const authReducer = (state = initialState, action) => {
+export const authReducer = (state: IAuthState = initialState, action: TAuthActionTypes): IAuthState => {
     switch (action.type) {
         case LOGIN_REQUEST: {
             return {

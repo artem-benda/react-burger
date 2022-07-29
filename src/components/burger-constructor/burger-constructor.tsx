@@ -3,14 +3,15 @@ import { SyntheticEvent, useEffect, useMemo } from 'react';
 import styles from './burger-constructor.module.css';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
-import { useDispatch, useSelector } from 'react-redux';
-import { addIngredientToConstructor, hideOrderDetails as hideOrderDetailsAction, placeOrder } from '../../services/actions/burger';
+import { addIngredientToConstructor, hideOrderDetails as hideOrderDetailsAction, placeOrderThunk } from '../../services/actions/burger';
 import { useDrop } from 'react-dnd';
 import DraggableConstructorIngredient from '../draggable-constructor-ingredient/draggable-constructor-ingredient';
 import { useHistory, useLocation } from 'react-router-dom';
 import { getUser } from '../../utils/data';
 import { getUserFailed, getUserSuccess } from '../../services/actions/auth';
-import { IIngredient, IOrderableIngredient, TDraggedObject } from '../../utils/types';
+import { IOrderableIngredient, TDraggedObject } from '../../utils/types';
+import { useAppSelector } from '../../hooks/use-app-selector';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
 
 // Fix ошибки ts для компонентов yandex
 declare module 'react' {
@@ -23,18 +24,17 @@ function BurgerConstructor() {
     const history = useHistory();
     const location = useLocation();
 
-    // TODO типизировать REDUX в 5 спринте. Временно используем any.
-    const availableIngredients: Array<IIngredient> = useSelector(store => (store as any).burger.availableIngredients);
-    const bunIngredient: IIngredient = useSelector(store => (store as any).burger.constructorBunIngredient);
-    const fillingIngredients: Array<IOrderableIngredient> = useSelector(store => (store as any).burger.constructorFillingIngredients);
-    const { placeOrderRequest, placeOrderFailed } = useSelector(store => (store as any).burger);
-    const user = useSelector(store => (store as any).auth.user);
-    const orderDetails = useSelector(store => (store as any).burger.orderDetails);
+    const availableIngredients = useAppSelector(store => store.burger.availableIngredients);
+    const bunIngredient = useAppSelector(store => store.burger.constructorBunIngredient);
+    const fillingIngredients = useAppSelector(store => store.burger.constructorFillingIngredients);
+    const { placeOrderRequest, placeOrderFailed } = useAppSelector(store => store.burger);
+    const user = useAppSelector(store => store.auth.user);
+    const orderDetails = useAppSelector(store => store.burger.orderDetails);
 
     const totalAmount = useMemo<number>(() => fillingIngredients.map(ingredient => ingredient.price).reduce((a, b) => a + b, 0) +
         ( (bunIngredient && bunIngredient.price) || 0) * 2, [bunIngredient, fillingIngredients]);
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const init = async () => {
         await getUser()
@@ -55,8 +55,7 @@ function BurgerConstructor() {
         e.preventDefault();
         e.stopPropagation();
         if (user) {
-            // TODO типизировать REDUX THUNK в 5 спринте. Временно используем any.
-            dispatch(placeOrder() as any);
+            dispatch(placeOrderThunk());
         } else {
             history.replace({ pathname: '/login', state: { from: location.pathname }});
         }
@@ -68,7 +67,9 @@ function BurgerConstructor() {
 
     const onDropIngredient = (itemId: string) => {
         const item = availableIngredients.filter(ingredient => ingredient._id === itemId).shift();
-        dispatch(addIngredientToConstructor(item));
+        if (!!item) {
+            dispatch(addIngredientToConstructor(item));
+        }
     }
 
     const [, dropTarget] = useDrop({
@@ -130,7 +131,7 @@ function BurgerConstructor() {
             </article>
             { orderDetails &&
                 <Modal onDismiss={hideOrderDetails}>
-                    <OrderDetails orderDetails={orderDetails} />
+                    <OrderDetails order={orderDetails} />
                 </Modal>
             }
         </section>

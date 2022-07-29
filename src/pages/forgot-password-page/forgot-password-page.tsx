@@ -1,10 +1,11 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from "react-redux";
 import { useCallback, useEffect, SyntheticEvent } from "react";
-import { sendPasswordResetCode } from "../../services/actions/auth";
+import { sendPasswordResetCodeThunk } from "../../services/actions/auth";
 import { useForm } from "../../hooks/use-form";
 import styles from './forgot-password-page.module.css';
+import { useAppDispatch } from "../../hooks/use-app-dispatch";
+import { useAppSelector } from "../../hooks/use-app-selector";
 
 interface ISendResetCodeRequestState {
     sendResetPasswordCodeRequest: boolean;
@@ -21,15 +22,13 @@ function ForgotPasswordPage() {
     const history = useHistory();
     const location = useLocation();
 
-    const dispatch = useDispatch();
-    // TODO типизировать REDUX в 5 спринте. Временно используем any.
-    const { sendResetPasswordCodeRequest, sendResetPasswordCodeSuccess, sendResetPasswordCodeFailed }: ISendResetCodeRequestState = useSelector(store => (store as any).auth);
+    const dispatch = useAppDispatch();
+    const { sendResetPasswordCodeRequest, sendResetPasswordCodeSuccess, sendResetPasswordCodeFailed }: ISendResetCodeRequestState = useAppSelector(store => store.auth);
 
     const onSubmit = useCallback(
         (e: SyntheticEvent) => {
           e.preventDefault();
-          // TODO типизировать REDUX THUNK в 5 спринте. Временно используем any.
-          dispatch(sendPasswordResetCode(form.email) as any);
+          dispatch(sendPasswordResetCodeThunk(form.email));
         },
         [dispatch, form]
       );

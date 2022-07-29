@@ -1,43 +1,35 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from "react-redux";
 import { useCallback, useEffect, SyntheticEvent } from "react";
-import { resetPassword } from "../../services/actions/auth";
+import { resetPasswordThunk } from "../../services/actions/auth";
 import { useForm } from "../../hooks/use-form";
 import styles from './reset-password-page.module.css';
 import { ILocationState } from "../../utils/types";
+import { useAppDispatch } from "../../hooks/use-app-dispatch";
+import { useAppSelector } from "../../hooks/use-app-selector";
 
 interface IResetPasswordForm {
     password: string;
     token: string;
 }
 
-interface IResetPasswordRequestState {
-    resetPasswordCodeRequest: boolean;
-    resetPasswordSuccess: boolean;
-    resetPasswordCodeFailed: boolean;
-    sendResetPasswordCodeSuccess: boolean;
-}
-
 function ResetPasswordPage() {
     const { form, onChange } = useForm<IResetPasswordForm>({ password: '', token: '' });
     const history = useHistory();
     const location = useLocation<ILocationState>();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
-    // TODO типизировать REDUX в 5 спринте. Временно используем any.
-    const { resetPasswordCodeRequest, resetPasswordSuccess, resetPasswordCodeFailed, sendResetPasswordCodeSuccess }: IResetPasswordRequestState = useSelector(store => (store as any).auth);
+    const { resetPasswordRequest, resetPasswordSuccess, resetPasswordFailed, sendResetPasswordCodeSuccess } = useAppSelector(store => store.auth);
 
     useEffect(() => {
-    if (location.state?.from !== '/forgot-password' || !sendResetPasswordCodeSuccess ) {
-        history.replace({ pathname: '/forgot-password'});
+        if (location.state?.from !== '/forgot-password' || !sendResetPasswordCodeSuccess ) {
+            history.replace({ pathname: '/forgot-password'});
     }}, [sendResetPasswordCodeSuccess, history, location]);
 
     const onSubmit = useCallback(
         (e: SyntheticEvent) => {
           e.preventDefault();
-          // TODO типизировать REDUX THUNK в 5 спринте. Временно используем any.
-          dispatch(resetPassword(form.password, form.token) as any);
+          dispatch(resetPasswordThunk(form.password, form.token));
         },
         [dispatch, form]
       );
@@ -57,12 +49,12 @@ function ResetPasswordPage() {
                     <div className="mt-6"><Input placeholder="Введите код из письма" value={form.token} name={'token'} onChange={onChange} /></div>
                     <div className="mt-6"><Button htmlType="submit">Сохранить</Button></div>
                 </form>
-                { resetPasswordCodeFailed &&
+                { resetPasswordFailed &&
                     <p className="text text_type_main-default pt-6 text-centered text-danger">
                         Не удалось восстановить пароль. Проверьте правильность ввода кода.
                     </p>
                 }
-                { resetPasswordCodeRequest &&
+                { resetPasswordRequest &&
                     <p className="text text_type_main-default pt-6 text-centered">
                         Отправка запроса...
                     </p>

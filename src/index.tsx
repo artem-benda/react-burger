@@ -3,21 +3,11 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './app/app';
 import reportWebVitals from './reportWebVitals';
-
-import { rootReducer } from './services/reducers';
-import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
-
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import { BrowserRouter as Router } from 'react-router-dom';
-
-/* 
- * В соответствии с документацией configureStore подключает по умолчанию thunk и Redux Devtools
- * https://redux-toolkit.js.org/api/configureStore#basic-example
-*/
-const store = configureStore({ reducer: rootReducer});
-
+import { store } from './services/store';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

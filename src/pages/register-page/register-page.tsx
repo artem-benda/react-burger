@@ -1,10 +1,11 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from "react-redux";
 import { useCallback, SyntheticEvent } from "react";
-import { register } from "../../services/actions/auth";
+import { registerThunk } from "../../services/actions/auth";
 import { useForm } from "../../hooks/use-form";
 import styles from './register-page.module.css';
+import { useAppDispatch } from "../../hooks/use-app-dispatch";
+import { useAppSelector } from "../../hooks/use-app-selector";
 
 interface IRegisterRequestState {
     registerRequest: boolean;
@@ -19,16 +20,13 @@ interface IRegisterForm {
 
 function RegisterPage() {
     const { form, onChange } = useForm<IRegisterForm>({ email: '', password: '', name: '' });
-    const dispatch = useDispatch();
-
-    // TODO типизировать REDUX в 5 спринте. Временно используем any.
-    const { registerRequest, registerFailed }: IRegisterRequestState = useSelector(store => (store as any).auth);
+    const dispatch = useAppDispatch();
+    const { registerRequest, registerFailed }: IRegisterRequestState = useAppSelector(store => store.auth);
 
     const onSubmit = useCallback(
         (e: SyntheticEvent) => {
           e.preventDefault();
-          // TODO типизировать REDUX THUNK в 5 спринте. Временно используем any.
-          dispatch(register(form.email, form.password, form.name) as any);
+          dispatch(registerThunk(form.email, form.password, form.name));
         },
         [dispatch, form]
       );

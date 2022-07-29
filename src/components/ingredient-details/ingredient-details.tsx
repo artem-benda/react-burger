@@ -1,10 +1,11 @@
-import React, { useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import styles from "./ingredient-details.module.css";
 import IngredientFoodValue from "../ingredient-food-value/ingredient-food-value";
 import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchIngredients } from "../../services/actions/burger";
+import { fetchIngredientsThunk } from "../../services/actions/burger";
 import { IIngredient } from "../../utils/types";
+import { useAppDispatch } from "../../hooks/use-app-dispatch";
+import { useAppSelector } from "../../hooks/use-app-selector";
 
 interface IIngredientParams {
     id: string
@@ -12,14 +13,12 @@ interface IIngredientParams {
 
 function IngredientDetails() {
     const { id } = useParams<IIngredientParams>();
-    const dispatch = useDispatch();
-    // TODO типизировать REDUX в 5 спринте. Временно используем any.
-    const availableIngredients: Array<IIngredient> = useSelector(store => (store as any).burger.availableIngredients);
+    const dispatch = useAppDispatch();
+    const availableIngredients: ReadonlyArray<IIngredient> = useAppSelector(store => store.burger.availableIngredients);
     const ingredient = useMemo(() => availableIngredients.filter(ingredient => ingredient._id === id).shift(), [id, availableIngredients]);
     useEffect(() => {
         if (!ingredient) {
-            // TODO типизировать REDUX THUNK в 5 спринте. Временно используем any.
-            dispatch(fetchIngredients() as any);
+            dispatch(fetchIngredientsThunk());
         }
     }, [dispatch, ingredient]);
 

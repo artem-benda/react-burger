@@ -1,0 +1,23 @@
+.profileContentsColumn {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profileForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.buttonsContainer {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 100%;
+}
+
+.profileSideColumn {
+    width: 250px;
+}

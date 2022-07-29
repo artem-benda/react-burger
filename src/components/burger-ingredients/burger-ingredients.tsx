@@ -1,28 +1,31 @@
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import BurgerIngredient from '../burger-ingredient/burger-ingredient';
 import styles from './burger-ingredients.module.css';
-import { useSelector, useDispatch } from 'react-redux';
 import { switchTab } from "../../services/actions/burger";
 import { IIngredient, TIngredientType } from '../../utils/types';
+import { useAppSelector } from '../../hooks/use-app-selector';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
 
 function BurgerIngredients() {
-    // TODO типизировать REDUX в 5 спринте. Временно используем any.
-    const ingredients: Array<IIngredient> = useSelector(store => (store as any).burger.availableIngredients);
-    const currentTab = useSelector(store => (store as any).burger.currentTab);
+    const ingredients: ReadonlyArray<IIngredient> = useAppSelector(store => store.burger.availableIngredients);
+    const currentTab = useAppSelector(store => store.burger.currentTab);
 
-    const filterIngredientsByType = (ingredients: Array<IIngredient>, type: TIngredientType): Array<IIngredient> => ingredients.filter(ingredient => ingredient.type === type);
+    const filterIngredientsByType = (ingredients: ReadonlyArray<IIngredient>, type: TIngredientType): Array<IIngredient> => ingredients.filter(ingredient => ingredient.type === type);
     const bunIngredients = filterIngredientsByType(ingredients, 'bun');
     const sauceIngredients = filterIngredientsByType(ingredients, 'sauce');
     const mainIngredients = filterIngredientsByType(ingredients, 'main');
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const bunTitleRef = useRef<HTMLParagraphElement>(null);
     const sauceTitleRef = useRef<HTMLParagraphElement>(null);
     const mainTitleRef = useRef<HTMLParagraphElement>(null);
     
     const setCurrentTab = (tab: string) => {
+        if (!['bun', 'sauce', 'main'].includes(tab))
+            return;
+
         switch(tab) {
             case 'bun': {
                 if (bunTitleRef.current !== null) {
@@ -46,7 +49,7 @@ function BurgerIngredients() {
         }
 
         if (currentTab !== tab) {
-            dispatch(switchTab(tab));
+            dispatch(switchTab(tab as TIngredientType));
         }
     }
 

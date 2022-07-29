@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
+import { IOrder } from '../services/types/burger';
 import TokenService from './token';
 import { IIngredient, TUser } from './types';
 
@@ -44,9 +45,13 @@ api.interceptors.request.use(
   }
 );
 
-interface IAuthenticateResponse extends IBackendResponse {
+interface ITokenResponse extends IBackendResponse {
   refreshToken: string;
   accessToken: string;
+}
+
+interface IAuthenticateResponse extends ITokenResponse {
+  user: TUser;
 }
  
 api.interceptors.response.use(
@@ -69,11 +74,11 @@ api.interceptors.response.use(
          originalConfig._retry = true;
  
          try {
-           const rs = await api.post<IAuthenticateResponse>("auth/token", {
+           const rs = await api.post<ITokenResponse>("auth/token", {
              token: localRefreshToken,
            })
            .then(checkReponse)
-           .then(responseEntity => checkSuccess<IAuthenticateResponse>(responseEntity));
+           .then(responseEntity => checkSuccess<ITokenResponse>(responseEntity));
  
            const { accessToken } = rs;
            TokenService.updateLocalAccessToken(accessToken.split('Bearer ')[1]);
@@ -101,13 +106,15 @@ export function getIngredients(): Promise<Array<IIngredient>> {
 }
 
 interface IPlaceOrderResponse extends IBackendResponse {
-  order: { number: string };
+  order: IOrder;
+  name: string;
 }
 
-export function placeOrder(ingredients: Array<string>): Promise<IPlaceOrderResponse> {
+export function placeOrder(ingredients: Array<string>): Promise<IOrder> {
    return api.post<IPlaceOrderResponse>("orders", {ingredients})
       .then(checkReponse)
-      .then(responseEntity => checkSuccess<IPlaceOrderResponse>(responseEntity));
+      .then(responseEntity => checkSuccess<IPlaceOrderResponse>(responseEntity))
+      .then(data => data.order);
 }
 
 export function sendPasswordResetCode(email: string): Promise<IBackendResponse> {
@@ -169,9 +176,9 @@ export function getUser(): Promise<TUser> {
       .then(data => data.user);
 }
 
-type TEditUserParams = {
-  email?: string;
-  name?: string;
+export type TEditUserParams = {
+  email: string;
+  name: string;
   password?: string;
 }
 

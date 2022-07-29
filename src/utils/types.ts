@@ -30,3 +30,5 @@ export type TDraggedObject = { id: string };
 export type TReorderingObject = { generatedId: string };
 
 export type TUser = { email: string, name: string }
+
+export type TOrderStatus = "created" | "pending" | "done";
