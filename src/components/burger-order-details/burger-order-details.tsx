@@ -1,4 +1,4 @@
-import { FC, useMemo, useEffect } from 'react';
+import { useMemo, useEffect } from 'react';
 import styles from './burger-order-details.module.css';
 import { IOrder } from '../../services/types/burger';
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -8,6 +8,8 @@ import { useAppSelector } from "../../hooks/use-app-selector";
 import { allOrdersConnect, allOrdersDisonnect } from '../../services/actions/order';
 import { IIngredient } from '../../utils/types';
 import { fetchIngredientsThunk } from '../../services/actions/burger';
+import IngredientIcon from '../ingredient-icon/ingredient-icon';
+import { mapOrderStatus } from '../../utils/mapper';
 
 interface IBurgerOrderDetailsParams {
     id: string
@@ -21,9 +23,9 @@ function BurgerOrderDetails() {
     useEffect(() => {
         if (!order) {
             dispatch(allOrdersConnect());
-        }
-        return () => {
-            dispatch(allOrdersDisonnect());
+            return () => {
+                dispatch(allOrdersDisonnect());
+            }
         }
     }, [dispatch, order]);
 
@@ -35,6 +37,7 @@ function BurgerOrderDetails() {
     }, [dispatch, availableIngredients]);
 
     const ingredientsMap = useMemo(() => new Map(availableIngredients.map(obj => [obj._id, obj])), [availableIngredients]);
+    const orderPrice = useMemo(() => ingredientsMap.size > 0 && order && order.ingredients.reduce((acc, ingredient) => acc + ingredientsMap.get(ingredient)!.price, 0), [order, ingredientsMap]);
 
     if (availableIngredients.length === 0 || !order) {
         return null;
@@ -46,30 +49,31 @@ function BurgerOrderDetails() {
                 <span className="text text_type_main-default">#{order.number}</span>
             </p>
             <p className="text text_type_main-medium pt-10">{order.name}</p>
-            <p className="text text_type_main-default pt-3">order.status</p>
+            <p className="text text_type_main-default pt-3">{mapOrderStatus(order.status)}</p>
             <p className="text text_type_main-medium pt-15">Состав:</p>
             <div className={styles.orderContents + " pt-6"}>
-                { order.ingredients.map( ingredient => (
-                    <div className={styles.orderContentsItem + " pt-6"}>
-                        <div className={styles.orderContentsItemPrice}>
-                            <img 
-                                className={`${styles.ingredientIcon} pr-4`} 
-                                src={ingredientsMap.get(ingredient)!.image}
-                                alt={ingredientsMap.get(ingredient)!.name}
+                { order.ingredients.map( (ingredient, index) => (
+                    <div className={styles.orderContentsItem + " pt-6"} key={index}>
+                        <div>
+                            <IngredientIcon
+                                imageUrl={ingredientsMap.get(ingredient)!.image_mobile}
                                 />
-                            <span>{ingredientsMap.get(ingredient)!.name}</span>
                         </div>
-                        <div className="pr-6">
+                        <div className={styles.orderContentsItemName}>
+                            <span className='pl-4 text text_type_main-default pr-4'>{ingredientsMap.get(ingredient)!.name}</span>
+                        </div>
+                        <div>
                             <span className="text text_type_digits-medium pr-1">{ingredientsMap.get(ingredient)!.price}</span>
                             <CurrencyIcon type="primary" />
                         </div>
                     </div>
                 ))}
             </div>
-            <div className="">
-                <span className="text text_type_digits-default text_color_inactive pull-right">{order.createdAt}</span>
+            <div className={styles.orderContentsItem + " pt-6"}>
+            <span className="text text_type_digits-default text_color_inactive pull-right">{order.createdAt}</span>
+                <span className={styles.orderContentsItemName}></span>
                 <span className="pull-right">
-                    <span className="text text_type_digits-medium pr-1">{order.price}</span>
+                    <span className="text text_type_digits-medium pr-1">{orderPrice}</span>
                     <CurrencyIcon type="primary" />
                 </span>
             </div>

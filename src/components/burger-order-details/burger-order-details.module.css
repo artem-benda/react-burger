@@ -11,14 +11,17 @@
 .orderContents {
     flex-grow: 1;
     overflow-y: scroll;
+    max-height: 300px;
 }
 
 .orderContentsItem {
     display: flex;
     width: 100%;
+    flex-direction: row;
+    align-items: center;
 }
 
-.orderContentsItemPrice {
+.orderContentsItemName {
     flex-grow: 1;
 }
 

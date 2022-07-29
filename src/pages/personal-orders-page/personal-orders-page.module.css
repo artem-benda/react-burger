@@ -1,0 +1,21 @@
+.profileContentsColumn {
+    composes: pl-6 from global;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+
+.errorSection {
+    composes: contents from global;
+    border: solid red;
+}
+
+.infoSection {
+    composes: contents from global;
+}
+
+.appPageContents {
+    height: 100%;
+}

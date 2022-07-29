@@ -1,4 +1,4 @@
-import { IIngredient, IOrderableIngredient, TIngredientType, TUser } from '../../utils/types';
+import { IIngredient, IOrderableIngredient, TIngredientType, TOrderStatus, TUser } from '../../utils/types';
 
 import {
     SHOW_INGREDIENT_DETAILS,
@@ -103,7 +103,7 @@ export interface IOrder {
     ingredients: Array<string>;
     _id: string;
     owner: IOwner;
-    status: "created" | "pending" | "done";
+    status: TOrderStatus;
     name: string;
     createdAt: string;
     updatedAt: string;

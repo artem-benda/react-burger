@@ -22,17 +22,17 @@ export const createWsMiddleware = (wsUrl: string, wsActions: IWsActions, isNeedA
       const { payload } = action;
       const { wsConnect, wsSendMessage, onOpen, onClose, onError, onMessage } = wsActions;
       const user = getState().auth.user;
-      const token = TokenService.getLocalAccessToken
+      const token = TokenService.getLocalAccessToken()
       if (wsConnect.match(action) && (!isNeedAuth || (user && token))) {
         socket = new WebSocket(isNeedAuth ? `${wsUrl}?token=${token}` : wsUrl);
       }
       if (socket) {
         socket.onopen = event => {
-          dispatch({ type: onOpen, payload: event });
+          dispatch(onOpen());
         };
 
         socket.onerror = event => {
-          dispatch({ type: onError, payload: event });
+          dispatch(onError);
         };
 
         socket.onmessage = event => {
@@ -40,11 +40,11 @@ export const createWsMiddleware = (wsUrl: string, wsActions: IWsActions, isNeedA
           const parsedData = JSON.parse(data);
           const { success, ...restParsedData } = parsedData;
 
-          dispatch({ type: onMessage, payload: restParsedData });
+          dispatch(onMessage(restParsedData));
         };
 
         socket.onclose = event => {
-          dispatch({ type: onClose, payload: event });
+          dispatch(onClose());
         };
 
         if (wsSendMessage?.match(action) && (!isNeedAuth || (user && token))) {

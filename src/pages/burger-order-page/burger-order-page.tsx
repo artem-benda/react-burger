@@ -1,4 +1,4 @@
-import styles from "./burger-ingredient-page.module.css";
+import styles from "./burger-order-page.module.css";
 import BurgerOrderDetails from '../../components/burger-order-details/burger-order-details';
 
 function BurgerOrderPage() {

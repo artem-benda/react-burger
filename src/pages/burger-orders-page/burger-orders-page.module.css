@@ -1,0 +1,24 @@
+.appPageTitle {
+    composes: contents from global;
+}
+
+.appPageContents {
+    composes: contents from global;
+    composes: p-5 from global;
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 5px;
+    justify-items: center;
+    align-items: center;
+    height: 0;
+}
+
+.errorSection {
+    composes: contents from global;
+    border: solid red;
+}
+
+.infoSection {
+    composes: contents from global;
+}

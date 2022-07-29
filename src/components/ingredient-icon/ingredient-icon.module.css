@@ -1,0 +1,8 @@
+.ingredientIcon {
+    background-color: #1C1C21;
+    border-radius: 50%;
+    border: solid 3px blueviolet;
+    width: 64px;
+    height: 64px;
+    display: inline-block;
+  }

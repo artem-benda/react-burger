@@ -2,7 +2,7 @@
     composes: p-10 from global;
     border-radius: 40px;
     max-width: 90%;
-    z-index: 2;
+    z-index: 10;
     overflow: hidden;
     position: absolute;
     position: absolute;
