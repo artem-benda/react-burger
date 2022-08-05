@@ -25,7 +25,7 @@ function BurgerConstructorPage() {
         <section className={styles.errorSection + ' mt-10 pl-4 pr-4'}><p>Не удалось загрузить список ингредиентов, повторите попытку позже.</p></section>
       }
       { getIngredientsRequest &&
-        <section className={styles.infoSection}><p>Загружаем ингредиенты...</p></section>
+        <section className={`${styles.infoSection} loader`}><p>Загружаем ингредиенты...</p></section>
       }
       <section className={styles.appPageContents}>
       { ingredients.length > 0 &&

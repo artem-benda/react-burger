@@ -36,9 +36,9 @@ const Modal: FC<IModalProps> = ({ onDismiss, title, children }) => {
     return ReactDOM.createPortal(
         <>
             <ModalOverlay onClick={onCloseAction} />
-            <section className={styles.modal}>
+            <section className={`${styles.modal} modal-dialog`}>
                 <header className="pt-5 pl-10 pr-10">
-                    <span className={styles.closeButton + ' pl-5 pr-5 pt-7 pb-5'} onClick={onCloseAction} onMouseDown={onCloseAction}>
+                    <span className={styles.closeButton + ' pl-5 pr-5 pt-7 pb-5 modal-dialog-close-button'} onClick={onCloseAction} onMouseDown={onCloseAction}>
                         <CloseIcon type="primary" />
                     </span>
                     <p className="text text_type_main-large p-5">{title}</p>

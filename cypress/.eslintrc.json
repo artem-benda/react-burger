@@ -4,5 +4,8 @@
     ],
     "extends": [
         "plugin:cypress/recommended"
-    ]
+    ],
+	"globals": {
+		"cy": true
+	}
 }

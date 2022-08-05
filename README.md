@@ -1,3 +1,13 @@
+# This app is deployed [here](https://bendaai.students.nomoredomains.sbs)
+
+# Running Cypress tests
+Start the app locally using command `npm start`
+Open Cypress using command `npm run cypress`
+Choose e2e and then test suite `burger-constructor.cy.ts`
+
+# Running unit tests
+Run tests using command `npm test .`
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

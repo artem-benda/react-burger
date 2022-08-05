@@ -32,14 +32,14 @@ const BurgerIngredient: FC<IBurgerIngredientProps> = ({ ingredient }) => {
 
     return (
         
-        <article className={styles.container + ' pt-6 pb-10 pl-4 pr-4'} style={{opacity}} ref={ref}>
+        <article className={`${styles.container} pt-6 pb-10 pl-4 pr-4 ingredient-item-${ingredient.type}`} style={{opacity}} ref={ref}>
             <Link to={{
                 pathname: `/ingredients/${ingredient._id}`,
                 // This is the trick! This link sets
                 // the `background` in location state.
                 state: { background: location }
             }}>
-                <div className={styles.imageContainer}>
+                <div className={`${styles.imageContainer} ingredient-item`}>
                     <img src={ingredient.image_large} alt={ingredient.name} className={styles.ingredientImage} />
                     { ingredientsCount > 0 &&
                         <Counter count={ingredientsCount} />

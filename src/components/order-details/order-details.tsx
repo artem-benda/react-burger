@@ -9,7 +9,7 @@ interface IOrderDetailsProps {
 
 const OrderDetails: FC<IOrderDetailsProps> = ({ order }) => {
     return (
-        <article className={styles.orderDetailsContainer}>
+        <article className={`${styles.orderDetailsContainer} order-details-container`}>
             <p className="text text_type_digits-large pt-2 pl-5 pr-5">{order.number}</p>
             <p className="text text text_type_main-medium pt-8">идентификатор заказа</p>
             <img src={doneImage} alt="Заказ принят" className={styles.doneImage + ' pt-15'} />

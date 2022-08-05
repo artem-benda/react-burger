@@ -26,7 +26,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "cypress": "cypress open",
+    "deploy-yc": "npm run build && scp -r ./build/* bendaai@bendaai.students.nomoredomains.sbs:/home/bendaai/stellar-frontend"
   },
   "eslintConfig": {
     "extends": [

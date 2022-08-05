@@ -35,7 +35,7 @@ function LoginPage() {
         <main className="app-page contents">
             <section className="block-center slim-container">
                 <p className="text text_type_main-medium pt-10">Вход</p>
-                <form onSubmit={onSubmit} className={styles.loginForm}>
+                <form onSubmit={onSubmit} className={`${styles.loginForm} login-form`}>
                     <div className="mt-6"><Input placeholder="E-mail" value={form.email} name={'email'} onChange={onChange} /></div>
                     <div className="mt-6"><Input placeholder="Пароль" value={form.password} name={'password'} icon={"ShowIcon"} onChange={onChange} type={'password'} /></div>
                     <div className="mt-6"><Button htmlType="submit">Войти</Button></div>
@@ -46,7 +46,7 @@ function LoginPage() {
                     </p>
                 }
                 { loginRequest &&
-                    <p className="text text_type_main-default pt-6 text-centered">
+                    <p className="text text_type_main-default pt-6 text-centered loader">
                         Выполняется вход...
                     </p>
                 }

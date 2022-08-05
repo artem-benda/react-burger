@@ -80,7 +80,7 @@ function BurgerConstructor() {
     });
 
     return (
-        <section className={styles.container} ref={dropTarget}>
+        <section className={`${styles.container} burger-constructor-drop-zone`} ref={dropTarget}>
             <article className={styles.fixedContent + ' pr-3 pl-15'}>
                 { bunIngredient ?
                     <ConstructorElement
@@ -120,7 +120,7 @@ function BurgerConstructor() {
                     </p>
                 </article>
             }
-            <article className={styles.fixedContent + ' pt-10 pb-10 pr-4 pl-4 ' + styles.totals}>
+            <article className={styles.fixedContent + ' pt-10 pb-10 pr-4 pl-4 burger-constructor-totals-container ' + styles.totals}>
                 <span className="text text_type_digits-medium pr-1">{totalAmount}</span>
                 <CurrencyIcon type="primary" />
                 <span className="ml-4 mr-3">
