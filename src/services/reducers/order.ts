@@ -33,6 +33,7 @@ export const allOrdersReducer = createReducer(initialStateAll, (builder) => {
     state.connectingError = '';
   });
   builder.addCase(allOrdersWsError, (state, action) => {
+    state.isConnecting = false;
     state.connectingError = action.payload;
   });
   builder.addCase(allOrdersWsMessage, (state, action) => {
@@ -71,6 +72,7 @@ export const myOrdersReducer = createReducer(initialStateMy, (builder) => {
     state.connectingError = '';
   });
   builder.addCase(myOrdersWsError, (state, action) => {
+    state.isConnecting = false;
     state.connectingError = action.payload;
   });
   builder.addCase(myOrdersWsMessage, (state, action) => {
