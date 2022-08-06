@@ -27,7 +27,7 @@ function IngredientDetails() {
     }
 
     return (
-        <article className={styles.detailsContainer}>
+        <article className={`${styles.detailsContainer} burger-ingredient-details-container`}>
             <div className="pl-4 pr-4 pb-4">
                 <img src={ingredient.image_large} alt={ingredient.name} className={styles.ingredientImage} />
             </div>
