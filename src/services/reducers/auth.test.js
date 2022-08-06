@@ -1,179 +1,68 @@
 import { authReducer } from './auth';
 import * as types from '../constants/auth';
 
+const initialState = {
+    user: null,
+
+    loginRequest: false,
+    loginFailed: false,
+
+    logoutRequest: false,
+    logoutFailed: false,
+
+    registerRequest: false,
+    registerFailed: false,
+
+    sendResetPasswordCodeRequest: false,
+    sendResetPasswordCodeSuccess: false,
+    sendResetPasswordCodeFailed: false,
+
+    resetPasswordRequest: false,
+    resetPasswordSuccess: false,
+    resetPasswordFailed: false,
+
+    getUserRequest: false,
+    getUserFailed: false,
+
+    editUserRequest: false,
+    editUserFailed: false
+};
+
 describe('auth reducer', () => {
     it('should return the initial state', () => {
-        expect(authReducer(undefined, {})).toEqual({
-            user: null,
-        
-            loginRequest: false,
-            loginFailed: false,
-        
-            logoutRequest: false,
-            logoutFailed: false,
-        
-            registerRequest: false,
-            registerFailed: false,
-        
-            sendResetPasswordCodeRequest: false,
-            sendResetPasswordCodeSuccess: false,
-            sendResetPasswordCodeFailed: false,
-        
-            resetPasswordRequest: false,
-            resetPasswordSuccess: false,
-            resetPasswordFailed: false,
-        
-            getUserRequest: false,
-            getUserFailed: false,
-        
-            editUserRequest: false,
-            editUserFailed: false
-        });
+        expect(authReducer(undefined, {})).toEqual(initialState);
     });
 
     it('should handle LOGIN_REQUEST', () => {
         expect(
-            authReducer({
-                user: null,
-            
-                loginRequest: false,
-                loginFailed: false,
-            
-                logoutRequest: false,
-                logoutFailed: false,
-            
-                registerRequest: false,
-                registerFailed: false,
-            
-                sendResetPasswordCodeRequest: false,
-                sendResetPasswordCodeSuccess: false,
-                sendResetPasswordCodeFailed: false,
-            
-                resetPasswordRequest: false,
-                resetPasswordSuccess: false,
-                resetPasswordFailed: false,
-            
-                getUserRequest: false,
-                getUserFailed: false,
-            
-                editUserRequest: false,
-                editUserFailed: false
-            }, {
+            authReducer(initialState, {
             type: types.LOGIN_REQUEST
         })
         ).toEqual({
-            user: null,
-        
-            loginRequest: true,
-            loginFailed: false,
-        
-            logoutRequest: false,
-            logoutFailed: false,
-        
-            registerRequest: false,
-            registerFailed: false,
-        
-            sendResetPasswordCodeRequest: false,
-            sendResetPasswordCodeSuccess: false,
-            sendResetPasswordCodeFailed: false,
-        
-            resetPasswordRequest: false,
-            resetPasswordSuccess: false,
-            resetPasswordFailed: false,
-        
-            getUserRequest: false,
-            getUserFailed: false,
-        
-            editUserRequest: false,
-            editUserFailed: false
+            ...initialState,
+            loginRequest: true
         });
     });
 
     it('should handle LOGIN_FAILED', () => {
         expect(
             authReducer({
-                user: null,
-            
-                loginRequest: true,
-                loginFailed: false,
-            
-                logoutRequest: false,
-                logoutFailed: false,
-            
-                registerRequest: false,
-                registerFailed: false,
-            
-                sendResetPasswordCodeRequest: false,
-                sendResetPasswordCodeSuccess: false,
-                sendResetPasswordCodeFailed: false,
-            
-                resetPasswordRequest: false,
-                resetPasswordSuccess: false,
-                resetPasswordFailed: false,
-            
-                getUserRequest: false,
-                getUserFailed: false,
-            
-                editUserRequest: false,
-                editUserFailed: false
+                ...initialState,
+                loginRequest: true
             }, {
             type: types.LOGIN_FAILED
         })
         ).toEqual({
-            user: null,
-        
-            loginRequest: false,
-            loginFailed: true,
-        
-            logoutRequest: false,
-            logoutFailed: false,
-        
-            registerRequest: false,
-            registerFailed: false,
-        
-            sendResetPasswordCodeRequest: false,
-            sendResetPasswordCodeSuccess: false,
-            sendResetPasswordCodeFailed: false,
-        
-            resetPasswordRequest: false,
-            resetPasswordSuccess: false,
-            resetPasswordFailed: false,
-        
-            getUserRequest: false,
-            getUserFailed: false,
-        
-            editUserRequest: false,
-            editUserFailed: false
+            ...initialState,
+            loginFailed: true
         });
     });
 
     it('should handle LOGIN_SUCCESS', () => {
         expect(
             authReducer({
-                user: null,
-            
-                loginRequest: true,
-                loginFailed: false,
-            
-                logoutRequest: false,
-                logoutFailed: false,
-            
-                registerRequest: false,
-                registerFailed: false,
-            
-                sendResetPasswordCodeRequest: false,
-                sendResetPasswordCodeSuccess: false,
-                sendResetPasswordCodeFailed: false,
-            
-                resetPasswordRequest: false,
-                resetPasswordSuccess: false,
-                resetPasswordFailed: false,
-            
-                getUserRequest: false,
-                getUserFailed: false,
-            
-                editUserRequest: false,
-                editUserFailed: false
+                ...initialState,
+                loginRequest: true
             }, {
             type: types.LOGIN_SUCCESS,
             payload: {
@@ -182,310 +71,88 @@ describe('auth reducer', () => {
             }
         })
         ).toEqual({
+            ...initialState,
             user: {
                 name: 'test-name',
                 email: 'test-email'
-            },
-        
-            loginRequest: false,
-            loginFailed: false,
-        
-            logoutRequest: false,
-            logoutFailed: false,
-        
-            registerRequest: false,
-            registerFailed: false,
-        
-            sendResetPasswordCodeRequest: false,
-            sendResetPasswordCodeSuccess: false,
-            sendResetPasswordCodeFailed: false,
-        
-            resetPasswordRequest: false,
-            resetPasswordSuccess: false,
-            resetPasswordFailed: false,
-        
-            getUserRequest: false,
-            getUserFailed: false,
-        
-            editUserRequest: false,
-            editUserFailed: false
+            }
         });
     });
 
     it('should handle LOGOUT_REQUEST', () => {
         expect(
             authReducer({
+                ...initialState,
                 user: {
                     name: 'test-name',
                     email: 'test-email'
-                },
-            
-                loginRequest: false,
-                loginFailed: false,
-            
-                logoutRequest: false,
-                logoutFailed: false,
-            
-                registerRequest: false,
-                registerFailed: false,
-            
-                sendResetPasswordCodeRequest: false,
-                sendResetPasswordCodeSuccess: false,
-                sendResetPasswordCodeFailed: false,
-            
-                resetPasswordRequest: false,
-                resetPasswordSuccess: false,
-                resetPasswordFailed: false,
-            
-                getUserRequest: false,
-                getUserFailed: false,
-            
-                editUserRequest: false,
-                editUserFailed: false
+                }
             }, {
             type: types.LOGOUT_REQUEST
         })
         ).toEqual({
+            ...initialState,
             user: {
                 name: 'test-name',
                 email: 'test-email'
             },
-        
-            loginRequest: false,
-            loginFailed: false,
-        
-            logoutRequest: true,
-            logoutFailed: false,
-        
-            registerRequest: false,
-            registerFailed: false,
-        
-            sendResetPasswordCodeRequest: false,
-            sendResetPasswordCodeSuccess: false,
-            sendResetPasswordCodeFailed: false,
-        
-            resetPasswordRequest: false,
-            resetPasswordSuccess: false,
-            resetPasswordFailed: false,
-        
-            getUserRequest: false,
-            getUserFailed: false,
-        
-            editUserRequest: false,
-            editUserFailed: false
+            logoutRequest: true
         });
     });
 
     it('should handle LOGOUT_SUCCESS', () => {
         expect(
             authReducer({
+                ...initialState,
                 user: {
                     name: 'test-name',
                     email: 'test-email'
                 },
-            
-                loginRequest: false,
-                loginFailed: false,
-            
-                logoutRequest: true,
-                logoutFailed: false,
-            
-                registerRequest: false,
-                registerFailed: false,
-            
-                sendResetPasswordCodeRequest: false,
-                sendResetPasswordCodeSuccess: false,
-                sendResetPasswordCodeFailed: false,
-            
-                resetPasswordRequest: false,
-                resetPasswordSuccess: false,
-                resetPasswordFailed: false,
-            
-                getUserRequest: false,
-                getUserFailed: false,
-            
-                editUserRequest: false,
-                editUserFailed: false
+                logoutRequest: true
             }, {
             type: types.LOGOUT_SUCCESS
         })
-        ).toEqual({
-            user: null,
-        
-            loginRequest: false,
-            loginFailed: false,
-        
-            logoutRequest: false,
-            logoutFailed: false,
-        
-            registerRequest: false,
-            registerFailed: false,
-        
-            sendResetPasswordCodeRequest: false,
-            sendResetPasswordCodeSuccess: false,
-            sendResetPasswordCodeFailed: false,
-        
-            resetPasswordRequest: false,
-            resetPasswordSuccess: false,
-            resetPasswordFailed: false,
-        
-            getUserRequest: false,
-            getUserFailed: false,
-        
-            editUserRequest: false,
-            editUserFailed: false
-        });
+        ).toEqual(initialState);
     });
 
     it('should handle LOGOUT_FAILED', () => {
         expect(
             authReducer({
+                ...initialState,
                 user: {
                     name: 'test-name',
                     email: 'test-email'
                 },
-            
-                loginRequest: false,
-                loginFailed: false,
-            
-                logoutRequest: true,
-                logoutFailed: false,
-            
-                registerRequest: false,
-                registerFailed: false,
-            
-                sendResetPasswordCodeRequest: false,
-                sendResetPasswordCodeSuccess: false,
-                sendResetPasswordCodeFailed: false,
-            
-                resetPasswordRequest: false,
-                resetPasswordSuccess: false,
-                resetPasswordFailed: false,
-            
-                getUserRequest: false,
-                getUserFailed: false,
-            
-                editUserRequest: false,
-                editUserFailed: false
+                logoutRequest: true
             }, {
             type: types.LOGOUT_FAILED
         })
         ).toEqual({
+            ...initialState,
             user: {
                 name: 'test-name',
                 email: 'test-email'
             },
-        
-            loginRequest: false,
-            loginFailed: false,
-        
-            logoutRequest: false,
-            logoutFailed: true,
-        
-            registerRequest: false,
-            registerFailed: false,
-        
-            sendResetPasswordCodeRequest: false,
-            sendResetPasswordCodeSuccess: false,
-            sendResetPasswordCodeFailed: false,
-        
-            resetPasswordRequest: false,
-            resetPasswordSuccess: false,
-            resetPasswordFailed: false,
-        
-            getUserRequest: false,
-            getUserFailed: false,
-        
-            editUserRequest: false,
-            editUserFailed: false
+            logoutFailed: true
         });
     });
 
     it('should handle REGISTER_REQUEST', () => {
         expect(
-            authReducer({
-                user: null,
-            
-                loginRequest: false,
-                loginFailed: false,
-            
-                logoutRequest: false,
-                logoutFailed: false,
-            
-                registerRequest: false,
-                registerFailed: false,
-            
-                sendResetPasswordCodeRequest: false,
-                sendResetPasswordCodeSuccess: false,
-                sendResetPasswordCodeFailed: false,
-            
-                resetPasswordRequest: false,
-                resetPasswordSuccess: false,
-                resetPasswordFailed: false,
-            
-                getUserRequest: false,
-                getUserFailed: false,
-            
-                editUserRequest: false,
-                editUserFailed: false
-            }, {
+            authReducer(initialState, {
             type: types.REGISTER_REQUEST
         })
         ).toEqual({
-            user: null,
-        
-            loginRequest: false,
-            loginFailed: false,
-        
-            logoutRequest: false,
-            logoutFailed: false,
-        
-            registerRequest: true,
-            registerFailed: false,
-        
-            sendResetPasswordCodeRequest: false,
-            sendResetPasswordCodeSuccess: false,
-            sendResetPasswordCodeFailed: false,
-        
-            resetPasswordRequest: false,
-            resetPasswordSuccess: false,
-            resetPasswordFailed: false,
-        
-            getUserRequest: false,
-            getUserFailed: false,
-        
-            editUserRequest: false,
-            editUserFailed: false
+            ...initialState,
+            registerRequest: true
         });
     });
 
     it('should handle REGISTER_SUCCESS', () => {
         expect(
             authReducer({
-                user: null,
-            
-                loginRequest: false,
-                loginFailed: false,
-            
-                logoutRequest: false,
-                logoutFailed: false,
-            
-                registerRequest: true,
-                registerFailed: false,
-            
-                sendResetPasswordCodeRequest: false,
-                sendResetPasswordCodeSuccess: false,
-                sendResetPasswordCodeFailed: false,
-            
-                resetPasswordRequest: false,
-                resetPasswordSuccess: false,
-                resetPasswordFailed: false,
-            
-                getUserRequest: false,
-                getUserFailed: false,
-            
-                editUserRequest: false,
-                editUserFailed: false
+                ...initialState,
+                registerRequest: true
             }, {
             type: types.REGISTER_SUCCESS,
             payload: {
@@ -494,600 +161,158 @@ describe('auth reducer', () => {
             }
         })
         ).toEqual({
+            ...initialState,
             user: {
                 name: 'test-name',
                 email: 'test-email'
-            },
-        
-            loginRequest: false,
-            loginFailed: false,
-        
-            logoutRequest: false,
-            logoutFailed: false,
-        
-            registerRequest: false,
-            registerFailed: false,
-        
-            sendResetPasswordCodeRequest: false,
-            sendResetPasswordCodeSuccess: false,
-            sendResetPasswordCodeFailed: false,
-        
-            resetPasswordRequest: false,
-            resetPasswordSuccess: false,
-            resetPasswordFailed: false,
-        
-            getUserRequest: false,
-            getUserFailed: false,
-        
-            editUserRequest: false,
-            editUserFailed: false
+            }
         });
     });
 
     it('should handle REGISTER_FAILED', () => {
         expect(
             authReducer({
-                user: null,
-            
-                loginRequest: false,
-                loginFailed: false,
-            
-                logoutRequest: false,
-                logoutFailed: false,
-            
-                registerRequest: true,
-                registerFailed: false,
-            
-                sendResetPasswordCodeRequest: false,
-                sendResetPasswordCodeSuccess: false,
-                sendResetPasswordCodeFailed: false,
-            
-                resetPasswordRequest: false,
-                resetPasswordSuccess: false,
-                resetPasswordFailed: false,
-            
-                getUserRequest: false,
-                getUserFailed: false,
-            
-                editUserRequest: false,
-                editUserFailed: false
+                ...initialState,
+                registerRequest: true
             }, {
             type: types.REGISTER_FAILED
         })
         ).toEqual({
-            user: null,
-        
-            loginRequest: false,
-            loginFailed: false,
-        
-            logoutRequest: false,
-            logoutFailed: false,
-        
-            registerRequest: false,
-            registerFailed: true,
-        
-            sendResetPasswordCodeRequest: false,
-            sendResetPasswordCodeSuccess: false,
-            sendResetPasswordCodeFailed: false,
-        
-            resetPasswordRequest: false,
-            resetPasswordSuccess: false,
-            resetPasswordFailed: false,
-        
-            getUserRequest: false,
-            getUserFailed: false,
-        
-            editUserRequest: false,
-            editUserFailed: false
+            ...initialState,
+            registerFailed: true
         });
     });
 
     it('should handle SEND_RESET_PASSWORD_CODE_REQUEST', () => {
         expect(
-            authReducer({
-                user: null,
-            
-                loginRequest: false,
-                loginFailed: false,
-            
-                logoutRequest: false,
-                logoutFailed: false,
-            
-                registerRequest: false,
-                registerFailed: false,
-            
-                sendResetPasswordCodeRequest: false,
-                sendResetPasswordCodeSuccess: false,
-                sendResetPasswordCodeFailed: false,
-            
-                resetPasswordRequest: false,
-                resetPasswordSuccess: false,
-                resetPasswordFailed: false,
-            
-                getUserRequest: false,
-                getUserFailed: false,
-            
-                editUserRequest: false,
-                editUserFailed: false
-            }, {
+            authReducer(initialState, {
             type: types.SEND_RESET_PASSWORD_CODE_REQUEST
         })
         ).toEqual({
-            user: null,
-        
-            loginRequest: false,
-            loginFailed: false,
-        
-            logoutRequest: false,
-            logoutFailed: false,
-        
-            registerRequest: false,
-            registerFailed: false,
-        
-            sendResetPasswordCodeRequest: true,
-            sendResetPasswordCodeSuccess: false,
-            sendResetPasswordCodeFailed: false,
-        
-            resetPasswordRequest: false,
-            resetPasswordSuccess: false,
-            resetPasswordFailed: false,
-        
-            getUserRequest: false,
-            getUserFailed: false,
-        
-            editUserRequest: false,
-            editUserFailed: false
+            ...initialState,
+            sendResetPasswordCodeRequest: true
         });
     });
 
     it('should handle SEND_RESET_PASSWORD_CODE_SUCCESS', () => {
         expect(
             authReducer({
-                user: null,
-            
-                loginRequest: false,
-                loginFailed: false,
-            
-                logoutRequest: false,
-                logoutFailed: false,
-            
-                registerRequest: false,
-                registerFailed: false,
-            
-                sendResetPasswordCodeRequest: true,
-                sendResetPasswordCodeSuccess: false,
-                sendResetPasswordCodeFailed: false,
-            
-                resetPasswordRequest: false,
-                resetPasswordSuccess: false,
-                resetPasswordFailed: false,
-            
-                getUserRequest: false,
-                getUserFailed: false,
-            
-                editUserRequest: false,
-                editUserFailed: false
+                ...initialState,
+                sendResetPasswordCodeRequest: true
             }, {
             type: types.SEND_RESET_PASSWORD_CODE_SUCCESS
         })
         ).toEqual({
-            user: null,
-        
-            loginRequest: false,
-            loginFailed: false,
-        
-            logoutRequest: false,
-            logoutFailed: false,
-        
-            registerRequest: false,
-            registerFailed: false,
-        
-            sendResetPasswordCodeRequest: false,
-            sendResetPasswordCodeSuccess: true,
-            sendResetPasswordCodeFailed: false,
-        
-            resetPasswordRequest: false,
-            resetPasswordSuccess: false,
-            resetPasswordFailed: false,
-        
-            getUserRequest: false,
-            getUserFailed: false,
-        
-            editUserRequest: false,
-            editUserFailed: false
+            ...initialState,
+            sendResetPasswordCodeSuccess: true
         });
     });
 
     it('should handle SEND_RESET_PASSWORD_CODE_FAILED', () => {
         expect(
             authReducer({
-                user: null,
-            
-                loginRequest: false,
-                loginFailed: false,
-            
-                logoutRequest: false,
-                logoutFailed: false,
-            
-                registerRequest: false,
-                registerFailed: false,
-            
-                sendResetPasswordCodeRequest: true,
-                sendResetPasswordCodeSuccess: false,
-                sendResetPasswordCodeFailed: false,
-            
-                resetPasswordRequest: false,
-                resetPasswordSuccess: false,
-                resetPasswordFailed: false,
-            
-                getUserRequest: false,
-                getUserFailed: false,
-            
-                editUserRequest: false,
-                editUserFailed: false
+                ...initialState,
+                sendResetPasswordCodeRequest: true
             }, {
             type: types.SEND_RESET_PASSWORD_CODE_FAILED
         })
         ).toEqual({
-            user: null,
-        
-            loginRequest: false,
-            loginFailed: false,
-        
-            logoutRequest: false,
-            logoutFailed: false,
-        
-            registerRequest: false,
-            registerFailed: false,
-        
-            sendResetPasswordCodeRequest: false,
-            sendResetPasswordCodeSuccess: false,
-            sendResetPasswordCodeFailed: true,
-        
-            resetPasswordRequest: false,
-            resetPasswordSuccess: false,
-            resetPasswordFailed: false,
-        
-            getUserRequest: false,
-            getUserFailed: false,
-        
-            editUserRequest: false,
-            editUserFailed: false
+            ...initialState,
+            sendResetPasswordCodeFailed: true
         });
     });
 
     it('should handle RESET_PASSWORD_REQUEST', () => {
         expect(
-            authReducer({
-                user: null,
-            
-                loginRequest: false,
-                loginFailed: false,
-            
-                logoutRequest: false,
-                logoutFailed: false,
-            
-                registerRequest: false,
-                registerFailed: false,
-            
-                sendResetPasswordCodeRequest: false,
-                sendResetPasswordCodeSuccess: false,
-                sendResetPasswordCodeFailed: false,
-            
-                resetPasswordRequest: false,
-                resetPasswordSuccess: false,
-                resetPasswordFailed: false,
-            
-                getUserRequest: false,
-                getUserFailed: false,
-            
-                editUserRequest: false,
-                editUserFailed: false
-            }, {
+            authReducer(initialState, {
             type: types.RESET_PASSWORD_REQUEST
         })
         ).toEqual({
-            user: null,
-        
-            loginRequest: false,
-            loginFailed: false,
-        
-            logoutRequest: false,
-            logoutFailed: false,
-        
-            registerRequest: false,
-            registerFailed: false,
-        
-            sendResetPasswordCodeRequest: false,
-            sendResetPasswordCodeSuccess: false,
-            sendResetPasswordCodeFailed: false,
-        
-            resetPasswordRequest: true,
-            resetPasswordSuccess: false,
-            resetPasswordFailed: false,
-        
-            getUserRequest: false,
-            getUserFailed: false,
-        
-            editUserRequest: false,
-            editUserFailed: false
+            ...initialState,
+            resetPasswordRequest: true
         });
     });
 
     it('should handle RESET_PASSWORD_SUCCESS', () => {
         expect(
             authReducer({
-                user: null,
-            
-                loginRequest: false,
-                loginFailed: false,
-            
-                logoutRequest: false,
-                logoutFailed: false,
-            
-                registerRequest: false,
-                registerFailed: false,
-            
-                sendResetPasswordCodeRequest: false,
-                sendResetPasswordCodeSuccess: false,
-                sendResetPasswordCodeFailed: false,
-            
-                resetPasswordRequest: true,
-                resetPasswordSuccess: false,
-                resetPasswordFailed: false,
-            
-                getUserRequest: false,
-                getUserFailed: false,
-            
-                editUserRequest: false,
-                editUserFailed: false
+                ...initialState,
+                resetPasswordRequest: true
             }, {
             type: types.RESET_PASSWORD_SUCCESS
         })
         ).toEqual({
-            user: null,
-        
-            loginRequest: false,
-            loginFailed: false,
-        
-            logoutRequest: false,
-            logoutFailed: false,
-        
-            registerRequest: false,
-            registerFailed: false,
-        
-            sendResetPasswordCodeRequest: false,
-            sendResetPasswordCodeSuccess: false,
-            sendResetPasswordCodeFailed: false,
-        
-            resetPasswordRequest: false,
-            resetPasswordSuccess: true,
-            resetPasswordFailed: false,
-        
-            getUserRequest: false,
-            getUserFailed: false,
-        
-            editUserRequest: false,
-            editUserFailed: false
+            ...initialState,
+            resetPasswordSuccess: true
         });
     });
 
     it('should handle RESET_PASSWORD_FAILED', () => {
         expect(
             authReducer({
-                user: null,
-            
-                loginRequest: false,
-                loginFailed: false,
-            
-                logoutRequest: false,
-                logoutFailed: false,
-            
-                registerRequest: false,
-                registerFailed: false,
-            
-                sendResetPasswordCodeRequest: false,
-                sendResetPasswordCodeSuccess: false,
-                sendResetPasswordCodeFailed: false,
-            
-                resetPasswordRequest: true,
-                resetPasswordSuccess: false,
-                resetPasswordFailed: false,
-            
-                getUserRequest: false,
-                getUserFailed: false,
-            
-                editUserRequest: false,
-                editUserFailed: false
+                ...initialState,
+                resetPasswordRequest: true
             }, {
             type: types.RESET_PASSWORD_FAILED
         })
         ).toEqual({
-            user: null,
-        
-            loginRequest: false,
-            loginFailed: false,
-        
-            logoutRequest: false,
-            logoutFailed: false,
-        
-            registerRequest: false,
-            registerFailed: false,
-        
-            sendResetPasswordCodeRequest: false,
-            sendResetPasswordCodeSuccess: false,
-            sendResetPasswordCodeFailed: false,
-        
-            resetPasswordRequest: false,
-            resetPasswordSuccess: false,
-            resetPasswordFailed: true,
-        
-            getUserRequest: false,
-            getUserFailed: false,
-        
-            editUserRequest: false,
-            editUserFailed: false
+            ...initialState,
+            resetPasswordFailed: true
         });
     });
 
     it('should handle GET_USER_REQUEST', () => {
         expect(
             authReducer({
+                ...initialState,
                 user: {
                     name: 'test-name1',
                     email: 'test-email1'
-                },
-            
-                loginRequest: false,
-                loginFailed: false,
-            
-                logoutRequest: false,
-                logoutFailed: false,
-            
-                registerRequest: false,
-                registerFailed: false,
-            
-                sendResetPasswordCodeRequest: false,
-                sendResetPasswordCodeSuccess: false,
-                sendResetPasswordCodeFailed: false,
-            
-                resetPasswordRequest: false,
-                resetPasswordSuccess: false,
-                resetPasswordFailed: false,
-            
-                getUserRequest: false,
-                getUserFailed: false,
-            
-                editUserRequest: false,
-                editUserFailed: false
+                }
             }, {
             type: types.GET_USER_REQUEST
         })
         ).toEqual({
+            ...initialState,
             user: {
                 name: 'test-name1',
                 email: 'test-email1'
             },
-        
-            loginRequest: false,
-            loginFailed: false,
-        
-            logoutRequest: false,
-            logoutFailed: false,
-        
-            registerRequest: false,
-            registerFailed: false,
-        
-            sendResetPasswordCodeRequest: false,
-            sendResetPasswordCodeSuccess: false,
-            sendResetPasswordCodeFailed: false,
-        
-            resetPasswordRequest: false,
-            resetPasswordSuccess: false,
-            resetPasswordFailed: false,
-        
-            getUserRequest: true,
-            getUserFailed: false,
-        
-            editUserRequest: false,
-            editUserFailed: false
+            getUserRequest: true
         });
     });
 
     it('should handle GET_USER_FAILED', () => {
         expect(
             authReducer({
+                ...initialState,
                 user: {
                     name: 'test-name1',
                     email: 'test-email1'
                 },
-            
-                loginRequest: false,
-                loginFailed: false,
-            
-                logoutRequest: false,
-                logoutFailed: false,
-            
-                registerRequest: false,
-                registerFailed: false,
-            
-                sendResetPasswordCodeRequest: false,
-                sendResetPasswordCodeSuccess: false,
-                sendResetPasswordCodeFailed: false,
-            
-                resetPasswordRequest: false,
-                resetPasswordSuccess: false,
-                resetPasswordFailed: false,
-            
-                getUserRequest: true,
-                getUserFailed: false,
-            
-                editUserRequest: false,
-                editUserFailed: false
+                getUserRequest: true
             }, {
             type: types.GET_USER_FAILED
         })
         ).toEqual({
+            ...initialState,
             user: {
                 name: 'test-name1',
                 email: 'test-email1'
             },
-        
-            loginRequest: false,
-            loginFailed: false,
-        
-            logoutRequest: false,
-            logoutFailed: false,
-        
-            registerRequest: false,
-            registerFailed: false,
-        
-            sendResetPasswordCodeRequest: false,
-            sendResetPasswordCodeSuccess: false,
-            sendResetPasswordCodeFailed: false,
-        
-            resetPasswordRequest: false,
-            resetPasswordSuccess: false,
-            resetPasswordFailed: false,
-        
-            getUserRequest: false,
-            getUserFailed: true,
-        
-            editUserRequest: false,
-            editUserFailed: false
+            getUserFailed: true
         });
     });
 
     it('should handle GET_USER_SUCCESS', () => {
         expect(
             authReducer({
+                ...initialState,
                 user: {
                     name: 'test-name1',
                     email: 'test-email1'
                 },
-            
-                loginRequest: false,
-                loginFailed: false,
-            
-                logoutRequest: false,
-                logoutFailed: false,
-            
-                registerRequest: false,
-                registerFailed: false,
-            
-                sendResetPasswordCodeRequest: false,
-                sendResetPasswordCodeSuccess: false,
-                sendResetPasswordCodeFailed: false,
-            
-                resetPasswordRequest: false,
-                resetPasswordSuccess: false,
-                resetPasswordFailed: false,
-            
-                getUserRequest: true,
-                getUserFailed: false,
-            
-                editUserRequest: false,
-                editUserFailed: false
+                getUserRequest: true
             }, {
             type: types.GET_USER_SUCCESS,
             payload: {
@@ -1096,160 +321,53 @@ describe('auth reducer', () => {
             }
         })
         ).toEqual({
+            ...initialState,
             user: {
                 name: 'test-name2',
                 email: 'test-email2'
-            },
-        
-            loginRequest: false,
-            loginFailed: false,
-        
-            logoutRequest: false,
-            logoutFailed: false,
-        
-            registerRequest: false,
-            registerFailed: false,
-        
-            sendResetPasswordCodeRequest: false,
-            sendResetPasswordCodeSuccess: false,
-            sendResetPasswordCodeFailed: false,
-        
-            resetPasswordRequest: false,
-            resetPasswordSuccess: false,
-            resetPasswordFailed: false,
-        
-            getUserRequest: false,
-            getUserFailed: false,
-        
-            editUserRequest: false,
-            editUserFailed: false
+            }
         });
     });
 
     it('should handle EDIT_USER_REQUEST', () => {
         expect(
             authReducer({
+                ...initialState,
                 user: {
                     name: 'test-name1',
                     email: 'test-email1'
-                },
-            
-                loginRequest: false,
-                loginFailed: false,
-            
-                logoutRequest: false,
-                logoutFailed: false,
-            
-                registerRequest: false,
-                registerFailed: false,
-            
-                sendResetPasswordCodeRequest: false,
-                sendResetPasswordCodeSuccess: false,
-                sendResetPasswordCodeFailed: false,
-            
-                resetPasswordRequest: false,
-                resetPasswordSuccess: false,
-                resetPasswordFailed: false,
-            
-                getUserRequest: false,
-                getUserFailed: false,
-            
-                editUserRequest: false,
-                editUserFailed: false
+                }
             }, {
             type: types.EDIT_USER_REQUEST
         })
         ).toEqual({
+            ...initialState,
             user: {
                 name: 'test-name1',
                 email: 'test-email1'
             },
-        
-            loginRequest: false,
-            loginFailed: false,
-        
-            logoutRequest: false,
-            logoutFailed: false,
-        
-            registerRequest: false,
-            registerFailed: false,
-        
-            sendResetPasswordCodeRequest: false,
-            sendResetPasswordCodeSuccess: false,
-            sendResetPasswordCodeFailed: false,
-        
-            resetPasswordRequest: false,
-            resetPasswordSuccess: false,
-            resetPasswordFailed: false,
-        
-            getUserRequest: false,
-            getUserFailed: false,
-        
-            editUserRequest: true,
-            editUserFailed: false
+            editUserRequest: true
         });
     });
 
     it('should handle EDIT_USER_FAILED', () => {
         expect(
             authReducer({
+                ...initialState,
                 user: {
                     name: 'test-name1',
                     email: 'test-email1'
                 },
-            
-                loginRequest: false,
-                loginFailed: false,
-            
-                logoutRequest: false,
-                logoutFailed: false,
-            
-                registerRequest: false,
-                registerFailed: false,
-            
-                sendResetPasswordCodeRequest: false,
-                sendResetPasswordCodeSuccess: false,
-                sendResetPasswordCodeFailed: false,
-            
-                resetPasswordRequest: false,
-                resetPasswordSuccess: false,
-                resetPasswordFailed: false,
-            
-                getUserRequest: false,
-                getUserFailed: false,
-            
-                editUserRequest: true,
-                editUserFailed: false
+                editUserRequest: true
             }, {
             type: types.EDIT_USER_FAILED
         })
         ).toEqual({
+            ...initialState,
             user: {
                 name: 'test-name1',
                 email: 'test-email1'
             },
-        
-            loginRequest: false,
-            loginFailed: false,
-        
-            logoutRequest: false,
-            logoutFailed: false,
-        
-            registerRequest: false,
-            registerFailed: false,
-        
-            sendResetPasswordCodeRequest: false,
-            sendResetPasswordCodeSuccess: false,
-            sendResetPasswordCodeFailed: false,
-        
-            resetPasswordRequest: false,
-            resetPasswordSuccess: false,
-            resetPasswordFailed: false,
-        
-            getUserRequest: false,
-            getUserFailed: false,
-        
-            editUserRequest: false,
             editUserFailed: true
         });
     });
@@ -1257,33 +375,12 @@ describe('auth reducer', () => {
     it('should handle EDIT_USER_SUCCESS', () => {
         expect(
             authReducer({
+                ...initialState,
                 user: {
                     name: 'test-name1',
                     email: 'test-email1'
                 },
-            
-                loginRequest: false,
-                loginFailed: false,
-            
-                logoutRequest: false,
-                logoutFailed: false,
-            
-                registerRequest: false,
-                registerFailed: false,
-            
-                sendResetPasswordCodeRequest: false,
-                sendResetPasswordCodeSuccess: false,
-                sendResetPasswordCodeFailed: false,
-            
-                resetPasswordRequest: false,
-                resetPasswordSuccess: false,
-                resetPasswordFailed: false,
-            
-                getUserRequest: false,
-                getUserFailed: false,
-            
-                editUserRequest: true,
-                editUserFailed: false
+                editUserRequest: true
             }, {
             type: types.EDIT_USER_SUCCESS,
             payload: {
@@ -1292,33 +389,11 @@ describe('auth reducer', () => {
             }
         })
         ).toEqual({
+            ...initialState,
             user: {
                 name: 'test-name2',
                 email: 'test-email2'
-            },
-        
-            loginRequest: false,
-            loginFailed: false,
-        
-            logoutRequest: false,
-            logoutFailed: false,
-        
-            registerRequest: false,
-            registerFailed: false,
-        
-            sendResetPasswordCodeRequest: false,
-            sendResetPasswordCodeSuccess: false,
-            sendResetPasswordCodeFailed: false,
-        
-            resetPasswordRequest: false,
-            resetPasswordSuccess: false,
-            resetPasswordFailed: false,
-        
-            getUserRequest: false,
-            getUserFailed: false,
-        
-            editUserRequest: false,
-            editUserFailed: false
+            }
         });
     });
 });
